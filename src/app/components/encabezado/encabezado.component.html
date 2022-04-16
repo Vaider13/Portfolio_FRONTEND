@@ -9,7 +9,7 @@
       <span class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
     </div>
     <div class="avatar">
-      <img src="../../../assets/red.jpg">
+      <img img [src]="personaDto.urlAvatar">
       <span class="click" (click)="editarAvatar()"><i class="fas fa-edit fa-xl"></i></span>
       <h2>{{personaDto.titulo}}</h2>
     </div>
