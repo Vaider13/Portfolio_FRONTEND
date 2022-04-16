@@ -8,7 +8,7 @@ import { Provincia } from '../models/interfaces/provincia';
 })
 export class ProvinciaService {
 
-  provinciaURL = 'http://localhost:8080/provincia/'
+  provinciaURL = 'http://localhost:8080/portfolio/provincia/'
 
   constructor(private httpClient: HttpClient) { }
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Skill } from 'src/app/models/interfaces/skill';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-skill-item',
@@ -10,23 +11,21 @@ export class SkillItemComponent implements OnInit {
 
 
   @Input() skill: Skill;
-  @Output() OnDeleteSkill: EventEmitter<Skill> = new EventEmitter();
   @Output() OnEditSkill: EventEmitter<Skill> = new EventEmitter();
   outColorHard: string= "#0a78ff";
   innerColorHard: string= "#034494";
+  isLogged: boolean = false;
 
 
-  constructor() {
+  constructor(private tokenService: TokenService) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLogged = this.tokenService.isLogged()
+  }
 
   onEdit(skill: Skill) {
     this.OnEditSkill.emit(skill);
-  }
-
-  onDelete(skill: Skill) {
-    this.OnDeleteSkill.emit(skill);
   }
 
 }

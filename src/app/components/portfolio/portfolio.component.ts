@@ -16,6 +16,6 @@ export class PortfolioComponent implements OnInit {
     private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-   
+
   }
 }

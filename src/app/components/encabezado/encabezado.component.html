@@ -6,11 +6,11 @@
       </div>
       <img src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg" class="img-fluid" alt="Responsive image">
       <!-- <img [src]="personaDto.urlBanner" class="img-fluid" alt="Responsive image"> -->
-      <span class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
+      <span *ngIf="isLogged" class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
     </div>
     <div class="avatar">
       <img img [src]="personaDto.urlAvatar">
-      <span class="click" (click)="editarAvatar()"><i class="fas fa-edit fa-xl"></i></span>
+      <span *ngIf="isLogged" class="click" (click)="editarAvatar()"><i class="fas fa-edit fa-xl"></i></span>
       <h2>{{personaDto.titulo}}</h2>
     </div>
     <div class="nombre">
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="editar">
-      <span class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+      <span *ngIf="isLogged" class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl" id="edit"></i></span>
     </div>
   </div>
 </div>
@@ -111,18 +111,28 @@
           <p *ngIf="acerca_de?.errors?.['minlength']" class="text-danger">
             La descripcion debe tener al menos 20 caracteres.
           </p>
-          <p *ngIf="acerca_de?.errors?.['minlength'] || acerca_de?.errors?.['maxlength']" class="text-danger">
-            La contraseña debe tener entre 8 y 16 caracteres.
+          <p *ngIf="acerca_de?.errors?.['maxlength'] || acerca_de?.errors?.['maxlength']" class="text-danger">
+            La descripcion debe tener menos de 180 caracteres.
           </p>
         </div>
       </div>
       <div class="md-form mb-4" *ngIf="editAvatar && !editPerso">
         <label>Imagen URL:</label>
         <input class="form-control" type="text" formControlName="urlAvatar" placeholder="Ingrese una URL" />
+        <div *ngIf="urlAvatar?.errors && urlAvatar?.touched">
+          <p *ngIf="formPerso.get('urlAvatar')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
       </div>
       <div class="md-form mb-4" *ngIf="!editAvatar && !editPerso">
         <label>Banner URL:</label>
         <input class="form-control" type="text" formControlName="urlBanner" placeholder="Ingrese una URL" />
+        <div *ngIf="urlBanner?.errors && urlBanner?.touched">
+          <p *ngIf="formPerso.get('urlBanner')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
       </div>
     </form>
   </div>

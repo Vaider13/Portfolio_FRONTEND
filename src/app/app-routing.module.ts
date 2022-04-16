@@ -6,8 +6,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  { path: '', component: InicioComponent },
-  { path: 'portfolio', component: PortfolioComponent, canActivate: [GuardsService], data: { expectedRol: ['admin', 'user'] } },
+  { path: '', component: PortfolioComponent }//, canActivate: [GuardsService], data: { expectedRol: ['admin', 'user'] } },
 ];
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ExperienciaLaboral } from 'src/app/models/interfaces/experiencialaboral';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-experiencialaboral-item',
@@ -9,20 +10,19 @@ import { ExperienciaLaboral } from 'src/app/models/interfaces/experiencialaboral
 export class ExperiencialaboralItemComponent implements OnInit {
 
   @Input() trabajo: ExperienciaLaboral;
-  @Output() OnDeleteTrabajo: EventEmitter<ExperienciaLaboral> = new EventEmitter();
   @Output() OnEditTrabajo: EventEmitter<ExperienciaLaboral> = new EventEmitter();
+  isLogged: boolean = false;
 
-  constructor() {
+  constructor(private tokenService:TokenService) {
   }
 
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.isLogged = this.tokenService.isLogged()
+  }
 
   onEdit(trabajo: ExperienciaLaboral) {
     this.OnEditTrabajo.emit(trabajo);
-  }
-
-  onDelete(trabajo: ExperienciaLaboral) {
-    this.OnDeleteTrabajo.emit(trabajo);
   }
 
 }

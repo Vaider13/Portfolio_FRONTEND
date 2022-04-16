@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProvinciaService } from 'src/app/service/provincia.service';
 import { LocalidadService } from 'src/app/service/localidad.service';
 import { first } from 'rxjs';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-encabezado',
@@ -15,7 +16,8 @@ import { first } from 'rxjs';
   styleUrls: ['./encabezado.component.css'],
 })
 export class EncabezadoComponent implements OnInit {
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  personaId: number = 1;
+  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   personaDto: PersonaDto;
   editAvatar: boolean = false;
   editPerso:boolean = false;
@@ -24,9 +26,11 @@ export class EncabezadoComponent implements OnInit {
   provincias: Provincia[] = [];
   provinciaId: number;
   @ViewChild('persona') perso: ElementRef;
+  isLogged: boolean = false;
 
   constructor(private personaService: PersonaService,
     private modalService: NgbModal,
+    private tokenService: TokenService,
     private provinciaService: ProvinciaService,
     private localidadService: LocalidadService,
     private formBuilder: FormBuilder,) {
@@ -39,8 +43,8 @@ export class EncabezadoComponent implements OnInit {
       provincia: ['', [Validators.required]],
       localidad: ['', [Validators.required]],
       acerca_de: ['', [Validators.required]],
-      urlAvatar: [''],
-      urlBanner: ['']
+      urlAvatar: ['', [Validators.pattern(this.urlReg)]],
+      urlBanner: ['', [Validators.pattern(this.urlReg)]],
     })
   }
 
@@ -48,6 +52,7 @@ export class EncabezadoComponent implements OnInit {
     this.getPersona();
     this.getProvincias();
     this.getLocalidades(1);
+    this.isLogged = this.tokenService.isLogged()
   }
 
   openModal(content: any) {
@@ -175,6 +180,14 @@ export class EncabezadoComponent implements OnInit {
 
   get acerca_de() {
     return this.formPerso.get("acerca_de");
+  }
+
+  get urlAvatar() {
+    return this.formPerso.get("urlAvatar");
+  }
+
+  get urlBanner() {
+    return this.formPerso.get("urlBanner");
   }
 
 

@@ -7,7 +7,7 @@ import { EstadoEducacion } from '../models/interfaces/estado-educacion';
   providedIn: 'root'
 })
 export class EstadoEducacionService {
-  estadoURL = 'http://localhost:8080/estado/'
+  estadoURL = 'http://localhost:8080/portfolio/estado/'
 
   constructor(private httpClient: HttpClient) { }
 

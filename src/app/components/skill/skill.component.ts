@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { Skill } from 'src/app/models/interfaces/skill';
 import { SkillService } from 'src/app/service/skill.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-skill',
@@ -15,15 +16,17 @@ export class SkillComponent implements OnInit {
   skills: Skill[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  personaId: number = 1;
   @Input() skill: Skill;
   skillId: number;
   formSkill: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar una skill.
   @ViewChild('skill') skillModal: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
+  isLogged: boolean = false;
 
   constructor(private skillService: SkillService,
+    private tokenService: TokenService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Skill.
@@ -37,6 +40,7 @@ export class SkillComponent implements OnInit {
   ngOnInit(): void {
     //Se carga la lista de skills para el formulario
     this.cargarSkills();
+    this.isLogged = this.tokenService.isLogged()
   }
 
   //Carga las skill de la base de datos.
@@ -109,8 +113,8 @@ export class SkillComponent implements OnInit {
   }
 
   //Toma la entidad del componente "skill-item" y abre el modal para confirmar su eliminacion.
-  deleteSkill(skill: Skill) {
-    this.skillId = skill.id;
+  deleteSkill() {
+   this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

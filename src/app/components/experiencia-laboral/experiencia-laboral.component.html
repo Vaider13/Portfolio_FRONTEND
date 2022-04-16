@@ -1,11 +1,11 @@
 <div class="container">
   <div class="add">
     <h1 class="display-3">Experiencia Laboral</h1>
-    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+    <button *ngIf="isLogged" class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let trabajo of trabajos">
-    <app-experiencialaboral-item (OnDeleteTrabajo)="deleteTrabajo(trabajo)" (OnEditTrabajo)="editarTrabajo(trabajo)"
+    <app-experiencialaboral-item (OnEditTrabajo)="editarTrabajo(trabajo)"
       [trabajo]=trabajo>
     </app-experiencialaboral-item>
   </div>
@@ -23,7 +23,7 @@
     <form class="md-form mb-5" [formGroup]="formExp" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Nombre empresa:</label>
-        <input class="form-control" type="text" formControlName="nombreEmpresa" placeholder="nombreEmpresa" />
+        <input class="form-control" type="text" formControlName="nombreEmpresa" placeholder="Introduzca el nombre de la empresa" />
         <div *ngIf="nombreEmpresa?.errors && nombreEmpresa?.touched">
           <p *ngIf="nombreEmpresa?.hasError('required')" class="text-danger">
             El nombre de la empresa es requerido.
@@ -32,7 +32,7 @@
       </div>
       <div class="md-form mb-4">
         <label>Cargo en la empresa:</label>
-        <input class="form-control" type="text" formControlName="puesto" placeholder="puesto">
+        <input class="form-control" type="text" formControlName="puesto" placeholder="Introduzca el puesto desempeñado">
         <div *ngIf="puesto?.errors && puesto?.touched">
           <p *ngIf="puesto?.hasError('required')" class="text-danger">
             El cargo desempeñado en la empresa es requerido.
@@ -41,7 +41,7 @@
       </div>
       <div class="md-form mb-4">
         <label>Fecha Inicio:</label>
-        <input class="form-control" type="date" formControlName="fechaInicio" placeholder="fechaInicio">
+        <input class="form-control" type="date" formControlName="fechaInicio" placeholder="Fecha de ingreso">
         <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
           <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
@@ -50,7 +50,7 @@
       </div>
       <div class="md-form mb-4">
         <label> Fecha Final:</label>
-        <input class="form-control" type="date" formControlName="fechaFinal" placeholder="fechaFinal">
+        <input class="form-control" type="date" formControlName="fechaFinal" placeholder="Fecha de egreso">
         <div>
           <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
             La fecha de inicio no puede ser mayor que la fecha final.
@@ -59,7 +59,7 @@
       </div>
       <div class="md-form mb-4">
         <label>Descripcion:</label>
-        <textarea class="form-control" type="text" formControlName="descripcion" placeholder="descripcion"
+        <textarea class="form-control" type="text" formControlName="descripcion" placeholder="Describa cuales eran sus funciones"
           rows="4"></textarea>
         <div *ngIf="descripcion?.errors && descripcion?.touched">
           <p *ngIf="descripcion?.hasError('required')" class="text-danger">
@@ -89,7 +89,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="deleteTrabajo()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formExp.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>

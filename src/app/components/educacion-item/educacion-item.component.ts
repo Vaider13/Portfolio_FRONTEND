@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, } from '@angular/core';
 import { Educacion } from 'src/app/models/interfaces/educacion';
+import { TokenService } from 'src/app/service/token.service';
 
 
 @Component({
@@ -9,22 +10,21 @@ import { Educacion } from 'src/app/models/interfaces/educacion';
 })
 export class EducacionItemComponent implements OnInit {
   @Input() educacion: Educacion;
-  @Output() OnDeleteEducacion: EventEmitter<Educacion> = new EventEmitter();
   @Output() OnEditEducacion: EventEmitter<Educacion> = new EventEmitter();
+  isLogged: boolean = false;
 
 
-  constructor() {
+  constructor(private tokenService: TokenService) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLogged = this.tokenService.isLogged()
+  }
 
   onEdit(educacion: Educacion) {
     this.OnEditEducacion.emit(educacion);
   }
 
-  onDelete(educacion: Educacion) {
-    this.OnDeleteEducacion.emit(educacion);
-  }
 }
 
 

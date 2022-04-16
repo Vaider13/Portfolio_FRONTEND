@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProyectoService } from 'src/app/service/proyecto.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-proyecto',
@@ -15,29 +16,33 @@ export class ProyectoComponent implements OnInit {
   proyectos: Proyecto[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  personaId: number = 1;
   @Input() proyecto: Proyecto;
   proyectoId: number;
   formProyect: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un proyecto.
   @ViewChild('proyecto') proyectModal: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
+  isLogged: boolean = false;
+  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
   constructor(private proyectoService: ProyectoService,
     private modalService: NgbModal,
+    private tokenService: TokenService,
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Proyecto.
     this.formProyect = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       fecha: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      urlProyecto: ['', [Validators.required]]
+      urlProyecto:  ['', [Validators.pattern(this.urlReg)]]
     })
   }
 
   ngOnInit(): void {
     //Se carga la lista de proyectos para el formulario
     this.cargarProyectos();
+    this.isLogged = this.tokenService.isLogged()
   }
 
   //Carga los proyectos de la base de datos.
@@ -110,8 +115,8 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Toma la entidad del componente "proyecto-item" y abre el modal para confirmar su eliminacion.
-  deleteProyecto(proyecto: Proyecto) {
-    this.proyectoId = proyecto.id;
+  deleteProyecto() {
+    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

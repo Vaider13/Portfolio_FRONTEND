@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Proyecto } from 'src/app/models/interfaces/proyecto';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-proyecto-item',
@@ -9,21 +10,18 @@ import { Proyecto } from 'src/app/models/interfaces/proyecto';
 export class ProyectoItemComponent implements OnInit {
 
   @Input() proyecto: Proyecto;
-  @Output() OnDeleteProyecto: EventEmitter<Proyecto> = new EventEmitter();
   @Output() OnEditProyecto: EventEmitter<Proyecto> = new EventEmitter();
+  isLogged: boolean = false;
 
-  constructor() {
+  constructor(private tokenService: TokenService) {
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isLogged = this.tokenService.isLogged()
+  }
 
   onEdit(proyecto: Proyecto) {
     this.OnEditProyecto.emit(proyecto);
   }
 
-  onDelete(proyecto: Proyecto) {
-    this.OnDeleteProyecto.emit(proyecto);
-  }
-
-
-}
+ }

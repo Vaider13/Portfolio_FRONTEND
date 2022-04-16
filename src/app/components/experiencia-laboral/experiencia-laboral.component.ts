@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { ExperienciaLaboral } from 'src/app/models/interfaces/experiencialaboral';
 import { ExperiencialaboralService } from 'src/app/service/experiencialaboral.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-experiencia-laboral',
@@ -15,7 +16,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   trabajos: ExperienciaLaboral[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  personaId: number = 1;
   @Input() trabajo: ExperienciaLaboral;
   trabajoId: number;
   urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
@@ -24,10 +25,12 @@ export class ExperienciaLaboralComponent implements OnInit {
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un trabajo.
   @ViewChild('content') content: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
+  isLogged: boolean = false;
 
 
 
   constructor(private trabajoService: ExperiencialaboralService,
+    private tokenService: TokenService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Experiencia Laboral.
@@ -43,6 +46,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   ngOnInit(): void {
     //Se carga la lista de trabajos para el formulario
     this.cargarTrabajos();
+    this.isLogged = this.tokenService.isLogged()
   }
 
     //Carga los trabajos de la base de datos.
@@ -116,8 +120,8 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Toma la entidad del componente "ExperienciaLaboral-item" y abre el modal para confirmar su eliminacion.
-  deleteTrabajo(trabajo: ExperienciaLaboral) {
-    this.trabajoId = trabajo.id;
+  deleteTrabajo(){
+    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

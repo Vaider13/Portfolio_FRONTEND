@@ -1,9 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { RedSocial } from 'src/app/models/interfaces/red-social';
 import { RedsocialService } from 'src/app/service/redsocial.service';
+import { TokenService } from 'src/app/service/token.service';
 
 @Component({
   selector: 'app-redes-sociales',
@@ -13,23 +14,27 @@ import { RedsocialService } from 'src/app/service/redsocial.service';
 export class RedesSocialesComponent implements OnInit {
 
   redesSociales: RedSocial;
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  personaId: number = 1;
   formRedes: FormGroup;
   @ViewChild('redes') redes: ElementRef;
+  isLogged: boolean = false;
 
   constructor(private modalService: NgbModal,
+    private tokenService: TokenService,
     private formBuilder: FormBuilder,
     private redSocialService: RedsocialService) {
     this.formRedes = this.formBuilder.group({
-      facebook: [''],
-      twitter: [''],
-      instagram: [''],
-      linkedin: [''],
+      facebook: ['', [Validators.pattern(this.urlReg)]],
+      twitter: ['', [Validators.pattern(this.urlReg)]],
+      instagram: ['', [Validators.pattern(this.urlReg)]],
+      linkedin: ['', [Validators.pattern(this.urlReg)]],
     })
   }
 
   ngOnInit(): void {
     this.cargarRedes();
+    this.isLogged = this.tokenService.isLogged()
   }
 
   cargarRedes(){
@@ -70,9 +75,23 @@ export class RedesSocialesComponent implements OnInit {
           console.log(err);
         }
       });
-
   }
 
+  get instagram() {
+    return this.formRedes.get("instagram");
+  }
+
+  get facebook() {
+    return this.formRedes.get("facebook");
+  }
+
+  get twitter() {
+    return this.formRedes.get("twitter");
+  }
+
+  get linkedin() {
+    return this.formRedes.get("linkedin");
+  }
 
 
 }

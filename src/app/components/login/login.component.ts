@@ -23,9 +23,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private userService: UsuarioService,
     private authService: AuthService,
-    private router: Router,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
   ) {
@@ -46,6 +44,7 @@ export class LoginComponent implements OnInit {
   closeModal() {
     this.modalService.dismissAll();
   }
+
   get Password() {
     return this.formLoggin.get("password");
   }
@@ -60,7 +59,7 @@ export class LoginComponent implements OnInit {
         (data) => {
           this.isLoggedFail=false;
           this.tokenService.setToken(data.token);
-          this.userName = this.tokenService.getUserName();
+          /*this.userName = this.tokenService.getUserName();
           this.userService.getByUserName(this.userName).subscribe(
             data => {
               localStorage.setItem("personaId", data.id.toString())
@@ -68,9 +67,11 @@ export class LoginComponent implements OnInit {
             err => {
               console.log(err);
             }
-          );
-          setTimeout(() => { this.router.navigate(['portfolio']) }, 1000);
+          );*/
+
+          //setTimeout(() => { this.router.navigate(['']) }, 1000);
           this.closeModal();
+          window.location.reload();
         },
         (err) => {
           console.log(err);
@@ -85,5 +86,6 @@ export class LoginComponent implements OnInit {
 
   onLogOut(): void {
     this.tokenService.logOut();
+    window.location.reload();
   }
 }

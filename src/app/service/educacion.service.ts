@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class EducacionService {
 
-  educacionURL = 'http://localhost:8080/educacion/'
+  educacionURL = 'http://localhost:8080/portfolio/educacion/'
 
   constructor(private httpClient: HttpClient) { }
 

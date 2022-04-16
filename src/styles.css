@@ -10,11 +10,8 @@
 .container-item{
   padding-top:10px;
   padding-left: 15px;
-  border-radius: 15px;
   margin: 0 auto;
   margin: 5px;
-  border:solid 1px;
-  border-color: #001b72;
 }
 
 #edit{

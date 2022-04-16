@@ -1,11 +1,11 @@
 <div class="container">
   <div class="add">
     <h1 class="display-3">Estudios</h1>
-    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+    <button *ngIf="isLogged" class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let educacion of educaciones">
-    <app-educacion-item (OnDeleteEducacion)="deleteEducacion(educacion)" (OnEditEducacion)="editarEducacion(educacion)"
+    <app-educacion-item (OnEditEducacion)="editarEducacion(educacion)"
       [educacion]=educacion>
     </app-educacion-item>
   </div>
@@ -95,7 +95,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="deleteEducacion()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formEdu.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>

@@ -8,6 +8,7 @@ import { GradoEducacion } from 'src/app/models/interfaces/grado-educacion';
 import { EducacionService } from 'src/app/service/educacion.service';
 import { EstadoEducacionService } from 'src/app/service/estado-educacion.service';
 import { GradoEducacionService } from 'src/app/service/grado-educacion.service';
+import { TokenService } from 'src/app/service/token.service';
 
 
 
@@ -21,7 +22,7 @@ export class EducacionComponent implements OnInit {
   educaciones: Educacion[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
-  personaId: number = parseInt(localStorage.getItem('personaId')!);
+  personaId: number = 1; //parseInt(localStorage.getItem('personaId')!);
   @Input() educacion: Educacion;
   urlLogo: string;
   urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
@@ -32,9 +33,11 @@ export class EducacionComponent implements OnInit {
   estadoEducacion: EstadoEducacion[] = [];
   @ViewChild('content') content: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
+  isLogged: boolean = false;
 
   constructor(private educacionService: EducacionService,
     private modalService: NgbModal,
+    private tokenService: TokenService,
     private formBuilder: FormBuilder,
     private gradoService: GradoEducacionService,
     private estadoService: EstadoEducacionService) {
@@ -55,6 +58,7 @@ export class EducacionComponent implements OnInit {
     this.cargarEducaciones();
     this.getGrado();
     this.getEstado();
+    this.isLogged = this.tokenService.isLogged()
   }
 
   //Cuando se acepta el formulario si "isAdd"
@@ -140,8 +144,8 @@ export class EducacionComponent implements OnInit {
   }
 
   //Toma la entidad del componente "educacion-item" y abre el modal para confirmar su eliminacion.
-  deleteEducacion(educacion: Educacion) {
-    this.eduId = educacion.id;
+  deleteEducacion() {
+    this.modalService.dismissAll()
     this.openModalDelete(this.borrar);
   }
 

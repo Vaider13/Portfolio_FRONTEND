@@ -2,11 +2,11 @@
 <div class="container">
   <div class="add">
     <h1 class="display-3">Hard & Soft Skills</h1>
-    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+    <button *ngIf="isLogged" class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let skill of skills">
-    <app-skill-item (OnDeleteSkill)="deleteSkill(skill)"
+    <app-skill-item
     (OnEditSkill)="editarSkill(skill)"
       [skill]=skill>
     </app-skill-item>
@@ -43,10 +43,13 @@
       <div class="row mb-4">
         <div class="md-form mb-4">
           <label>Nivel de skill:</label>
-          <input class="form-control" type="number" formControlName="nivelSkill" placeholder="Nivel de la skill del 1 al 100" />
+          <input class="form-control" type="number" min="1" max="100" formControlName="nivelSkill" placeholder="Nivel de la skill del 1 al 100" />
           <div *ngIf="nivelSkill?.errors && nivelSkill?.touched">
             <p *ngIf="nivelSkill?.hasError('required')" class="text-danger">
               El nivel de la skill es requerida.
+            </p>
+            <p *ngIf="nivelSkill?.errors?.['min'] || nivelSkill?.errors?.['max']" class="text-danger">
+              El nivel de la skill debe ser un numero entre 1 y 100.
             </p>
           </div>
         </div>
@@ -54,7 +57,7 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="deleteSkill()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formSkill.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>

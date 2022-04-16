@@ -1,11 +1,11 @@
 <div class="container">
   <div class="add">
     <h1 class="display-3">Proyectos</h1>
-    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+    <button *ngIf="isLogged" class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let proyecto of proyectos">
-    <app-proyecto-item (OnDeleteProyecto)="deleteProyecto(proyecto)"
+    <app-proyecto-item
     (OnEditProyecto)="editarProyecto(proyecto)"
       [proyecto]=proyecto>
     </app-proyecto-item>
@@ -58,13 +58,16 @@
             <p *ngIf="urlProyecto?.hasError('required')" class="text-danger">
               La URL del proyecto es requerida.
             </p>
+            <p *ngIf="formProyect.get('urlProyecto')?.hasError('pattern')" class="text-danger">
+              Ingrese una URL valida.
+            </p>
           </div>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="deleteProyecto()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formProyect.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>

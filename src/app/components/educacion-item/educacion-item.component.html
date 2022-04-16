@@ -11,8 +11,6 @@
     </div>
   </div>
   <div class="buttons">
-    <span class="click" (click)="onEdit(educacion)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
-    <span class="click" (click)="onDelete(educacion)"><i class="fa-solid fa-trash-can fa-xl"
-        [ngStyle]="{'color': 'red'}"></i></span>
+    <span  *ngIf="isLogged" class="click" (click)="onEdit(educacion)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
   </div>
 </div>

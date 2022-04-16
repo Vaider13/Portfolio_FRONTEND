@@ -3,7 +3,7 @@
   <a href="{{redesSociales.twitter}}" *ngIf="redesSociales.twitter != ''"><i class="fa-brands fa-twitter fa-xl"></i>&nbsp;</a>
   <a href="{{redesSociales.instagram}}"*ngIf="redesSociales.instagram != ''"><i class="fa-brands fa-instagram fa-xl">&nbsp;</i></a>
   <a href="{{redesSociales.linkedin}}"*ngIf="redesSociales.linkedin !== ''"><i class="fa-brands fa-linkedin fa-xl">&nbsp;</i></a>
-  <span class="click" (click)="editarRedes()"><i class="fas fa-edit fa-xl"></i></span>
+  <span *ngIf="isLogged" class="click" (click)="editarRedes()"><i class="fas fa-edit fa-xl"></i></span>
 </div>
 
 <!-- MODAL FORM ADD/EDIT-->
@@ -18,18 +18,38 @@
       <div class="md-form mb-4">
         <label>Facebook URL:</label>
         <input class="form-control" type="text" formControlName="facebook" placeholder="Ingrese la URL de su perfil de facebook" />
+        <div *ngIf="facebook?.errors && facebook?.touched">
+          <p *ngIf="formRedes.get('facebook')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
       </div>
       <div class="md-form mb-4">
         <label>Twitter URL:</label>
         <input class="form-control" type="text" formControlName="twitter" placeholder="ingrese la URL de su perfil de twitter" />
+        <div *ngIf="twitter?.errors && twitter?.touched">
+          <p *ngIf="formRedes.get('twitter')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
       </div>
         <div class="md-form mb-4">
           <label>Instagram URL:</label>
           <input class="form-control" type="text" formControlName="instagram" placeholder="ingrese la URL de su perfil de instagram" />
+          <div *ngIf="instagram?.errors && instagram?.touched">
+            <p *ngIf="formRedes.get('instagram')?.hasError('pattern')" class="text-danger">
+              Ingrese una URL valida.
+            </p>
+          </div>
         </div>
         <div class="md-form mb-4">
           <label> LinkedIn URL:</label>
           <input class="form-control" type="text" formControlName="linkedin" placeholder="ingrese la URL de su perfil de linkedin">
+          <div *ngIf="linkedin?.errors && linkedin?.touched">
+            <p *ngIf="formRedes.get('linkedin')?.hasError('pattern')" class="text-danger">
+              Ingrese una URL valida.
+            </p>
+          </div>
         </div>
     </form>
   </div>
