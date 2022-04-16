@@ -1,0 +1,40 @@
+<div class="redes">
+  <a href="{{redesSociales.facebook}}" *ngIf="redesSociales.facebook != ''"><i class="fa-brands fa-facebook fa-xl"></i> &nbsp;</a>
+  <a href="{{redesSociales.twitter}}" *ngIf="redesSociales.twitter != ''"><i class="fa-brands fa-twitter fa-xl"></i>&nbsp;</a>
+  <a href="{{redesSociales.instagram}}"*ngIf="redesSociales.instagram != ''"><i class="fa-brands fa-instagram fa-xl">&nbsp;</i></a>
+  <a href="{{redesSociales.linkedin}}"*ngIf="redesSociales.linkedin !== ''"><i class="fa-brands fa-linkedin fa-xl">&nbsp;</i></a>
+  <span class="click" (click)="editarRedes()"><i class="fas fa-edit fa-xl"></i></span>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #redes let-modal>
+  <div class="modal-header" id="redesModal">
+    <h5 class="modal-title">Editar Redes Sociales</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formRedes" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Facebook URL:</label>
+        <input class="form-control" type="text" formControlName="facebook" placeholder="Ingrese la URL de su perfil de facebook" />
+      </div>
+      <div class="md-form mb-4">
+        <label>Twitter URL:</label>
+        <input class="form-control" type="text" formControlName="twitter" placeholder="ingrese la URL de su perfil de twitter" />
+      </div>
+        <div class="md-form mb-4">
+          <label>Instagram URL:</label>
+          <input class="form-control" type="text" formControlName="instagram" placeholder="ingrese la URL de su perfil de instagram" />
+        </div>
+        <div class="md-form mb-4">
+          <label> LinkedIn URL:</label>
+          <input class="form-control" type="text" formControlName="linkedin" placeholder="ingrese la URL de su perfil de linkedin">
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formRedes.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>

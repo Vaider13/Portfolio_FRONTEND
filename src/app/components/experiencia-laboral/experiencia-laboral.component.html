@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="add">
+    <h1 class="display-3">Experiencia Laboral</h1>
+    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+      <i class="fas fa-plus-circle"></i> Agregar</button>
+  </div>
+  <div class="item" *ngFor="let trabajo of trabajos">
+    <app-experiencialaboral-item (OnDeleteTrabajo)="deleteTrabajo(trabajo)" (OnEditTrabajo)="editarTrabajo(trabajo)"
+      [trabajo]=trabajo>
+    </app-experiencialaboral-item>
+  </div>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #content let-modal>
+  <div class="modal-header" id="trabajoModal">
+    <h5 *ngIf="isAdd" class="modal-title">Nuevo estudio</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar estudio</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formExp" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Nombre empresa:</label>
+        <input class="form-control" type="text" formControlName="nombreEmpresa" placeholder="nombreEmpresa" />
+        <div *ngIf="nombreEmpresa?.errors && nombreEmpresa?.touched">
+          <p *ngIf="nombreEmpresa?.hasError('required')" class="text-danger">
+            El nombre de la empresa es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Cargo en la empresa:</label>
+        <input class="form-control" type="text" formControlName="puesto" placeholder="puesto">
+        <div *ngIf="puesto?.errors && puesto?.touched">
+          <p *ngIf="puesto?.hasError('required')" class="text-danger">
+            El cargo desempeñado en la empresa es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Fecha Inicio:</label>
+        <input class="form-control" type="date" formControlName="fechaInicio" placeholder="fechaInicio">
+        <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
+          <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
+            La fecha de inicio es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label> Fecha Final:</label>
+        <input class="form-control" type="date" formControlName="fechaFinal" placeholder="fechaFinal">
+        <div>
+          <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
+            La fecha de inicio no puede ser mayor que la fecha final.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Descripcion:</label>
+        <textarea class="form-control" type="text" formControlName="descripcion" placeholder="descripcion"
+          rows="4"></textarea>
+        <div *ngIf="descripcion?.errors && descripcion?.touched">
+          <p *ngIf="descripcion?.hasError('required')" class="text-danger">
+            La descripcion del cargo desempeñado en la empresa es requerido.
+          </p>
+          <p *ngIf="descripcion?.errors?.['minlength']" class="text-danger">
+            La descripcion debe tener al menos 20 caracteres.
+          </p>
+          <p *ngIf="descripcion?.errors?.['minlength'] || descripcion?.errors?.['maxlength']" class="text-danger">
+            La contraseña debe tener entre 8 y 16 caracteres.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <div class="logo" *ngIf="!isAdd && urlLogo != null">
+          <label>Logo de la empresa</label>
+          <img src="{{urlLogo}}" class="img-fluid" alt="Responsive image">
+        </div>
+        <label>URL de la imagen</label>
+        <input class="form-control" type="text" formControlName="logoEmpresa" placeholder="Ingrese una URL">
+        <div>
+          <p *ngIf="formExp.get('logoEmpresa')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formExp.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM DELETE-->
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-delete">Borrar Estudio</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Esta seguro que quiere borrar este trabajo?</strong></p>
+    <span class="text-danger">Esta operacion no se puede deshacer.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteTrabajoDb()">Borrar</button>
+  </div>
+</ng-template>

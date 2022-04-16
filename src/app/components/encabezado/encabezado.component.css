@@ -1,0 +1,70 @@
+.container {
+  display: flex;
+}
+
+
+.usuario {
+  display: block;
+}
+
+.redes {
+position: absolute;
+}
+
+.acerca {
+  float: right;
+  width: 600px;
+  font-size: 20px;
+}
+
+.avatar {
+  display: flex;
+}
+.avatar span{
+  position:absolute;
+  margin-left:190px;
+  margin-top: 30px;
+  color:#fff;
+}
+.nombre {
+  display: flex;
+  justify-content: space-between;
+}
+.nombre h1 {
+  margin-left: 15px;
+  font-size: 3em;
+}
+
+.avatar h2 {
+  margin-left: 15px;
+  vertical-align: middle;
+  font-size: 3em;
+}
+
+.avatar img {
+  border: solid 5px white;
+  margin-top: -110px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-left: 50px;
+}
+
+.click {
+  cursor: pointer;
+}
+
+.banner span{
+  position: absolute;
+  padding-top: 5px;
+  margin-left: -40px;
+  color: #fff;
+}
+
+.editar{
+  float: right;
+  padding-left: 10px;
+  padding-top: -15px;
+  margin-bottom: 10px;
+}
+

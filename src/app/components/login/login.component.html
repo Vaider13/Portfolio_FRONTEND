@@ -1,0 +1,48 @@
+<div class="login">
+  <button class="btn btn-success" (click)="openModal()" *ngIf="!isLogged"><i
+      class="fa-solid fa-arrow-right-to-bracket"></i> Iniciar Sesión</button>
+  <button class="btn btn-danger" *ngIf="isLogged" (click)="onLogOut()"><i
+      class="fa-solid fa-arrow-right-from-bracket"></i>Cerrar Sesión</button>
+</div>
+
+<!-- MODAL LOGIN -->
+<ng-template #loginForm let-modal>
+  <div class="modal-header text-center" id="LogginModal">
+    <h4 class="modal-title w-100 font-weight-bold">Iniciar Sesión</h4>
+    <button type="button" class="btn-close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form [formGroup]="formLoggin" (ngSubmit)="onSubmit()" id="login-form">
+      <div class="fmd-form mb-4">
+        <label for="nombreUsuario" class="fs-4">Nombre de Usuario:</label><br />
+        <input type="text" id="nombreUsuario" class="form-control" formControlName="nombreUsuario"
+          placeholder="Nobre de Usuario" />
+        <div *ngIf="NombreUsuario?.errors && NombreUsuario?.touched">
+          <p *ngIf="NombreUsuario?.hasError('required')" class="text-danger">
+            El nombre de usuario es requerido.
+          </p>
+          <p *ngIf="NombreUsuario?.errors?.['minlength'] || NombreUsuario?.errors?.['maxlength']" class="text-danger">
+            El nombre de usuario debe tener entre 8 y 16 caracteres.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label for="password" class="fs-4">Contraseña:</label><br />
+        <input type="password" id="password" class="form-control" formControlName="password" placeholder="Contraseña" />
+        <div *ngIf="Password?.errors && Password?.touched">
+          <p *ngIf="Password?.hasError('required')" class="text-danger">
+            La contraseña es requerida.
+          </p>
+          <p *ngIf="Password?.errors?.['minlength'] || Password?.errors?.['maxlength']" class="text-danger">
+            La contraseña debe tener entre 8 y 16 caracteres.
+          </p>
+        </div>
+      </div>
+    </form>
+    <span *ngIf="isLoggedFail" class="text-danger"> Nombre de usuario o contraseña incorrectos</span>
+  </div>
+  <div class="modal-footer d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="formLoggin.invalid"
+      aria-label="Close" mdbWavesEffect>Iniciar Sesión</button>
+  </div>
+</ng-template>

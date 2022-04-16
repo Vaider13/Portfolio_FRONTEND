@@ -1,0 +1,114 @@
+<div class="container">
+  <div class="add">
+    <h1 class="display-3">Estudios</h1>
+    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+      <i class="fas fa-plus-circle"></i> Agregar</button>
+  </div>
+  <div class="item" *ngFor="let educacion of educaciones">
+    <app-educacion-item (OnDeleteEducacion)="deleteEducacion(educacion)" (OnEditEducacion)="editarEducacion(educacion)"
+      [educacion]=educacion>
+    </app-educacion-item>
+  </div>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #content let-modal>
+  <div class="modal-header" id="educacionModal">
+    <h5 *ngIf="isAdd" class="modal-title">Nuevo estudio</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar estudio</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formEdu" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Titulo:</label>
+        <input class="form-control" type="text" formControlName="titulo" placeholder="Ingrese el titulo" />
+        <div *ngIf="titulo?.errors && titulo?.touched">
+          <p *ngIf="titulo?.hasError('required')" class="text-danger">
+            El titulo es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Nombre Institucion:</label>
+        <input class="form-control" type="text" formControlName="nombreInstitucion"
+          placeholder="Ingrese el nombre de la institución">
+        <div *ngIf="nombreInstitucion?.errors && nombreInstitucion?.touched">
+          <p *ngIf="nombreInstitucion?.hasError('required')" class="text-danger">
+            El nombre de la institucion es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Grado Educacion</label>
+        <select class="form-control" formControlName="gradoEducacion">
+          <option [ngValue]="null" disabled>Elija un grado de estudio</option>
+          <option *ngFor="let grado of gradoEducacion" [ngValue]="grado.grado">
+            {{grado.grado}}
+          </option>
+        </select>
+      </div>
+      <div class="md-form mb-4">
+        <label>Fecha Inicio:</label>
+        <input class="form-control" type="date" formControlName="fechaInicio" placeholder="Elija la fecha de inicio">
+        <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
+          <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
+            La fecha de inicio es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label> Fecha Final:</label>
+        <input class="form-control" type="date" formControlName="fechaFinal" placeholder="Elija la fecha final">
+        <div>
+          <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
+            La fecha de inicio no puede ser mayor que la fecha final.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Estado Educacion</label>
+        <select class="form-control" formControlName="estadoEducacion">
+          <option [ngValue]="null" disabled>Elija un estado de estudio</option>
+          <option *ngFor="let estado of estadoEducacion" [ngValue]="estado.estado">
+            {{estado.estado}}
+          </option>
+        </select>
+      </div>
+      <div class="md-form mb-4">
+        <div class="logo" *ngIf="!isAdd && urlLogo != null">
+          <label>Logo Institucion</label>
+          <img src="{{urlLogo}}" class="img-fluid" alt="Responsive image">
+        </div>
+        <label>URL de la imagen</label>
+        <input class="form-control" type="text" formControlName="logoEducacion" placeholder="URL">
+        <div>
+          <p *ngIf="formEdu.get('logoEducacion')?.hasError('pattern')" class="text-danger">
+            Ingrese una URL valida.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formEdu.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM DELETE-->
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-delete">Borrar Estudio</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Esta seguro que quiere borrar este estudio?</strong></p>
+    <span class="text-danger">Esta operacion no se puede deshacer.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteEducacionDb()">Borrar</button>
+  </div>
+</ng-template>

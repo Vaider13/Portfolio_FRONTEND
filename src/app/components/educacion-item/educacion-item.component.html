@@ -1,0 +1,18 @@
+<div class="container-item">
+  <div class="item">
+    <div class="logo">
+      <img [src]="educacion.logoEducacion">
+    </div>
+    <div class="edu">
+      <h1 class="h1">Titulo de la carrera: {{educacion.titulo}}</h1>
+      <h2 class="h3"> Nombre de la institución: {{educacion.nombreInstitucion}}</h2>
+      <p class="h3"> Nivel de estudio: {{educacion.gradoEducacion}} - {{educacion.estadoEducacion}} </p>
+      <p class="h3"> Fecha de ingreso {{educacion.fechaInicio | date:'MMMM  yyyy'}} - Fecha de egreso: {{educacion.fechaFinal | date:'MMMM  yyyy'}}</p>
+    </div>
+  </div>
+  <div class="buttons">
+    <span class="click" (click)="onEdit(educacion)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+    <span class="click" (click)="onDelete(educacion)"><i class="fa-solid fa-trash-can fa-xl"
+        [ngStyle]="{'color': 'red'}"></i></span>
+  </div>
+</div>

@@ -1,1 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+.container{
+  padding-top:10px;
+  border-radius: 15px;
+  margin: 0 auto;
+  border:solid 2px;
+  border-color: #008295;
+}
+
+.container-item{
+  padding-top:10px;
+  padding-left: 15px;
+  border-radius: 15px;
+  margin: 0 auto;
+  margin: 5px;
+  border:solid 1px;
+  border-color: #001b72;
+}
+
+#edit{
+  color:#4570ff;
+}
+
+
+

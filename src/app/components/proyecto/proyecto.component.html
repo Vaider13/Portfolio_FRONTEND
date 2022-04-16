@@ -1,0 +1,86 @@
+<div class="container">
+  <div class="add">
+    <h1 class="display-3">Proyectos</h1>
+    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+      <i class="fas fa-plus-circle"></i> Agregar</button>
+  </div>
+  <div class="item" *ngFor="let proyecto of proyectos">
+    <app-proyecto-item (OnDeleteProyecto)="deleteProyecto(proyecto)"
+    (OnEditProyecto)="editarProyecto(proyecto)"
+      [proyecto]=proyecto>
+    </app-proyecto-item>
+  </div>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #proyecto let-modal>
+  <div class="modal-header" id="proyectoModal">
+    <h5 *ngIf="isAdd" class="modal-title">Añadir Proyecto</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar Proyecto</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formProyect" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Nombre del proyecto:</label>
+        <input class="form-control" type="text" formControlName="nombre" placeholder="Nombre del proyecto" />
+        <div *ngIf="nombre?.errors && nombre?.touched">
+          <p *ngIf="nombre?.hasError('required')" class="text-danger">
+            El nombre del proyecto es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Fecha:</label>
+        <input class="form-control" type="date" formControlName="fecha">
+        <div *ngIf="fecha?.errors && fecha?.touched">
+          <p *ngIf="fecha?.hasError('required')" class="text-danger">
+            La fecha de creacion del proyecto es requerida.
+          </p>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="md-form mb-4">
+          <label>Descripcion:</label>
+          <textarea class="form-control" type="text" formControlName="descripcion"
+            placeholder="Descripcion del proyecto" rows="4"></textarea>
+          <div *ngIf="descripcion?.errors && descripcion?.touched">
+            <p *ngIf="descripcion?.hasError('required')" class="text-danger">
+              La descripcion del proyecto es requerida.
+            </p>
+          </div>
+        </div>
+        <div class="md-form mb-4">
+          <label> URL del proyecto:</label>
+          <input class="form-control" type="text" formControlName="urlProyecto" placeholder="URL del proyecto">
+          <div *ngIf="urlProyecto?.errors && urlProyecto?.touched">
+            <p *ngIf="urlProyecto?.hasError('required')" class="text-danger">
+              La URL del proyecto es requerida.
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formProyect.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM DELETE-->
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-delete">Borrar Proyecto</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Esta seguro que quiere borrar este proyecto?</strong></p>
+    <span class="text-danger">Esta operacion no se puede deshacer.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteProyectoDb()">Borrar</button>
+  </div>
+</ng-template>

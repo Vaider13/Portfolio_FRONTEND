@@ -1,0 +1,13 @@
+<div class="container-item">
+  <div class="item">
+    <h1 class="h1"> Nombre del proyecto: {{proyecto.nombre}}</h1>
+    <h2 class="h3"> Fecha: {{proyecto.fecha | date:'MMMM  yyyy'}}</h2>
+    <p class="h3"> Descripcion: {{proyecto.descripcion}}
+    <h2 class="h3"><a href="{{proyecto.urlProyecto}}">Link al {{proyecto.nombre}}</a></h2>
+  </div>
+  <div class="buttons">
+    <span class="click" (click)="onEdit(proyecto)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+    <span class="click" (click)="onDelete(proyecto)"><i class="fa-solid fa-trash-can fa-xl"
+        [ngStyle]="{'color': 'red'}"></i></span>
+  </div>
+</div>

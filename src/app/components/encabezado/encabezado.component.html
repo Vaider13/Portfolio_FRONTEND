@@ -1,0 +1,133 @@
+<div class="container">
+  <div class="usuario">
+    <div class="banner">
+      <div class="redes">
+        <app-redes-sociales></app-redes-sociales>
+      </div>
+      <img src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg" class="img-fluid" alt="Responsive image">
+      <!-- <img [src]="personaDto.urlBanner" class="img-fluid" alt="Responsive image"> -->
+      <span class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
+    </div>
+    <div class="avatar">
+      <img src="../../../assets/red.jpg">
+      <span class="click" (click)="editarAvatar()"><i class="fas fa-edit fa-xl"></i></span>
+      <h2>{{personaDto.titulo}}</h2>
+    </div>
+    <div class="nombre">
+      <h1>{{personaDto.nombre + " " + personaDto.apellido}}</h1>
+      <div class="acerca">
+        <p>{{personaDto.acerca_de}}</p>
+      </div>
+    </div>
+    <div class="editar">
+      <span class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL FORM EDIT-->
+<ng-template #persona let-modal>
+  <div class="modal-header" id="personaModal">
+    <h5 class="modal-title" *ngIf="editPerso">Editar informacion personal</h5>
+    <h5 class="modal-title" *ngIf="editAvatar && !editPerso ">Editar Avatar</h5>
+    <h5 class="modal-title" *ngIf="!editAvatar  && !editPerso">Editar Banner</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formPerso" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Nombre:</label>
+        <input class="form-control" type="text" formControlName="nombre" placeholder="Ingrese un nombre" />
+        <div *ngIf="nombre?.errors && nombre?.touched">
+          <p *ngIf="nombre?.hasError('required')" class="text-danger">
+            El nombre es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Apellido:</label>
+        <input class="form-control" type="text" formControlName="apellido" placeholder="Ingrese un apellido">
+        <div *ngIf="apellido?.errors && apellido?.touched">
+          <p *ngIf="apellido?.hasError('required')" class="text-danger">
+            El apellido es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Fecha de nacimiento:</label>
+        <input class="form-control" type="date" formControlName="fecha_nacimiento"
+          placeholder="Ingrese su fecha de nacimiento">
+        <div *ngIf="fecha_nacimiento?.errors && fecha_nacimiento?.touched">
+          <p *ngIf="fecha_nacimiento?.hasError('required')" class="text-danger">
+            La fecha de nacimiento es requerida.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Titulo:</label>
+        <input class="form-control" type="text" formControlName="titulo" placeholder="Ingrese su titulo">
+        <div *ngIf="titulo?.errors && titulo?.touched">
+          <p *ngIf="titulo?.hasError('required')" class="text-danger">
+            El titulo es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Telefono:</label>
+        <input class="form-control" type="text" formControlName="telefono" placeholder="Ingrese su telefono">
+        <div *ngIf="telefono?.errors && telefono?.touched">
+          <p *ngIf="telefono?.hasError('required')" class="text-danger">
+            El telefono es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Provincia</label>
+        <select class="form-control" formControlName="provincia" onchange="selectProvincia()">
+          <option [ngValue]="null" disabled>Elija una provincia</option>
+          <option *ngFor="let provincia of provincias" [ngValue]="provincia.provincia">
+            {{provincia.provincia}}
+          </option>
+        </select>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Localidad</label>
+        <select class="form-control" formControlName="localidad">
+          <option [ngValue]="null" disabled>Elija una localidad</option>
+          <option *ngFor="let localidad of localidades" [ngValue]="localidad.localidad">
+            {{localidad.localidad}}
+          </option>
+        </select>
+      </div>
+      <div class="md-form mb-4" *ngIf="editPerso">
+        <label>Acerca de:</label>
+        <textarea class="form-control" type="text" formControlName="acerca_de"
+          placeholder="Ingrese una descripcion sobre usted" rows="4"></textarea>
+        <div *ngIf="acerca_de?.errors && acerca_de?.touched">
+          <p *ngIf="acerca_de?.hasError('required')" class="text-danger">
+            El titulo es requerido.
+          </p>
+          <p *ngIf="acerca_de?.errors?.['minlength']" class="text-danger">
+            La descripcion debe tener al menos 20 caracteres.
+          </p>
+          <p *ngIf="acerca_de?.errors?.['minlength'] || acerca_de?.errors?.['maxlength']" class="text-danger">
+            La contraseña debe tener entre 8 y 16 caracteres.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4" *ngIf="editAvatar && !editPerso">
+        <label>Imagen URL:</label>
+        <input class="form-control" type="text" formControlName="urlAvatar" placeholder="Ingrese una URL" />
+      </div>
+      <div class="md-form mb-4" *ngIf="!editAvatar && !editPerso">
+        <label>Banner URL:</label>
+        <input class="form-control" type="text" formControlName="urlBanner" placeholder="Ingrese una URL" />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formPerso.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>

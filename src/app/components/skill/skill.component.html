@@ -1,0 +1,76 @@
+
+<div class="container">
+  <div class="add">
+    <h1 class="display-3">Hard & Soft Skills</h1>
+    <button class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+      <i class="fas fa-plus-circle"></i> Agregar</button>
+  </div>
+  <div class="item" *ngFor="let skill of skills">
+    <app-skill-item (OnDeleteSkill)="deleteSkill(skill)"
+    (OnEditSkill)="editarSkill(skill)"
+      [skill]=skill>
+    </app-skill-item>
+  </div>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #skill let-modal>
+  <div class="modal-header" id="skillModal">
+    <h5 *ngIf="isAdd" class="modal-title">Añadir Skill</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar Skill</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formSkill" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Nombre de la skill:</label>
+        <input class="form-control" type="text" formControlName="nombreSkill" placeholder="Nombre de la skill" />
+        <div *ngIf="nombreSkill?.errors && nombreSkill?.touched">
+          <p *ngIf="nombreSkill?.hasError('required')" class="text-danger">
+            El nombre de la Skill es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Tipo de skill:</label>
+        <select class="form-control" formControlName="tipoSkill">
+          <option [ngValue]="null" disabled>Elija un tipo de skill</option>
+          <option>Hard</option>
+          <option>Soft</option>
+        </select>
+      </div>
+      <div class="row mb-4">
+        <div class="md-form mb-4">
+          <label>Nivel de skill:</label>
+          <input class="form-control" type="number" formControlName="nivelSkill" placeholder="Nivel de la skill del 1 al 100" />
+          <div *ngIf="nivelSkill?.errors && nivelSkill?.touched">
+            <p *ngIf="nivelSkill?.hasError('required')" class="text-danger">
+              El nivel de la skill es requerida.
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formSkill.invalid" class="btn btn-primary">Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM DELETE-->
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-delete">Borrar Skill</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Esta seguro que quiere borrar esta skill?</strong></p>
+    <span class="text-danger">Esta operacion no se puede deshacer.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteSkillDb()">Borrar</button>
+  </div>
+</ng-template>

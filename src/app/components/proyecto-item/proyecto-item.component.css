@@ -1,0 +1,14 @@
+.container-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.buttons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
+  padding-right: 20px;
+}
+.click {
+  cursor: pointer;
+}

@@ -1,0 +1,9 @@
+
+.click {
+  cursor: pointer;
+}
+
+.skill {
+  display: inline-flex;
+  justify-content: space-between;
+}

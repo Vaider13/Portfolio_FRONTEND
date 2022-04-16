@@ -1,0 +1,19 @@
+<div class="container-item">
+  <div class="item">
+    <div class="logo">
+      <img [src]="trabajo.logoEmpresa">
+    </div>
+    <div class="exp">
+      <h1 class="h1"> Nombre de la empresa: {{trabajo.nombreEmpresa}}</h1>
+      <h2 class="h3"> Cargo empeñado: {{trabajo.puesto}}</h2>
+      <p class="h3">Fecha de inicio: {{trabajo.fechaInicio | date:' dd MMMM  yyyy'}} &nbsp; Fecha de finalizacion : {{trabajo.fechaFinal | date:' dd MMMM  yyyy'}}</p>
+      <h2 class="h3"> Descripcion del cargo:</h2>
+      <p class="h3">{{trabajo.descripcion}}</p>
+    </div>
+  </div>
+  <div class="buttons">
+    <span class="click" (click)="onEdit(trabajo)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+    <span class="click" (click)="onDelete(trabajo)"><i class="fa-solid fa-trash-can fa-xl"
+        [ngStyle]="{'color': 'red'}"></i></span>
+  </div>
+</div>
