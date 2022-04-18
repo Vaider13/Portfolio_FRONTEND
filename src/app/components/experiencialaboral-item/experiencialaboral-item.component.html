@@ -1,7 +1,10 @@
 <div class="container-item">
   <div class="item">
     <div class="logo">
-      <img [src]="trabajo.logoEmpresa">
+      <img *ngIf="trabajo.logoEmpresa !='' && trabajo.logoEmpresa!= null"
+      [src]="trabajo.logoEmpresa">
+      <img *ngIf="trabajo.logoEmpresa == ''|| trabajo.logoEmpresa == null"
+      src="../../../assets/blank.jpg">
     </div>
     <div class="exp">
       <h1 class="h1"> {{trabajo.puesto}}</h1>

@@ -12,7 +12,8 @@ position: absolute;
 }
 
 .acerca {
-  float: right;
+  margin-left:650px;
+  margin-top: -175px;
   width: 600px;
   font-size: 20px;
 }
@@ -24,16 +25,31 @@ position: absolute;
   position:absolute;
   margin-left:190px;
   margin-top: 30px;
-  color:#fff;
+  color:rgb(255, 255, 255);
 }
 .nombre {
-  display: flex;
+  display:grid;
   justify-content: space-between;
 }
 .nombre h1 {
   margin-left: 15px;
   font-size: 3em;
 }
+.nombre h3{
+  padding-left: 90px;
+  font-size: 24px;
+}
+
+.nombre h4{
+  padding-left: 5px;
+  font-size: 20px;
+}
+
+.nombre h5{
+  padding-left: 25px;
+  font-size: 20px;
+}
+
 
 .avatar h2 {
   margin-left: 15px;

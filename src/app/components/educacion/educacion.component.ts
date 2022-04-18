@@ -25,7 +25,7 @@ export class EducacionComponent implements OnInit {
   personaId: number = 1; //parseInt(localStorage.getItem('personaId')!);
   @Input() educacion: Educacion;
   urlLogo: string;
-  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   eduId: number;
   formEdu: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un estudio.
@@ -42,7 +42,7 @@ export class EducacionComponent implements OnInit {
     private gradoService: GradoEducacionService,
     private estadoService: EstadoEducacionService) {
     //Creacion del formulario reactivo para el componente educacion.
-      this.formEdu = this.formBuilder.group({
+    this.formEdu = this.formBuilder.group({
       titulo: ['', [Validators.required]],
       nombreInstitucion: ['', [Validators.required]],
       fechaInicio: ['', [Validators.required]],
@@ -72,7 +72,7 @@ export class EducacionComponent implements OnInit {
     this.modalService.dismissAll(); //Se descarta el modal
   }
 
-//Obtiene el grado de estudio para cargarlos en el formulario.
+  //Obtiene el grado de estudio para cargarlos en el formulario.
   getGrado() {
     this.gradoService.lista().subscribe(
       data => {
@@ -84,7 +84,7 @@ export class EducacionComponent implements OnInit {
     );
   }
 
-//Obtiene el estado de estudio para cargarlos en el formulario.
+  //Obtiene el estado de estudio para cargarlos en el formulario.
   getEstado() {
     this.estadoService.lista().subscribe(
       data => {
@@ -124,8 +124,8 @@ export class EducacionComponent implements OnInit {
       });
   }
 
-//Toma la entidad "Educacion" que envia el componente "Educacion-item"
-//Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
+  //Toma la entidad "Educacion" que envia el componente "Educacion-item"
+  //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
   editarEducacion(educacion: Educacion) {
     this.isAdd = false;
     this.openModal(this.content);

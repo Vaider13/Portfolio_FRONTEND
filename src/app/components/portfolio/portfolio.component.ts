@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenService } from 'src/app/service/token.service';
-import { UsuarioService } from 'src/app/service/usuario.service';
+
+
 
 
 @Component({
@@ -10,12 +10,9 @@ import { UsuarioService } from 'src/app/service/usuario.service';
 })
 export class PortfolioComponent implements OnInit {
 
-  userName: string;
-
-  constructor(private tokenService: TokenService,
-    private usuarioService: UsuarioService) { }
+  constructor() { }
 
   ngOnInit(): void {
-
   }
+
 }

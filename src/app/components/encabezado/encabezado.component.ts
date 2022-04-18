@@ -17,6 +17,7 @@ import { TokenService } from 'src/app/service/token.service';
 })
 export class EncabezadoComponent implements OnInit {
   personaId: number = 1;
+  edad:number;
   urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   personaDto: PersonaDto;
   editAvatar: boolean = false;
@@ -64,10 +65,23 @@ export class EncabezadoComponent implements OnInit {
     this.modalService.dismissAll(); //Se descarta el modal
   }
 
+  getEdad(dateString:string){
+    var hoy = new Date();
+    var nacimiento = new Date(dateString);
+    var edad = hoy.getFullYear() - nacimiento.getFullYear();
+    var m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate()))
+    {
+      edad--;
+    }
+    return edad;
+}
+
   getPersona() {
     this.personaService.getPersonaByUsuarioId((this.personaId)).subscribe(
       data => {
         this.personaDto = data;
+        this.edad = this.getEdad(data.fecha_nacimiento);
       },
       err => {
         console.log(err);

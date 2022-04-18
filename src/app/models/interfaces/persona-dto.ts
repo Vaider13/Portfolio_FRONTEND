@@ -6,6 +6,7 @@ export interface PersonaDto {
   telefono: string;
   titulo: string;
   acerca_de: string;
+  email: string;
   urlAvatar:string;
   urlBanner: string;
   localidad: string;

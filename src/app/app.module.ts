@@ -11,7 +11,6 @@ import { EducacionComponent } from './components/educacion/educacion.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { InicioComponent } from './components/inicio/inicio.component';
 import { EducacionItemComponent } from './components/educacion-item/educacion-item.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +23,7 @@ import { SkillComponent } from './components/skill/skill.component';
 import { SkillItemComponent } from './components/skill-item/skill-item.component';
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { RedesSocialesComponent } from './components/redes-sociales/redes-sociales.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -33,7 +33,6 @@ import { RedesSocialesComponent } from './components/redes-sociales/redes-social
     TopBarComponent,
     EducacionComponent,
     PortfolioComponent,
-    InicioComponent,
     EducacionItemComponent,
     ExperienciaLaboralComponent,
     ExperiencialaboralItemComponent,
@@ -43,6 +42,7 @@ import { RedesSocialesComponent } from './components/redes-sociales/redes-social
     SkillComponent,
     SkillItemComponent,
     RedesSocialesComponent,
+    FooterComponent,
   ],
 
   imports: [
