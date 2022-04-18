@@ -14,8 +14,8 @@
 <!-- MODAL FORM ADD/EDIT-->
 <ng-template #content let-modal>
   <div class="modal-header" id="trabajoModal">
-    <h5 *ngIf="isAdd" class="modal-title">Nuevo estudio</h5>
-    <h5 *ngIf="!isAdd" class="modal-title">Editar estudio</h5>
+    <h5 *ngIf="isAdd" class="modal-title">Nueva experiencia laboral</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar experiencia laboral</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
       (click)="modal.dismiss()"></button>
   </div>
@@ -59,17 +59,15 @@
       </div>
       <div class="md-form mb-4">
         <label>Descripcion:</label>
-        <textarea class="form-control" type="text" formControlName="descripcion" placeholder="Describa cuales eran sus funciones"
-          rows="4"></textarea>
+        <textarea class="form-control" type="text" formControlName="descripcion"
+        placeholder="Describa cuales eran sus funciones" minlength ="20" maxlength="180" rows="4">
+      </textarea>
         <div *ngIf="descripcion?.errors && descripcion?.touched">
           <p *ngIf="descripcion?.hasError('required')" class="text-danger">
             La descripcion del cargo desempeñado en la empresa es requerido.
           </p>
-          <p *ngIf="descripcion?.errors?.['minlength']" class="text-danger">
-            La descripcion debe tener al menos 20 caracteres.
-          </p>
           <p *ngIf="descripcion?.errors?.['minlength'] || descripcion?.errors?.['maxlength']" class="text-danger">
-            La contraseña debe tener entre 8 y 16 caracteres.
+            La descripcion debe tener entre 20 y 180 caracteres.
           </p>
         </div>
       </div>
@@ -89,7 +87,8 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="deleteTrabajo()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
+    <button *ngIf="!isAdd" type="button" (click)="deleteTrabajo()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
+    <button *ngIf="isAdd"type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formExp.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>
@@ -107,5 +106,6 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
     <button type="button" class="btn btn-danger" (click)="deleteTrabajoDb()">Borrar</button>
+
   </div>
 </ng-template>

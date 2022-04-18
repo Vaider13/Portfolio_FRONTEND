@@ -7,7 +7,7 @@ import { Localidad } from '../models/interfaces/localidad';
   providedIn: 'root'
 })
 export class LocalidadService {
-  localidadURL = 'http://localhost:8080/portfolio/localidad/'
+  localidadURL = 'http://localhost:8080/localidad/'
 
   constructor(private httpClient: HttpClient) { }
 

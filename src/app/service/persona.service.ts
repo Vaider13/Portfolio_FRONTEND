@@ -10,7 +10,7 @@ export class PersonaService {
 
   constructor( private httpClient: HttpClient) { }
 
-  personaURL = 'http://localhost:8080/portfolio/persona/';
+  personaURL = 'http://localhost:8080/persona/';
 
   public getPersona(personaId:number): Observable<PersonaDto> {
     return this.httpClient.get<PersonaDto>(this.personaURL + `traer/${personaId}`);

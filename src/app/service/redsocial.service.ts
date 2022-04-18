@@ -8,7 +8,7 @@ import { RedSocial } from '../models/interfaces/red-social';
 })
 export class RedsocialService {
 
-  redesURL = 'http://localhost:8080/portfolio/redes/'
+  redesURL = 'http://localhost:8080/redes/'
 
   constructor(private httpClient: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { GradoEducacion } from '../models/interfaces/grado-educacion';
 })
 export class GradoEducacionService {
 
-  gradoURL = 'http://localhost:8080/portfolio/grado/'
+  gradoURL = 'http://localhost:8080/grado/'
 
   constructor(private httpClient: HttpClient) { }
 

@@ -7,7 +7,7 @@ import { ExperienciaLaboral } from '../models/interfaces/experiencialaboral';
   providedIn: 'root'
 })
 export class ExperiencialaboralService {
-  trabajoURL = 'http://localhost:8080/portfolio/trabajo/'
+  trabajoURL = 'http://localhost:8080/trabajo/'
 
   constructor(private httpClient: HttpClient) { }
 
