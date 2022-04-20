@@ -45,11 +45,11 @@ export class LoginComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  get Password() {
+  get password() {
     return this.formLoggin.get("password");
   }
 
-  get NombreUsuario() {
+  get nombreUsuario() {
     return this.formLoggin.get("nombreUsuario");
   }
 
@@ -76,6 +76,7 @@ export class LoginComponent implements OnInit {
         (err) => {
           console.log(err);
           this.isLoggedFail=true;
+          this.formLoggin.reset();
         }
       );
 

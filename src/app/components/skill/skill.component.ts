@@ -33,7 +33,7 @@ export class SkillComponent implements OnInit {
     this.formSkill = this.formBuilder.group({
       nombreSkill: ['', [Validators.required]],
       tipoSkill: ['', [Validators.required]],
-      nivelSkill: ['', [Validators.required], [Validators.min(1)], [Validators.max(100)]]
+      nivelSkill: ['', [Validators.required, Validators.min(1), Validators.max(100)]]
     })
   }
 

@@ -23,7 +23,10 @@
     <form class="md-form mb-5" [formGroup]="formEdu" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Titulo:</label>
-        <input class="form-control" type="text" formControlName="titulo" placeholder="Ingrese el titulo" />
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': titulo?.errors && titulo?.touched,
+      'is-valid':  !titulo?.errors && titulo?.value }"
+        formControlName="titulo" placeholder="Ingrese el titulo" />
         <div *ngIf="titulo?.errors && titulo?.touched">
           <p *ngIf="titulo?.hasError('required')" class="text-danger">
             El titulo es requerido.
@@ -32,7 +35,10 @@
       </div>
       <div class="md-form mb-4">
         <label>Nombre Institucion:</label>
-        <input class="form-control" type="text" formControlName="nombreInstitucion"
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': nombreInstitucion?.errors && nombreInstitucion?.touched,
+      'is-valid':  !nombreInstitucion?.errors && nombreInstitucion?.value }"
+        formControlName="nombreInstitucion"
           placeholder="Ingrese el nombre de la institución">
         <div *ngIf="nombreInstitucion?.errors && nombreInstitucion?.touched">
           <p *ngIf="nombreInstitucion?.hasError('required')" class="text-danger">
@@ -42,16 +48,25 @@
       </div>
       <div class="md-form mb-4">
         <label>Grado Educacion</label>
-        <select class="form-control" formControlName="gradoEducacion">
+        <select class="form-control" formControlName="gradoEducacion"
+        [ngClass]="{'is-invalid': gradoEducacion?.errors && gradoEducacion?.touched,
+      'is-valid':  !gradoEducacion?.errors && gradoEducacion?.value }">
           <option [ngValue]="null" disabled>Elija un grado de estudio</option>
-          <option *ngFor="let grado of gradoEducacion" [ngValue]="grado.grado">
+          <option *ngFor="let grado of gradosEducacion" [ngValue]="grado.grado">
             {{grado.grado}}
           </option>
         </select>
+        <div *ngIf="gradoEducacion?.errors && gradoEducacion?.touched">
+          <p *ngIf="gradoEducacion?.hasError('required')" class="text-danger">
+            El grado del estudio es requerido.
+        </div>
       </div>
       <div class="md-form mb-4">
         <label>Fecha Inicio:</label>
-        <input class="form-control" type="date" formControlName="fechaInicio" placeholder="Elija la fecha de inicio">
+        <input class="form-control" type="date"
+        [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
+      'is-valid':  !fechaInicio?.errors && fechaInicio?.value }"
+        formControlName="fechaInicio" placeholder="Elija la fecha de inicio">
         <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
           <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
@@ -60,7 +75,10 @@
       </div>
       <div class="md-form mb-4">
         <label> Fecha Final:</label>
-        <input class="form-control" type="date" formControlName="fechaFinal" placeholder="Elija la fecha final">
+        <input class="form-control" type="date"
+        [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
+      'is-valid':  !fechaFinal?.errors && fechaFinal?.value }"
+        formControlName="fechaFinal" placeholder="Elija la fecha final">
         <div>
           <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
             La fecha de inicio no puede ser mayor que la fecha final.
@@ -69,23 +87,32 @@
       </div>
       <div class="md-form mb-4">
         <label>Estado Educacion</label>
-        <select class="form-control" formControlName="estadoEducacion">
+        <select class="form-control" formControlName="estadoEducacion"
+        [ngClass]="{'is-invalid': estadoEducacion?.errors && estadoEducacion?.touched,
+      'is-valid':  !estadoEducacion?.errors && estadoEducacion?.value }">
           <option [ngValue]="null" disabled>Elija un estado de estudio</option>
-          <option *ngFor="let estado of estadoEducacion" [ngValue]="estado.estado">
+          <option *ngFor="let estado of estadosEducacion" [ngValue]="estado.estado">
             {{estado.estado}}
           </option>
         </select>
+        <div *ngIf="estadoEducacion?.errors && estadoEducacion?.touched">
+          <p *ngIf="estadoEducacion?.hasError('required')" class="text-danger">
+            El estado del estudio es requerido.
+        </div>
       </div>
       <div class="md-form mb-4">
         <div class="logo" *ngIf="!isAdd && urlLogo != null">
-          <label>Logo Institucion</label>
+          <label>Logo Institución</label>
           <br>
           <br>
           <img src="{{urlLogo}}" class="img-fluid" alt="Responsive image">
         </div>
         <br>
-        <label>URL de la imagen</label>
-        <input class="form-control" type="text" formControlName="logoEducacion" placeholder="URL">
+        <label>Logo de la institución</label>
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': formEdu.get('logoEducacion')?.hasError('pattern'),
+      'is-valid': !formEdu.get('logoEducacion')?.hasError('pattern') && formEdu.get('logoEducacion')?.value}"
+        formControlName="logoEducacion" placeholder="Inserte una URL valida para la imagen del logo">
         <div>
           <p *ngIf="formEdu.get('logoEducacion')?.hasError('pattern')" class="text-danger">
             Ingrese una URL valida.

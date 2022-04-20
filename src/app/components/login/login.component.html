@@ -15,25 +15,31 @@
     <form [formGroup]="formLoggin" (ngSubmit)="onSubmit()" id="login-form">
       <div class="fmd-form mb-4">
         <label for="nombreUsuario" class="fs-4">Nombre de Usuario:</label><br />
-        <input type="text" id="nombreUsuario" class="form-control" formControlName="nombreUsuario"
+        <input type="text" id="nombreUsuario"
+        [ngClass]="{'is-invalid': nombreUsuario?.errors && nombreUsuario?.touched,
+      'is-valid':  !nombreUsuario?.errors && nombreUsuario?.touched }"
+        class="form-control" formControlName="nombreUsuario"
           placeholder="Nobre de Usuario" />
-        <div *ngIf="NombreUsuario?.errors && NombreUsuario?.touched">
-          <p *ngIf="NombreUsuario?.hasError('required')" class="text-danger">
+        <div *ngIf="nombreUsuario?.errors && nombreUsuario?.touched">
+          <p *ngIf="nombreUsuario?.hasError('required')" class="text-danger">
             El nombre de usuario es requerido.
           </p>
-          <p *ngIf="NombreUsuario?.errors?.['minlength'] || NombreUsuario?.errors?.['maxlength']" class="text-danger">
+          <p *ngIf="nombreUsuario?.errors?.['minlength'] || nombreUsuario?.errors?.['maxlength']" class="text-danger">
             El nombre de usuario debe tener entre 8 y 16 caracteres.
           </p>
         </div>
       </div>
       <div class="md-form mb-4">
         <label for="password" class="fs-4">Contraseña:</label><br />
-        <input type="password" id="password" class="form-control" formControlName="password" placeholder="Contraseña" />
-        <div *ngIf="Password?.errors && Password?.touched">
-          <p *ngIf="Password?.hasError('required')" class="text-danger">
+        <input type="password" id="password"
+        [ngClass]="{'is-invalid': password?.errors && password?.touched,
+      'is-valid':  !password?.errors && password?.touched }"
+        class="form-control" formControlName="password" placeholder="Contraseña" />
+        <div *ngIf="password?.errors && password?.touched">
+          <p *ngIf="password?.hasError('required')" class="text-danger">
             La contraseña es requerida.
           </p>
-          <p *ngIf="Password?.errors?.['minlength'] || Password?.errors?.['maxlength']" class="text-danger">
+          <p *ngIf="password?.errors?.['minlength'] || password?.errors?.['maxlength']" class="text-danger">
             La contraseña debe tener entre 8 y 16 caracteres.
           </p>
         </div>

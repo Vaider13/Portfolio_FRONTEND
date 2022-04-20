@@ -17,7 +17,10 @@
     <form class="md-form mb-5" [formGroup]="formRedes" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Facebook URL:</label>
-        <input class="form-control" type="text" formControlName="facebook" placeholder="Ingrese la URL de su perfil de facebook" />
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': formRedes.get('facebook')?.hasError('pattern'),
+        'is-valid': !formRedes.get('facebook')?.hasError('pattern') && formRedes.get('facebook')?.value}"
+        formControlName="facebook" placeholder="Ingrese la URL de su perfil de facebook" />
         <div *ngIf="facebook?.errors && facebook?.touched">
           <p *ngIf="formRedes.get('facebook')?.hasError('pattern')" class="text-danger">
             Ingrese una URL valida.
@@ -26,7 +29,10 @@
       </div>
       <div class="md-form mb-4">
         <label>Twitter URL:</label>
-        <input class="form-control" type="text" formControlName="twitter" placeholder="ingrese la URL de su perfil de twitter" />
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': formRedes.get('twitter')?.hasError('pattern'),
+        'is-valid': !formRedes.get('twitter')?.hasError('pattern') && formRedes.get('twitter')?.value}"
+        formControlName="twitter" placeholder="ingrese la URL de su perfil de twitter" />
         <div *ngIf="twitter?.errors && twitter?.touched">
           <p *ngIf="formRedes.get('twitter')?.hasError('pattern')" class="text-danger">
             Ingrese una URL valida.
@@ -35,7 +41,10 @@
       </div>
         <div class="md-form mb-4">
           <label>Instagram URL:</label>
-          <input class="form-control" type="text" formControlName="instagram" placeholder="ingrese la URL de su perfil de instagram" />
+          <input class="form-control" type="text"
+          [ngClass]="{'is-invalid': formRedes.get('instagram')?.hasError('pattern'),
+          'is-valid': !formRedes.get('instagram')?.hasError('pattern') && formRedes.get('instagram')?.value}"
+          formControlName="instagram" placeholder="ingrese la URL de su perfil de instagram" />
           <div *ngIf="instagram?.errors && instagram?.touched">
             <p *ngIf="formRedes.get('instagram')?.hasError('pattern')" class="text-danger">
               Ingrese una URL valida.
@@ -44,7 +53,10 @@
         </div>
         <div class="md-form mb-4">
           <label> LinkedIn URL:</label>
-          <input class="form-control" type="text" formControlName="linkedin" placeholder="ingrese la URL de su perfil de linkedin">
+          <input class="form-control" type="text"
+          [ngClass]="{'is-invalid': formRedes.get('linkedin')?.hasError('pattern'),
+          'is-valid': !formRedes.get('linkedin')?.hasError('pattern') && formRedes.get('linkedin')?.value}"
+          formControlName="linkedin" placeholder="ingrese la URL de su perfil de linkedin">
           <div *ngIf="linkedin?.errors && linkedin?.touched">
             <p *ngIf="formRedes.get('linkedin')?.hasError('pattern')" class="text-danger">
               Ingrese una URL valida.

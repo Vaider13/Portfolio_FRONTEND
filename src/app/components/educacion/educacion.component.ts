@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { Educacion } from 'src/app/models/interfaces/educacion';
@@ -29,8 +29,8 @@ export class EducacionComponent implements OnInit {
   eduId: number;
   formEdu: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un estudio.
-  gradoEducacion: GradoEducacion[] = [];
-  estadoEducacion: EstadoEducacion[] = [];
+  gradosEducacion: GradoEducacion[] = [];
+  estadosEducacion: EstadoEducacion[] = [];
   @ViewChild('content') content: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
@@ -50,8 +50,26 @@ export class EducacionComponent implements OnInit {
       gradoEducacion: ['', [Validators.required]],
       estadoEducacion: ['', [Validators.required]],
       logoEducacion: ['', [Validators.pattern(this.urlReg)]]
-    })
+    });
   }
+
+   /*dateRangeValidator(min: Date, max: Date): ValidatorFn {
+    return control => {
+      if (!control.value) return null;
+
+      const dateValue = new Date(control.value);
+
+      if (min && dateValue < min) {
+        return { message: 'error message' };
+      }
+
+      if (max && dateValue > max) {
+        return { message: 'error message' };
+      }
+
+      null;
+    }
+  }*/
 
   ngOnInit(): void {
     //Se carga la lista de estudios, y estado y grado para el formulario
@@ -76,7 +94,7 @@ export class EducacionComponent implements OnInit {
   getGrado() {
     this.gradoService.lista().subscribe(
       data => {
-        this.gradoEducacion = data;
+        this.gradosEducacion = data;
       },
       err => {
         console.log(err);
@@ -88,7 +106,7 @@ export class EducacionComponent implements OnInit {
   getEstado() {
     this.estadoService.lista().subscribe(
       data => {
-        this.estadoEducacion = data;
+        this.estadosEducacion = data;
       },
       err => {
         console.log(err);
@@ -205,4 +223,11 @@ export class EducacionComponent implements OnInit {
     return this.formEdu.get("fechaFinal");
   }
 
+  get gradoEducacion() {
+    return this.formEdu.get("gradoEducacion");
+  }
+
+  get estadoEducacion() {
+    return this.formEdu.get("estadoEducacion");
+  }
 }

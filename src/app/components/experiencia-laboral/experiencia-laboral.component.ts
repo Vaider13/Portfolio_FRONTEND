@@ -39,7 +39,7 @@ export class ExperienciaLaboralComponent implements OnInit {
       puesto: ['', [Validators.required]],
       fechaInicio: ['', [Validators.required]],
       fechaFinal: [''],
-      descripcion: ['', [Validators.required]],
+      descripcion: ['', [Validators.required , Validators.minLength(20), Validators.maxLength(180)]],
       logoEmpresa:['',[Validators.pattern(this.urlReg)]]
     })
   }

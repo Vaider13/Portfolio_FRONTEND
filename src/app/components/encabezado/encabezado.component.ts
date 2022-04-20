@@ -40,10 +40,11 @@ export class EncabezadoComponent implements OnInit {
       apellido: ['', [Validators.required]],
       fecha_nacimiento: ['', [Validators.required]],
       titulo: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern("^[0-9]*$"),
+        Validators.maxLength(10), Validators.minLength(8)]],
       provincia: ['', [Validators.required]],
       localidad: ['', [Validators.required]],
-      acerca_de: ['', [Validators.required]],
+      acerca_de: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
       urlAvatar: ['', [Validators.pattern(this.urlReg)]],
       urlBanner: ['', [Validators.pattern(this.urlReg)]],
     })

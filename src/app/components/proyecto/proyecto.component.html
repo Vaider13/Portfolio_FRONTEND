@@ -24,7 +24,10 @@
     <form class="md-form mb-5" [formGroup]="formProyect" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Nombre del proyecto:</label>
-        <input class="form-control" type="text" formControlName="nombre" placeholder="Nombre del proyecto" />
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': nombre?.errors && nombre?.touched,
+      'is-valid':  !nombre?.errors && nombre?.value }"
+        formControlName="nombre" placeholder="Nombre del proyecto" />
         <div *ngIf="nombre?.errors && nombre?.touched">
           <p *ngIf="nombre?.hasError('required')" class="text-danger">
             El nombre del proyecto es requerido.
@@ -33,7 +36,10 @@
       </div>
       <div class="md-form mb-4">
         <label>Fecha:</label>
-        <input class="form-control" type="date" formControlName="fecha">
+        <input class="form-control" type="date"
+        [ngClass]="{'is-invalid': fecha?.errors && fecha?.touched,
+      'is-valid':  !fecha?.errors && fecha?.value }"
+        formControlName="fecha">
         <div *ngIf="fecha?.errors && fecha?.touched">
           <p *ngIf="fecha?.hasError('required')" class="text-danger">
             La fecha de creacion del proyecto es requerida.
@@ -43,17 +49,26 @@
       <div class="row mb-4">
         <div class="md-form mb-4">
           <label>Descripcion:</label>
-          <textarea class="form-control" type="text" formControlName="descripcion"
+          <textarea class="form-control" type="text"
+          [ngClass]="{'is-invalid': descripcion?.errors && descripcion?.touched,
+          'is-valid':  !descripcion?.errors && descripcion?.value }"
+          formControlName="descripcion"
             placeholder="Descripcion del proyecto" rows="4"></textarea>
           <div *ngIf="descripcion?.errors && descripcion?.touched">
             <p *ngIf="descripcion?.hasError('required')" class="text-danger">
               La descripcion del proyecto es requerida.
             </p>
+            <p *ngIf="descripcion?.errors?.['minlength'] || descripcion?.errors?.['maxlength']" class="text-danger">
+              La descripcion debe tener un minimo de 20 caracteres y un maximo de 180 caracteres.
+            </p>
           </div>
         </div>
         <div class="md-form mb-4">
           <label> URL del proyecto:</label>
-          <input class="form-control" type="text" formControlName="urlProyecto" placeholder="URL del proyecto">
+          <input class="form-control" type="text"
+          [ngClass]="{'is-invalid': formProyect.get('urlProyecto')?.hasError('pattern'),
+          'is-valid': !formProyect.get('urlProyecto')?.hasError('pattern') && formProyect.get('urlProyecto')?.value}"
+          formControlName="urlProyecto" placeholder="URL del proyecto">
           <div *ngIf="urlProyecto?.errors && urlProyecto?.touched">
             <p *ngIf="urlProyecto?.hasError('required')" class="text-danger">
               La URL del proyecto es requerida.

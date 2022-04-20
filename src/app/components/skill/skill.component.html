@@ -25,7 +25,10 @@
     <form class="md-form mb-5" [formGroup]="formSkill" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Nombre de la skill:</label>
-        <input class="form-control" type="text" formControlName="nombreSkill" placeholder="Nombre de la skill" />
+        <input class="form-control" type="text"
+        [ngClass]="{'is-invalid': nombreSkill?.errors && nombreSkill?.touched,
+        'is-valid':  !nombreSkill?.errors && nombreSkill?.value }"
+        formControlName="nombreSkill" placeholder="Nombre de la skill" />
         <div *ngIf="nombreSkill?.errors && nombreSkill?.touched">
           <p *ngIf="nombreSkill?.hasError('required')" class="text-danger">
             El nombre de la Skill es requerido.
@@ -34,16 +37,26 @@
       </div>
       <div class="md-form mb-4">
         <label>Tipo de skill:</label>
-        <select class="form-control" formControlName="tipoSkill">
+        <select class="form-control" formControlName="tipoSkill"
+        [ngClass]="{'is-invalid': tipoSkill?.errors && tipoSkill?.touched,
+        'is-valid':  !tipoSkill?.errors && tipoSkill?.value }">
           <option [ngValue]="null" disabled>Elija un tipo de skill</option>
           <option>Hard</option>
           <option>Soft</option>
         </select>
+        <div *ngIf="tipoSkill?.errors && tipoSkill?.touched">
+          <p *ngIf="tipoSkill?.hasError('required')" class="text-danger">
+            El tipo de la skill es requerido.
+          </p>
+        </div>
       </div>
       <div class="row mb-4">
         <div class="md-form mb-4">
           <label>Nivel de skill:</label>
-          <input class="form-control" type="number" min="1" max="100" formControlName="nivelSkill" placeholder="Nivel de la skill del 1 al 100" />
+          <input class="form-control" type="number" formControlName="nivelSkill"
+          [ngClass]="{'is-invalid': nivelSkill?.errors && nivelSkill?.touched,
+          'is-valid':  !nivelSkill?.errors && nivelSkill?.value }"
+          placeholder="Nivel de la skill del 1 al 100" />
           <div *ngIf="nivelSkill?.errors && nivelSkill?.touched">
             <p *ngIf="nivelSkill?.hasError('required')" class="text-danger">
               El nivel de la skill es requerida.

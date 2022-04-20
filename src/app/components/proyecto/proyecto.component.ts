@@ -34,7 +34,7 @@ export class ProyectoComponent implements OnInit {
     this.formProyect = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       fecha: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
+      descripcion: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
       urlProyecto:  ['', [Validators.pattern(this.urlReg)]]
     })
   }
