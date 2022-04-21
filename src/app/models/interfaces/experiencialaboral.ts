@@ -4,6 +4,7 @@ export interface ExperienciaLaboral {
   puesto: string;
   fechaInicio: string;
   fechaFinal: string;
+  enCurso:boolean;
   descripcion: string;
   logoEmpresa:string;
 }

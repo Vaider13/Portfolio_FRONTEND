@@ -11,4 +11,5 @@ export interface PersonaDto {
   urlBanner: string;
   localidad: string;
   provincia: String;
+  provinciaId: number;
 }

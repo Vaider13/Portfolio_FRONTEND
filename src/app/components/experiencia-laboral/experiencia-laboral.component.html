@@ -63,9 +63,15 @@
         [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
       'is-valid':  !fechaFinal?.errors && fechaFinal?.value }"
         formControlName="fechaFinal" placeholder="Fecha de egreso">
-        <div>
-          <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
-            La fecha de inicio no puede ser mayor que la fecha final.
+        <div class="form-check">
+          <input class="form-check-input" (change)="trabajando()" formControlName="enCurso" type="checkbox" value="" id="flexCheckDefault">
+          <label class="form-check-label" for="flexCheckDefault">
+            Trabajando actualmente
+          </label>
+        </div>
+        <div *ngIf="fechaFinal?.errors && fechaFinal?.touched">
+          <p *ngIf="fechaFinal?.hasError('required')" class="text-danger">
+            La fecha de inicio es requerido.
           </p>
         </div>
       </div>

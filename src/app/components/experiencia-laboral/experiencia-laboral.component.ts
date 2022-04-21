@@ -38,7 +38,8 @@ export class ExperienciaLaboralComponent implements OnInit {
       nombreEmpresa: ['', [Validators.required]],
       puesto: ['', [Validators.required]],
       fechaInicio: ['', [Validators.required]],
-      fechaFinal: [''],
+      fechaFinal:['', [Validators.required]],
+      enCurso: [''],
       descripcion: ['', [Validators.required , Validators.minLength(20), Validators.maxLength(180)]],
       logoEmpresa:['',[Validators.pattern(this.urlReg)]]
     })
@@ -110,12 +111,14 @@ export class ExperienciaLaboralComponent implements OnInit {
       .subscribe(x => this.formExp.patchValue(x));
     this.trabajoId = trabajo.id;
     this.urlLogo = trabajo.logoEmpresa;
+    setTimeout(() => { this.trabajando()}, 25);
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
   onAdd() {
     this.isAdd = true;
     this.formExp.reset();
+    this.trabajando();
     this.openModal(this.content);
   }
 
@@ -136,6 +139,15 @@ export class ExperienciaLaboralComponent implements OnInit {
         err => {
           console.log(err);
         });
+  }
+
+  trabajando() {
+    if (this.formExp.get('enCurso')?.value === true) {
+      this.formExp.get('fechaFinal')?.reset();
+      this.formExp.get('fechaFinal')?.disable();
+    } else {
+      this.formExp.get('fechaFinal')?.enable();
+    }
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir un trabajo.
@@ -172,5 +184,9 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   get logoEmpresa() {
     return this.formExp.get("logoEmpresa");
+  }
+
+  get enCurso() {
+    return this.formExp.get("enCurso");
   }
 }

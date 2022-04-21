@@ -18,7 +18,7 @@ export class ExperiencialaboralItemComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.isLogged = this.tokenService.isLogged()
+    this.isLogged = this.tokenService.isLogged();
   }
 
   onEdit(trabajo: ExperienciaLaboral) {

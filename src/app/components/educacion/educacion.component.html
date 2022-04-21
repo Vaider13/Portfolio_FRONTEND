@@ -79,19 +79,19 @@
         [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
       'is-valid':  !fechaFinal?.errors && fechaFinal?.value }"
         formControlName="fechaFinal" placeholder="Elija la fecha final">
-        <div>
-          <p *ngIf="fechaInicio?.value > fechaFinal?.value" class="text-danger">
-            La fecha de inicio no puede ser mayor que la fecha final.
+        <div *ngIf="fechaFinal?.errors && fechaFinal?.touched">
+          <p *ngIf="fechaFinal?.hasError('required')" class="text-danger">
+            La fecha de inicio es requerido.
           </p>
         </div>
       </div>
       <div class="md-form mb-4">
         <label>Estado Educacion</label>
-        <select class="form-control" formControlName="estadoEducacion"
+        <select (click)="enCurso()" class="form-control" formControlName="estadoEducacion"
         [ngClass]="{'is-invalid': estadoEducacion?.errors && estadoEducacion?.touched,
       'is-valid':  !estadoEducacion?.errors && estadoEducacion?.value }">
           <option [ngValue]="null" disabled>Elija un estado de estudio</option>
-          <option *ngFor="let estado of estadosEducacion" [ngValue]="estado.estado">
+          <option  *ngFor="let estado of estadosEducacion" [ngValue]="estado.estado">
             {{estado.estado}}
           </option>
         </select>

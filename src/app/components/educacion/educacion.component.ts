@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { Educacion } from 'src/app/models/interfaces/educacion';
@@ -9,7 +9,6 @@ import { EducacionService } from 'src/app/service/educacion.service';
 import { EstadoEducacionService } from 'src/app/service/estado-educacion.service';
 import { GradoEducacionService } from 'src/app/service/grado-educacion.service';
 import { TokenService } from 'src/app/service/token.service';
-
 
 
 @Component({
@@ -46,30 +45,12 @@ export class EducacionComponent implements OnInit {
       titulo: ['', [Validators.required]],
       nombreInstitucion: ['', [Validators.required]],
       fechaInicio: ['', [Validators.required]],
-      fechaFinal: [''],
+      fechaFinal: ['', [Validators.required]],
       gradoEducacion: ['', [Validators.required]],
       estadoEducacion: ['', [Validators.required]],
       logoEducacion: ['', [Validators.pattern(this.urlReg)]]
     });
   }
-
-   /*dateRangeValidator(min: Date, max: Date): ValidatorFn {
-    return control => {
-      if (!control.value) return null;
-
-      const dateValue = new Date(control.value);
-
-      if (min && dateValue < min) {
-        return { message: 'error message' };
-      }
-
-      if (max && dateValue > max) {
-        return { message: 'error message' };
-      }
-
-      null;
-    }
-  }*/
 
   ngOnInit(): void {
     //Se carga la lista de estudios, y estado y grado para el formulario
@@ -146,12 +127,14 @@ export class EducacionComponent implements OnInit {
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
   editarEducacion(educacion: Educacion) {
     this.isAdd = false;
+    this.formEdu.reset();
     this.openModal(this.content);
     this.educacionService.getById(educacion.id)
       .pipe(first())
       .subscribe(x => this.formEdu.patchValue(x));
     this.eduId = educacion.id;
     this.urlLogo = educacion.logoEducacion;
+    setTimeout(() => { this.enCurso()}, 10);
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
@@ -159,11 +142,12 @@ export class EducacionComponent implements OnInit {
     this.isAdd = true;
     this.formEdu.reset();
     this.openModal(this.content);
+    this.enCurso();
   }
 
   //Toma la entidad del componente "educacion-item" y abre el modal para confirmar su eliminacion.
   deleteEducacion() {
-    this.modalService.dismissAll()
+    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 
@@ -172,7 +156,7 @@ export class EducacionComponent implements OnInit {
     this.educacionService.delete(this.eduId)
       .subscribe(
         () => {
-          this.educaciones = this.educaciones.filter(t => t.id !== this.eduId)
+          this.educaciones = this.educaciones.filter(t => t.id !== this.eduId);
           this.modalService.dismissAll();
         },
         err => {
@@ -194,14 +178,22 @@ export class EducacionComponent implements OnInit {
 
   //Funcion que abre el Modal con el formulario para editar o añadir un estudio.
   openModal(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'educacionModal' })
+    this.modalService.open(content, { ariaLabelledBy: 'educacionModal' });
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del estudio.
   openModalDelete(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
+    this.modalService.open(content, { ariaLabelledBy: 'modal-delete' });
   }
 
+  enCurso() {
+    if (this.formEdu.get("estadoEducacion")?.value === "En Curso") {
+      this.formEdu.get("fechaFinal")?.disable();
+      this.formEdu.get("fechaFinal")?.reset();
+    } else {
+      this.formEdu.get("fechaFinal")?.enable();
+    }
+  }
   //Getters del formulario reactivo.
   get titulo() {
     return this.formEdu.get("titulo");
@@ -230,4 +222,5 @@ export class EducacionComponent implements OnInit {
   get estadoEducacion() {
     return this.formEdu.get("estadoEducacion");
   }
+
 }
