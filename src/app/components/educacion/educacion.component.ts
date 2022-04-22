@@ -8,6 +8,7 @@ import { GradoEducacion } from 'src/app/models/interfaces/grado-educacion';
 import { EducacionService } from 'src/app/service/educacion.service';
 import { EstadoEducacionService } from 'src/app/service/estado-educacion.service';
 import { GradoEducacionService } from 'src/app/service/grado-educacion.service';
+import { SubirImagenesService } from 'src/app/service/subir-imagenes.service';
 import { TokenService } from 'src/app/service/token.service';
 
 
@@ -17,14 +18,14 @@ import { TokenService } from 'src/app/service/token.service';
   styleUrls: ['./educacion.component.css']
 })
 export class EducacionComponent implements OnInit {
-
+  imagenes: any[] = [];
   educaciones: Educacion[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
   personaId: number = 1; //parseInt(localStorage.getItem('personaId')!);
   @Input() educacion: Educacion;
   urlLogo: string;
-  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  uploadImg:boolean = false;
   eduId: number;
   formEdu: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un estudio.
@@ -35,6 +36,7 @@ export class EducacionComponent implements OnInit {
   isLogged: boolean = false;
 
   constructor(private educacionService: EducacionService,
+    private subImg: SubirImagenesService,
     private modalService: NgbModal,
     private tokenService: TokenService,
     private formBuilder: FormBuilder,
@@ -48,7 +50,7 @@ export class EducacionComponent implements OnInit {
       fechaFinal: ['', [Validators.required]],
       gradoEducacion: ['', [Validators.required]],
       estadoEducacion: ['', [Validators.required]],
-      logoEducacion: ['', [Validators.pattern(this.urlReg)]]
+      logoEducacion: ['']
     });
   }
 
@@ -127,6 +129,7 @@ export class EducacionComponent implements OnInit {
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
   editarEducacion(educacion: Educacion) {
     this.isAdd = false;
+    this.uploadImg = false;
     this.formEdu.reset();
     this.openModal(this.content);
     this.educacionService.getById(educacion.id)
@@ -134,7 +137,7 @@ export class EducacionComponent implements OnInit {
       .subscribe(x => this.formEdu.patchValue(x));
     this.eduId = educacion.id;
     this.urlLogo = educacion.logoEducacion;
-    setTimeout(() => { this.enCurso()}, 10);
+    setTimeout(() => { this.enCurso() }, 10);
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
@@ -194,6 +197,24 @@ export class EducacionComponent implements OnInit {
       this.formEdu.get("fechaFinal")?.enable();
     }
   }
+
+  cargarImagen(event: any) {
+    let archivo = event.target.files;
+    let nombre = "logoEducacion";
+    let reader = new FileReader();
+    reader.readAsDataURL(archivo[0]);
+    reader.onloadend = () => {
+      this.imagenes.push(reader.result);
+      this.uploadImg = true;
+      this.urlLogo = null!;
+      this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        this.formEdu.patchValue({
+          logoEducacion: urlImagen
+        });
+      });
+    }
+  }
+
   //Getters del formulario reactivo.
   get titulo() {
     return this.formEdu.get("titulo");
@@ -212,7 +233,7 @@ export class EducacionComponent implements OnInit {
   }
 
   get logoEducacion() {
-    return this.formEdu.get("fechaFinal");
+    return this.formEdu.get("logoEducacion");
   }
 
   get gradoEducacion() {

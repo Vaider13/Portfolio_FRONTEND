@@ -1,8 +1,48 @@
-.add{
+.add {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+#inputFile {
+  display: none;
+}
 
+#URL {
+  display: none;
+}
 
+.custom-file-upload {
+  border: 1px solid #ccc;
+  background-color: #0b5bd2;
+  color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-file-upload:active {
+  transform: scale(0.9);
+}
+
+.logoImagen {
+  display:flex;
+  justify-content:center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.logoImagen img{
+  width: 200px;
+}
+
+#logoLabel{
+  display:flex;
+  justify-content:center;
+}
+
+.buttonUpload{
+  display:flex;
+  justify-content:center;
+}

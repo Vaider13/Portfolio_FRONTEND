@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { ExperienciaLaboral } from 'src/app/models/interfaces/experiencialaboral';
 import { ExperiencialaboralService } from 'src/app/service/experiencialaboral.service';
+import { SubirImagenesService } from 'src/app/service/subir-imagenes.service';
 import { TokenService } from 'src/app/service/token.service';
 
 @Component({
@@ -14,13 +15,14 @@ import { TokenService } from 'src/app/service/token.service';
 export class ExperienciaLaboralComponent implements OnInit {
 
   trabajos: ExperienciaLaboral[] = [];
+  imagenes: any[] = [];
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
   personaId: number = 1;
   @Input() trabajo: ExperienciaLaboral;
   trabajoId: number;
-  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   urlLogo: string;
+  uploadImg:boolean = false;
   formExp: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un trabajo.
   @ViewChild('content') content: ElementRef;
@@ -30,6 +32,7 @@ export class ExperienciaLaboralComponent implements OnInit {
 
 
   constructor(private trabajoService: ExperiencialaboralService,
+    private subImg: SubirImagenesService,
     private tokenService: TokenService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder) {
@@ -41,7 +44,7 @@ export class ExperienciaLaboralComponent implements OnInit {
       fechaFinal:['', [Validators.required]],
       enCurso: [''],
       descripcion: ['', [Validators.required , Validators.minLength(20), Validators.maxLength(180)]],
-      logoEmpresa:['',[Validators.pattern(this.urlReg)]]
+      logoEmpresa:['']
     })
   }
   ngOnInit(): void {
@@ -105,6 +108,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
   editarTrabajo(trabajo: ExperienciaLaboral) {
     this.isAdd = false;
+    this.uploadImg = false;
     this.openModal(this.content);
     this.trabajoService.getById(trabajo.id)
       .pipe(first())
@@ -158,6 +162,23 @@ export class ExperienciaLaboralComponent implements OnInit {
   //Funcion que abre el Modal para confirmar la eliminacion del trabajo.
   openModalDelete(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
+  }
+
+  cargarImagen(event: any) {
+    let archivo = event.target.files;
+    let nombre = "logoEmpresa";
+    let reader = new FileReader();
+    reader.readAsDataURL(archivo[0]);
+    reader.onloadend = () => {
+      this.imagenes.push(reader.result);
+      this.uploadImg = true;
+      this.urlLogo = null!;
+      this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        this.formExp.patchValue({
+          logoEmpresa: urlImagen
+        });
+      });
+    }
   }
 
 
