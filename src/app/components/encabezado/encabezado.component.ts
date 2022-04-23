@@ -68,6 +68,7 @@ export class EncabezadoComponent implements OnInit {
 
   onSubmit() {
     this.editarPersonaDb();
+    this.uploadImg = false;
     this.modalService.dismissAll(); //Se descarta el modal
   }
 

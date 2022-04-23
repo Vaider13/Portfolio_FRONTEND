@@ -100,9 +100,8 @@
         </div>
         <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
         <div class="buttonUpload">
-          <label for="inputFile" class="custom-file-upload">{{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
-          <label *ngIf="!isAdd && urlLogo != ''" (click)="borrarImagen()" class="custom-file-delete">Borrar
-            Imagen</label>
+          <label for="inputFile" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> {{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
+          <label *ngIf="!isAdd && urlLogo != ''" (click)="borrarImagen()" class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar Imagen</label>
         </div>
       </div>
     </form>

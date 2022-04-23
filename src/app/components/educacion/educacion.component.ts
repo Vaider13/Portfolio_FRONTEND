@@ -136,7 +136,6 @@ export class EducacionComponent implements OnInit {
       .subscribe(x => this.formEdu.patchValue(x));
     this.eduId = educacion.id;
     this.urlLogo = educacion.logoEducacion;
-    alert(this.urlLogo);
     setTimeout(() => { this.enCurso() }, 10);
   }
 

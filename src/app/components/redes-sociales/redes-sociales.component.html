@@ -1,8 +1,8 @@
 <div class="redes">
-  <a href="{{redesSociales.facebook}}" *ngIf="redesSociales.facebook != '' && redesSociales.facebook != null"><i class="fa-brands fa-facebook fa-xl"></i> &nbsp;</a>
-  <a href="{{redesSociales.twitter}}" *ngIf="redesSociales.twitter != '' && redesSociales.twitter != null"><i class="fa-brands fa-twitter fa-xl"></i>&nbsp;</a>
-  <a href="{{redesSociales.instagram}}"*ngIf="redesSociales.instagram != '' && redesSociales.instagram != null"><i class="fa-brands fa-instagram fa-xl">&nbsp;</i></a>
-  <a href="{{redesSociales.linkedin}}"*ngIf="redesSociales.linkedin != '' && redesSociales.linkedin != null"><i class="fa-brands fa-linkedin fa-xl">&nbsp;</i></a>
+  <a href="{{redesSociales.facebook}}" *ngIf="redesSociales.facebook != '' && redesSociales.facebook != null" target="_blank"><i class="fa-brands fa-facebook fa-xl"></i> &nbsp;</a>
+  <a href="{{redesSociales.twitter}}" *ngIf="redesSociales.twitter != '' && redesSociales.twitter != null" target="_blank"><i class="fa-brands fa-twitter fa-xl"></i>&nbsp;</a>
+  <a href="{{redesSociales.instagram}}"*ngIf="redesSociales.instagram != '' && redesSociales.instagram != null" target="_blank"><i class="fa-brands fa-instagram fa-xl">&nbsp;</i></a>
+  <a href="{{redesSociales.linkedin}}"*ngIf="redesSociales.linkedin != '' && redesSociales.linkedin != null" target="_blank"><i class="fa-brands fa-linkedin fa-xl">&nbsp;</i></a>
   <span *ngIf="isLogged" class="click" (click)="editarRedes()"><i class="fas fa-edit fa-xl"></i></span>
 </div>
 
