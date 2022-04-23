@@ -15,14 +15,13 @@ import { TokenService } from 'src/app/service/token.service';
 export class ExperienciaLaboralComponent implements OnInit {
 
   trabajos: ExperienciaLaboral[] = [];
-  imagenes: any[] = [];
-  //Se toma la variable guardada localmente con el ID
-  //asociada a la persona para cargar y manipular los datos
+  imagenes: any[] = []; //Variable de carga de las imagenes
+  isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   personaId: number = 1;
   @Input() trabajo: ExperienciaLaboral;
   trabajoId: number;
   urlLogo: string;
-  uploadImg:boolean = false;
+  uploadImg:boolean = false; //Variable para mostrar la preview de la carga de una imagen
   formExp: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un trabajo.
   @ViewChild('content') content: ElementRef;
@@ -164,6 +163,8 @@ export class ExperienciaLaboralComponent implements OnInit {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
   }
 
+  //convierte la imagen a base 64 y la sube al servidor firebase,
+  //y posteriormente guarda la URL de la imagen en la base de datos.
   cargarImagen(event: any) {
     let archivo = event.target.files;
     let nombre = "logoEmpresa";
@@ -172,15 +173,23 @@ export class ExperienciaLaboralComponent implements OnInit {
     reader.onloadend = () => {
       this.imagenes.push(reader.result);
       this.uploadImg = true;
+      this.isUploading = true;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
         this.formExp.patchValue({
           logoEmpresa: urlImagen
         });
+        this.isUploading = false;
       });
     }
   }
 
+  borrarImagen() {
+    this.formExp.patchValue({
+      logoEducacion: ""
+    });
+    this.urlLogo = "";
+  }
 
   //Getters del formulario reactivo.
   get nombreEmpresa() {

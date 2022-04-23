@@ -3,18 +3,21 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 import { environment } from 'src/environments/environment';
 
+
+//Inicializa la aplicacion firebase, utilizada para guardar las imagenes del portfolio que se van subiendo.
 firebase.initializeApp(environment.firebaseConfig);
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SubirImagenesService {
   storareRef = firebase.app().storage().ref();
 
 
   constructor() { }
 
-
+  //funcion que sube las imagenes al servidor, y posteriormente devuelve la URL de la imagen subida.
   async subirImagen(nombre: string, imgBase64: any) {
 
     try {

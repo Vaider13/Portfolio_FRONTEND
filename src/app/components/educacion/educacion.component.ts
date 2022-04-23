@@ -18,14 +18,13 @@ import { TokenService } from 'src/app/service/token.service';
   styleUrls: ['./educacion.component.css']
 })
 export class EducacionComponent implements OnInit {
-  imagenes: any[] = [];
+  imagenes: any[] = []; //Variable de carga de las imagenes
   educaciones: Educacion[] = [];
-  //Se toma la variable guardada localmente con el ID
-  //asociada a la persona para cargar y manipular los datos
+  isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   personaId: number = 1; //parseInt(localStorage.getItem('personaId')!);
   @Input() educacion: Educacion;
   urlLogo: string;
-  uploadImg:boolean = false;
+  uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
   eduId: number;
   formEdu: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar un estudio.
@@ -137,6 +136,7 @@ export class EducacionComponent implements OnInit {
       .subscribe(x => this.formEdu.patchValue(x));
     this.eduId = educacion.id;
     this.urlLogo = educacion.logoEducacion;
+    alert(this.urlLogo);
     setTimeout(() => { this.enCurso() }, 10);
   }
 
@@ -198,6 +198,8 @@ export class EducacionComponent implements OnInit {
     }
   }
 
+  //convierte la imagen a base 64 y la sube al servidor firebase,
+  //posteriormente guarda la URL de la imagen en la base de datos.
   cargarImagen(event: any) {
     let archivo = event.target.files;
     let nombre = "logoEducacion";
@@ -206,13 +208,22 @@ export class EducacionComponent implements OnInit {
     reader.onloadend = () => {
       this.imagenes.push(reader.result);
       this.uploadImg = true;
+      this.isUploading = true;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
         this.formEdu.patchValue({
           logoEducacion: urlImagen
         });
+        this.isUploading = false;
       });
     }
+  }
+
+  borrarImagen() {
+    this.formEdu.patchValue({
+      logoEducacion: ""
+    });
+    this.urlLogo = "";
   }
 
   //Getters del formulario reactivo.

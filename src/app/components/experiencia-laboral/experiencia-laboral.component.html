@@ -5,8 +5,7 @@
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let trabajo of trabajos">
-    <app-experiencialaboral-item (OnEditTrabajo)="editarTrabajo(trabajo)"
-      [trabajo]=trabajo>
+    <app-experiencialaboral-item (OnEditTrabajo)="editarTrabajo(trabajo)" [trabajo]=trabajo>
     </app-experiencialaboral-item>
   </div>
 </div>
@@ -23,10 +22,9 @@
     <form class="md-form mb-5" [formGroup]="formExp" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Nombre empresa:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': nombreEmpresa?.errors && nombreEmpresa?.touched,
-      'is-valid':  !nombreEmpresa?.errors && nombreEmpresa?.value }"
-        formControlName="nombreEmpresa" placeholder="Introduzca el nombre de la empresa" />
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': nombreEmpresa?.errors && nombreEmpresa?.touched,
+      'is-valid':  !nombreEmpresa?.errors && nombreEmpresa?.value }" formControlName="nombreEmpresa"
+          placeholder="Introduzca el nombre de la empresa" />
         <div *ngIf="nombreEmpresa?.errors && nombreEmpresa?.touched">
           <p *ngIf="nombreEmpresa?.hasError('required')" class="text-danger">
             El nombre de la empresa es requerido.
@@ -35,10 +33,9 @@
       </div>
       <div class="md-form mb-4">
         <label>Cargo en la empresa:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': puesto?.errors && puesto?.touched,
-      'is-valid':  !puesto?.errors && puesto?.value }"
-        formControlName="puesto" placeholder="Introduzca el puesto desempeñado">
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': puesto?.errors && puesto?.touched,
+      'is-valid':  !puesto?.errors && puesto?.value }" formControlName="puesto"
+          placeholder="Introduzca el puesto desempeñado">
         <div *ngIf="puesto?.errors && puesto?.touched">
           <p *ngIf="puesto?.hasError('required')" class="text-danger">
             El cargo desempeñado en la empresa es requerido.
@@ -47,10 +44,9 @@
       </div>
       <div class="md-form mb-4">
         <label>Fecha Inicio:</label>
-        <input class="form-control" type="date"
-        [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
-      'is-valid':  !fechaInicio?.errors && fechaInicio?.value }"
-        formControlName="fechaInicio" placeholder="Fecha de ingreso">
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
+      'is-valid':  !fechaInicio?.errors && fechaInicio?.value }" formControlName="fechaInicio"
+          placeholder="Fecha de ingreso">
         <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
           <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
@@ -59,12 +55,12 @@
       </div>
       <div class="md-form mb-4">
         <label> Fecha Final:</label>
-        <input class="form-control" type="date"
-        [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
-      'is-valid':  !fechaFinal?.errors && fechaFinal?.value }"
-        formControlName="fechaFinal" placeholder="Fecha de egreso">
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
+      'is-valid':  !fechaFinal?.errors && fechaFinal?.value }" formControlName="fechaFinal"
+          placeholder="Fecha de egreso">
         <div class="form-check">
-          <input class="form-check-input" (change)="trabajando()" formControlName="enCurso" type="checkbox" value="" id="flexCheckDefault">
+          <input class="form-check-input" (change)="trabajando()" formControlName="enCurso" type="checkbox" value=""
+            id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault">
             Trabajando actualmente
           </label>
@@ -77,11 +73,9 @@
       </div>
       <div class="md-form mb-4">
         <label>Descripcion:</label>
-        <textarea class="form-control" type="text"
-        [ngClass]="{'is-invalid': descripcion?.errors && descripcion?.touched,
-      'is-valid':  !descripcion?.errors && descripcion?.value }"
-        formControlName="descripcion"
-        placeholder="Describa cuales eran sus funciones"rows="4">
+        <textarea class="form-control" type="text" [ngClass]="{'is-invalid': descripcion?.errors && descripcion?.touched,
+      'is-valid':  !descripcion?.errors && descripcion?.value }" formControlName="descripcion"
+          placeholder="Describa cuales eran sus funciones" rows="4">
       </textarea>
         <div *ngIf="descripcion?.errors && descripcion?.touched">
           <p *ngIf="descripcion?.hasError('required')" class="text-danger">
@@ -95,21 +89,25 @@
       <div class="upload">
         <label id="logoLabel">Logo de la empresa</label>
         <div class="logoImagen">
-          <img  *ngIf="uploadImg" src="{{imagenes[0]}}" >
-          <img  *ngIf="!isAdd && urlLogo != null" src="{{urlLogo}}">
+          <img *ngIf="uploadImg" src="{{imagenes[0]}}">
+          <img *ngIf="!isAdd && urlLogo != null" src="{{urlLogo}}">
           <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
-      </div>
-      <div class="buttonUpload">
-        <label for="inputFile" class="custom-file-upload">Subir Imagen</label>
-    </div>
-        <input class="form-control" type="text" id="URL"  formControlName="logoEmpresa" placeholder="">
+        </div>
+        <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
+        <div class="buttonUpload">
+          <label for="inputFile" class="custom-file-upload">{{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
+          <label *ngIf="!isAdd && urlLogo != ''" (click)="borrarImagen()" class="custom-file-delete">Borrar
+            Imagen</label>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button *ngIf="!isAdd" type="button" (click)="deleteTrabajo()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
-    <button *ngIf="isAdd"type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
-    <button type="button" (click)="onSubmit()" [disabled]="formExp.invalid" class="btn btn-primary">Guardar</button>
+    <button *ngIf="!isAdd" type="button" (click)="deleteTrabajo()" class="btn btn-danger"
+      data-bs-dismiss="modal">Borrar</button>
+    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formExp.invalid || isUploading"
+      class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>
 

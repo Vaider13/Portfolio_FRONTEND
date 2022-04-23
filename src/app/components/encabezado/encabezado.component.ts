@@ -9,6 +9,7 @@ import { ProvinciaService } from 'src/app/service/provincia.service';
 import { LocalidadService } from 'src/app/service/localidad.service';
 import { first } from 'rxjs';
 import { TokenService } from 'src/app/service/token.service';
+import { SubirImagenesService } from 'src/app/service/subir-imagenes.service';
 
 @Component({
   selector: 'app-encabezado',
@@ -17,11 +18,14 @@ import { TokenService } from 'src/app/service/token.service';
 })
 export class EncabezadoComponent implements OnInit {
   personaId: number = 1;
-  edad:number;
-  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  edad: number;
+  imagenes: any[] = []; //Variable de carga de las imagenes
+  isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
+  uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
+  deleteImg:boolean = false;
   personaDto: PersonaDto;
   editAvatar: boolean = false;
-  editPerso:boolean = false;
+  editPerso: boolean = false;
   formPerso: FormGroup;
   localidades: Localidad[] = [];
   provincias: Provincia[] = [];
@@ -31,6 +35,7 @@ export class EncabezadoComponent implements OnInit {
 
   constructor(private personaService: PersonaService,
     private modalService: NgbModal,
+    private subImg: SubirImagenesService,
     private tokenService: TokenService,
     private provinciaService: ProvinciaService,
     private localidadService: LocalidadService,
@@ -41,12 +46,12 @@ export class EncabezadoComponent implements OnInit {
       fecha_nacimiento: ['', [Validators.required]],
       titulo: ['', [Validators.required]],
       telefono: ['', [Validators.required, Validators.pattern("^[0-9]*$"),
-        Validators.maxLength(10), Validators.minLength(8)]],
+      Validators.maxLength(10), Validators.minLength(8)]],
       provincia: ['', [Validators.required]],
       localidad: ['', [Validators.required]],
       acerca_de: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
-      urlAvatar: ['', [Validators.pattern(this.urlReg)]],
-      urlBanner: ['', [Validators.pattern(this.urlReg)]],
+      urlAvatar: [''],
+      urlBanner: [''],
     })
   }
 
@@ -66,17 +71,16 @@ export class EncabezadoComponent implements OnInit {
     this.modalService.dismissAll(); //Se descarta el modal
   }
 
-  getEdad(dateString:string){
+  getEdad(dateString: string) {
     var hoy = new Date();
     var nacimiento = new Date(dateString);
     var edad = hoy.getFullYear() - nacimiento.getFullYear();
     var m = hoy.getMonth() - nacimiento.getMonth();
-    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate()))
-    {
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
       edad--;
     }
     return edad;
-}
+  }
 
   getPersona() {
     this.personaService.getPersonaByUsuarioId((this.personaId)).subscribe(
@@ -133,6 +137,7 @@ export class EncabezadoComponent implements OnInit {
 
   editarAvatar() {
     this.editAvatar = true;
+    this.deleteImg = false;
     this.editPerso = false;
     this.openModal(this.perso);
     this.getEditPersona();
@@ -144,8 +149,9 @@ export class EncabezadoComponent implements OnInit {
       .subscribe(x => this.formPerso.patchValue(x));
   }
 
-  editarBanner(){
+  editarBanner() {
     this.editAvatar = false;
+    this.deleteImg = false;
     this.editPerso = false;
     this.openModal(this.perso);
     this.getEditPersona();
@@ -162,8 +168,47 @@ export class EncabezadoComponent implements OnInit {
           console.log(err);
         }
       });
-      this.modalService.dismissAll();
+    this.modalService.dismissAll();
   }
+
+  cargarImagen(event: any) {
+    let archivo = event.target.files;
+    let nombre = "logoEducacion";
+    let reader = new FileReader();
+    reader.readAsDataURL(archivo[0]);
+    reader.onloadend = () => {
+      this.imagenes.push(reader.result);
+      this.uploadImg = true;
+      this.isUploading = true;
+      this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        if (this.editAvatar) {
+          this.formPerso.patchValue({
+            urlAvatar: urlImagen
+          });
+        } else {
+          this.formPerso.patchValue({
+            urlBanner: urlImagen
+          });
+        }
+        this.isUploading = false;
+      });
+    }
+  }
+
+  borrarImagen() {
+    this.deleteImg = true;
+    if (this.editAvatar) {
+      this.formPerso.patchValue({
+        urlAvatar: ""
+      });
+    } else {
+      this.formPerso.patchValue({
+        urlBanner: ""
+      });
+    }
+  }
+
+  //Getters del formulario reactivo.
 
   get nombre() {
     return this.formPerso.get("nombre");

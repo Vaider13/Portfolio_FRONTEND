@@ -5,8 +5,7 @@
       <i class="fas fa-plus-circle"></i> Agregar</button>
   </div>
   <div class="item" *ngFor="let educacion of educaciones">
-    <app-educacion-item (OnEditEducacion)="editarEducacion(educacion)"
-      [educacion]=educacion>
+    <app-educacion-item (OnEditEducacion)="editarEducacion(educacion)" [educacion]=educacion>
     </app-educacion-item>
   </div>
 </div>
@@ -23,10 +22,8 @@
     <form class="md-form mb-5" [formGroup]="formEdu" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4">
         <label>Titulo:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': titulo?.errors && titulo?.touched,
-      'is-valid':  !titulo?.errors && titulo?.value }"
-        formControlName="titulo" placeholder="Ingrese el titulo" />
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': titulo?.errors && titulo?.touched,
+      'is-valid':  !titulo?.errors && titulo?.value }" formControlName="titulo" placeholder="Ingrese el titulo" />
         <div *ngIf="titulo?.errors && titulo?.touched">
           <p *ngIf="titulo?.hasError('required')" class="text-danger">
             El titulo es requerido.
@@ -35,10 +32,8 @@
       </div>
       <div class="md-form mb-4">
         <label>Nombre Institucion:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': nombreInstitucion?.errors && nombreInstitucion?.touched,
-      'is-valid':  !nombreInstitucion?.errors && nombreInstitucion?.value }"
-        formControlName="nombreInstitucion"
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': nombreInstitucion?.errors && nombreInstitucion?.touched,
+      'is-valid':  !nombreInstitucion?.errors && nombreInstitucion?.value }" formControlName="nombreInstitucion"
           placeholder="Ingrese el nombre de la institución">
         <div *ngIf="nombreInstitucion?.errors && nombreInstitucion?.touched">
           <p *ngIf="nombreInstitucion?.hasError('required')" class="text-danger">
@@ -48,8 +43,7 @@
       </div>
       <div class="md-form mb-4">
         <label>Grado Educacion</label>
-        <select class="form-control" formControlName="gradoEducacion"
-        [ngClass]="{'is-invalid': gradoEducacion?.errors && gradoEducacion?.touched,
+        <select class="form-control" formControlName="gradoEducacion" [ngClass]="{'is-invalid': gradoEducacion?.errors && gradoEducacion?.touched,
       'is-valid':  !gradoEducacion?.errors && gradoEducacion?.value }">
           <option [ngValue]="null" disabled>Elija un grado de estudio</option>
           <option *ngFor="let grado of gradosEducacion" [ngValue]="grado.grado">
@@ -63,10 +57,9 @@
       </div>
       <div class="md-form mb-4">
         <label>Fecha Inicio:</label>
-        <input class="form-control" type="date"
-        [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
-      'is-valid':  !fechaInicio?.errors && fechaInicio?.value }"
-        formControlName="fechaInicio" placeholder="Elija la fecha de inicio">
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
+      'is-valid':  !fechaInicio?.errors && fechaInicio?.value }" formControlName="fechaInicio"
+          placeholder="Elija la fecha de inicio">
         <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
           <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
@@ -75,10 +68,9 @@
       </div>
       <div class="md-form mb-4">
         <label> Fecha Final:</label>
-        <input class="form-control" type="date"
-        [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
-      'is-valid':  !fechaFinal?.errors && fechaFinal?.value }"
-        formControlName="fechaFinal" placeholder="Elija la fecha final">
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
+      'is-valid':  !fechaFinal?.errors && fechaFinal?.value }" formControlName="fechaFinal"
+          placeholder="Elija la fecha final">
         <div *ngIf="fechaFinal?.errors && fechaFinal?.touched">
           <p *ngIf="fechaFinal?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
@@ -87,11 +79,10 @@
       </div>
       <div class="md-form mb-4">
         <label>Estado Educacion</label>
-        <select (click)="enCurso()" class="form-control" formControlName="estadoEducacion"
-        [ngClass]="{'is-invalid': estadoEducacion?.errors && estadoEducacion?.touched,
+        <select (change)="enCurso()" class="form-control" formControlName="estadoEducacion" [ngClass]="{'is-invalid': estadoEducacion?.errors && estadoEducacion?.touched,
       'is-valid':  !estadoEducacion?.errors && estadoEducacion?.value }">
           <option [ngValue]="null" disabled>Elija un estado de estudio</option>
-          <option  *ngFor="let estado of estadosEducacion" [ngValue]="estado.estado">
+          <option *ngFor="let estado of estadosEducacion" [ngValue]="estado.estado">
             {{estado.estado}}
           </option>
         </select>
@@ -103,21 +94,25 @@
       <div class="upload">
         <label id="logoLabel">Logo de la institucion</label>
         <div class="logoImagen">
-          <img  *ngIf="uploadImg" src="{{imagenes[0]}}" >
-          <img  *ngIf="!isAdd && urlLogo != null" src="{{urlLogo}}">
+          <img *ngIf="uploadImg" src="{{imagenes[0]}}">
+          <img *ngIf="!isAdd && urlLogo != null" src="{{urlLogo}}">
           <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
-      </div>
-      <div class="buttonUpload">
-        <label for="inputFile" class="custom-file-upload">Subir Imagen</label>
-    </div>
-        <input class="form-control" type="text" id="URL"  formControlName="logoEducacion" placeholder="">
+        </div>
+        <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
+        <div class="buttonUpload">
+          <label for="inputFile" class="custom-file-upload">{{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
+          <label *ngIf="!isAdd && urlLogo != ''" (click)="borrarImagen()" class="custom-file-delete">Borrar
+            Imagen</label>
+        </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button *ngIf="!isAdd" type="button" (click)="deleteEducacion()" class="btn btn-danger" data-bs-dismiss="modal">Borrar</button>
-    <button *ngIf="isAdd"type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
-    <button type="button" (click)="onSubmit()" [disabled]="formEdu.invalid" class="btn btn-primary">Guardar</button>
+    <button *ngIf="!isAdd" type="button" (click)="deleteEducacion()" class="btn btn-danger"
+      data-bs-dismiss="modal">Borrar</button>
+    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formEdu.invalid ||isUploading"
+      class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>
 

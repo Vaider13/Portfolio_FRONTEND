@@ -8,10 +8,6 @@
   display: none;
 }
 
-#URL {
-  display: none;
-}
-
 .custom-file-upload {
   border: 1px solid #ccc;
   background-color: #0b5bd2;
@@ -22,7 +18,28 @@
   user-select: none;
 }
 
+.uploadImage{
+  display:flex;
+  justify-content:center;
+  color:rgb(18, 90, 18);
+  size:16px;
+}
+
+.custom-file-delete {
+  border: 1px solid #ccc;
+  background-color: #d20b0b;
+  color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
 .custom-file-upload:active {
+  transform: scale(0.9);
+}
+
+.custom-file-delete:active {
   transform: scale(0.9);
 }
 

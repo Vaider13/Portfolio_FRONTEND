@@ -4,7 +4,8 @@
       <div class="redes">
         <app-redes-sociales></app-redes-sociales>
       </div>
-      <img *ngIf="personaDto.urlBanner == ''" src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg" class="img-fluid" alt="Responsive image">
+      <img *ngIf="personaDto.urlBanner == ''" src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg"
+        class="img-fluid" alt="Responsive image">
       <img *ngIf="personaDto.urlBanner != ''" [src]="personaDto.urlBanner" class="img-fluid" alt="Responsive image">
       <span *ngIf="isLogged" class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
     </div>
@@ -33,8 +34,8 @@
 <ng-template #persona let-modal>
   <div class="modal-header" id="personaModal">
     <h5 class="modal-title" *ngIf="editPerso">Editar informacion personal</h5>
-    <h5 class="modal-title" *ngIf="editAvatar && !editPerso ">Editar Avatar</h5>
-    <h5 class="modal-title" *ngIf="!editAvatar  && !editPerso">Editar Banner</h5>
+    <h5 class="modal-title" *ngIf="editAvatar && !editPerso ">Cambiar imagen del avatar:</h5>
+    <h5 class="modal-title" *ngIf="!editAvatar  && !editPerso">Cambiar imagen del Banner:</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
       (click)="modal.dismiss()"></button>
   </div>
@@ -42,10 +43,8 @@
     <form class="md-form mb-5" [formGroup]="formPerso" (ngSubmit)="onSubmit()">
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Nombre:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': nombre?.errors && nombre?.touched,
-          'is-valid':  !nombre?.errors && nombre?.value }"
-        formControlName="nombre" placeholder="Ingrese un nombre" />
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': nombre?.errors && nombre?.touched,
+          'is-valid':  !nombre?.errors && nombre?.value }" formControlName="nombre" placeholder="Ingrese un nombre" />
         <div *ngIf="nombre?.errors && nombre?.touched">
           <p *ngIf="nombre?.hasError('required')" class="text-danger">
             El nombre es requerido.
@@ -54,10 +53,9 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Apellido:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': apellido?.errors && apellido?.touched,
-          'is-valid':  !apellido?.errors && apellido?.value }"
-        formControlName="apellido" placeholder="Ingrese un apellido">
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': apellido?.errors && apellido?.touched,
+          'is-valid':  !apellido?.errors && apellido?.value }" formControlName="apellido"
+          placeholder="Ingrese un apellido">
         <div *ngIf="apellido?.errors && apellido?.touched">
           <p *ngIf="apellido?.hasError('required')" class="text-danger">
             El apellido es requerido.
@@ -66,10 +64,8 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Fecha de nacimiento:</label>
-        <input class="form-control" type="date"
-        [ngClass]="{'is-invalid': fecha_nacimiento?.errors && fecha_nacimiento?.touched,
-          'is-valid':  !fecha_nacimiento?.errors && fecha_nacimiento?.value }"
-        formControlName="fecha_nacimiento"
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': fecha_nacimiento?.errors && fecha_nacimiento?.touched,
+          'is-valid':  !fecha_nacimiento?.errors && fecha_nacimiento?.value }" formControlName="fecha_nacimiento"
           placeholder="Ingrese su fecha de nacimiento">
         <div *ngIf="fecha_nacimiento?.errors && fecha_nacimiento?.touched">
           <p *ngIf="fecha_nacimiento?.hasError('required')" class="text-danger">
@@ -79,10 +75,8 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Titulo:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': titulo?.errors && titulo?.touched,
-          'is-valid':  !titulo?.errors && titulo?.value }"
-        formControlName="titulo" placeholder="Ingrese su titulo">
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': titulo?.errors && titulo?.touched,
+          'is-valid':  !titulo?.errors && titulo?.value }" formControlName="titulo" placeholder="Ingrese su titulo">
         <div *ngIf="titulo?.errors && titulo?.value">
           <p *ngIf="titulo?.hasError('required')" class="text-danger">
             El titulo es requerido.
@@ -91,10 +85,9 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Telefono:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': telefono?.errors && telefono?.touched,
-          'is-valid':  !telefono?.errors && telefono?.value }"
-        formControlName="telefono" placeholder="Ingrese su telefono" maxlength="12" minlength="8">
+        <input class="form-control" type="text" [ngClass]="{'is-invalid': telefono?.errors && telefono?.touched,
+          'is-valid':  !telefono?.errors && telefono?.value }" formControlName="telefono"
+          placeholder="Ingrese su telefono" maxlength="12" minlength="8">
         <div *ngIf="telefono?.errors && telefono?.touched">
           <p *ngIf="telefono?.hasError('required')" class="text-danger">
             El telefono es requerido.
@@ -107,10 +100,9 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Provincia</label>
-        <select class="form-control"
-        [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
-          'is-valid':  !provincia?.errors && provincia?.value }"
-        formControlName="provincia" onchange="selectProvincia()">
+        <select class="form-control" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
+          'is-valid':  !provincia?.errors && provincia?.value }" formControlName="provincia"
+          onchange="selectProvincia()">
           <option [ngValue]="null" disabled>Elija una provincia</option>
           <option *ngFor="let provincia of provincias" [ngValue]="provincia.provincia">
             {{provincia.provincia}}
@@ -119,8 +111,7 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Localidad</label>
-        <select class="form-control" formControlName="localidad"
-        [ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
+        <select class="form-control" formControlName="localidad" [ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
           'is-valid':  !localidad?.errors && localidad?.value }">
           <option [ngValue]="null" disabled>Elija una localidad</option>
           <option *ngFor="let localidad of localidades" [ngValue]="localidad.localidad">
@@ -130,10 +121,8 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Acerca de:</label>
-        <textarea class="form-control" type="text"
-        [ngClass]="{'is-invalid': acerca_de?.errors && acerca_de?.touched,
-          'is-valid':  !acerca_de?.errors && acerca_de?.value }"
-        formControlName="acerca_de"
+        <textarea class="form-control" type="text" [ngClass]="{'is-invalid': acerca_de?.errors && acerca_de?.touched,
+          'is-valid':  !acerca_de?.errors && acerca_de?.value }" formControlName="acerca_de"
           placeholder="Ingrese una descripcion sobre usted" rows="4"></textarea>
         <div *ngIf="acerca_de?.errors && acerca_de?.touched">
           <p *ngIf="acerca_de?.hasError('required')" class="text-danger">
@@ -144,34 +133,25 @@
           </p>
         </div>
       </div>
-      <div class="md-form mb-4" *ngIf="editAvatar && !editPerso">
-        <label>Imagen URL:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': formPerso.get('urlAvatar')?.hasError('pattern'),
-        'is-valid': !formPerso.get('urlAvatar')?.hasError('pattern') && formPerso.get('urlAvatar')?.value}"
-        formControlName="urlAvatar" placeholder="Ingrese una URL" />
-        <div *ngIf="urlAvatar?.errors && urlAvatar?.touched">
-          <p *ngIf="formPerso.get('urlAvatar')?.hasError('pattern')" class="text-danger">
-            Ingrese una URL valida.
-          </p>
+      <div class="upload" *ngIf="!editPerso">
+        <div class="logoImagen">
+          <img *ngIf="uploadImg" src="{{imagenes[0]}}">
+          <img *ngIf="personaDto.urlAvatar != '' && !deleteImg && editAvatar" [src]="personaDto.urlAvatar">
+          <img *ngIf="personaDto.urlBanner != '' && !deleteImg && !editAvatar" [src]="personaDto.urlBanner">
+          <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
         </div>
-      </div>
-      <div class="md-form mb-4" *ngIf="!editAvatar && !editPerso">
-        <label>Banner URL:</label>
-        <input class="form-control" type="text"
-        [ngClass]="{'is-invalid': formPerso.get('urlBanner')?.hasError('pattern'),
-        'is-valid': !formPerso.get('urlBanner')?.hasError('pattern') && formPerso.get('urlBanner')?.value}"
-        formControlName="urlBanner" placeholder="Ingrese una URL" />
-        <div *ngIf="urlBanner?.errors && urlBanner?.touched">
-          <p *ngIf="formPerso.get('urlBanner')?.hasError('pattern')" class="text-danger">
-            Ingrese una URL valida.
-          </p>
+        <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
+        <div class="buttonUpload">
+          <label for="inputFile" class="custom-file-upload">Cambiar Imagen}}</label> &nbsp;
+          <label *ngIf="personaDto.urlAvatar != ''" (click)="borrarImagen()" class="custom-file-delete">Borrar
+            Imagen</label>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
     <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-    <button type="button" (click)="onSubmit()" [disabled]="formPerso.invalid" class="btn btn-primary">Guardar</button>
+    <button type="button" (click)="onSubmit()" [disabled]="formPerso.invalid || isUploading"
+      class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>
