@@ -1,6 +1,6 @@
 import { Proyecto } from './../../models/interfaces/proyecto';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ProyectoService } from 'src/app/service/proyecto.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
@@ -32,7 +32,7 @@ export class ProyectoComponent implements OnInit {
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Proyecto.
     this.formProyect = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
+      nombre: ['', [Validators.required, this.validarFechaActual]],
       fecha: ['', [Validators.required]],
       descripcion: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
       urlProyecto:  ['', [Validators.pattern(this.urlReg)]]
@@ -43,6 +43,13 @@ export class ProyectoComponent implements OnInit {
     //Se carga la lista de proyectos para el formulario
     this.cargarProyectos();
     this.isLogged = this.tokenService.isLogged()
+  }
+
+   //Valida que la fecha no supere la fecha actual en el formulario.
+   validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const date = new Date(control.value);
+    const today = new Date();
+    return date < today ? null : { fechaValida: true };
   }
 
   //Carga los proyectos de la base de datos.

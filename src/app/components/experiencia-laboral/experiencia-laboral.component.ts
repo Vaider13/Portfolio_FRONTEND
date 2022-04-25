@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { ExperienciaLaboral } from 'src/app/models/interfaces/experiencialaboral';
@@ -39,17 +39,34 @@ export class ExperienciaLaboralComponent implements OnInit {
     this.formExp = this.formBuilder.group({
       nombreEmpresa: ['', [Validators.required]],
       puesto: ['', [Validators.required]],
-      fechaInicio: ['', [Validators.required]],
-      fechaFinal:['', [Validators.required]],
+      fechaInicio: ['', [Validators.required, this.validarFechaActual]],
+      fechaFinal:['', [Validators.required, this.validarFechaActual]],
       enCurso: [''],
       descripcion: ['', [Validators.required , Validators.minLength(20), Validators.maxLength(180)]],
       logoEmpresa:['']
-    })
+    }, {validators:this.validarFechas})
   }
   ngOnInit(): void {
     //Se carga la lista de trabajos para el formulario
     this.cargarTrabajos();
     this.isLogged = this.tokenService.isLogged()
+  }
+
+  //Valida que la fecha no supere la fecha actual en el formulario.
+  validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const date = new Date(control.value);
+    const today = new Date();
+    return date < today ? null : { fechaValida: true };
+  }
+
+  //Valida si la fecha de inicio es mayor que la final.
+  validarFechas: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const inicial = control.get('fechaInicio');
+    const final = control.get('fechaFinal');
+    if (inicial?.value !== null && final?.value === null) {
+      return null;
+    };
+    return inicial?.value !== null && final?.value !== null && inicial?.value <= final?.value ? null : { fechasValidas: true };
   }
 
     //Carga los trabajos de la base de datos.

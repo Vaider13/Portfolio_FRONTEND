@@ -45,12 +45,12 @@ export class EducacionComponent implements OnInit {
     this.formEdu = this.formBuilder.group({
       titulo: ['', [Validators.required]],
       nombreInstitucion: ['', [Validators.required]],
-      fechaInicio: ['', [Validators.required]],
-      fechaFinal: ['', [Validators.required]],
+      fechaInicio: ['', [Validators.required, this.validarFechaActual]],
+      fechaFinal: ['', [Validators.required, this.validarFechaActual]],
       gradoEducacion: ['', [Validators.required]],
       estadoEducacion: ['', [Validators.required]],
       logoEducacion: ['']
-    });
+    }, {validators:this.validarFechas});
   }
 
   ngOnInit(): void {
@@ -59,6 +59,23 @@ export class EducacionComponent implements OnInit {
     this.getGrado();
     this.getEstado();
     this.isLogged = this.tokenService.isLogged()
+  }
+
+  //Valida que la fecha no supere la fecha actual en el formulario.
+  validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const date = new Date(control.value);
+    const today = new Date();
+    return date < today ? null : { fechaValida: true };
+  }
+
+  //Valida si la fecha de inicio es mayor que la final.
+  validarFechas: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const inicial = control.get('fechaInicio');
+    const final = control.get('fechaFinal');
+    if (inicial?.value !== null && final?.value === null) {
+      return null;
+    };
+    return inicial?.value !== null && final?.value !== null && inicial?.value <= final?.value ? null : { fechasValidas: true };
   }
 
   //Cuando se acepta el formulario si "isAdd"
@@ -134,6 +151,7 @@ export class EducacionComponent implements OnInit {
     this.educacionService.getById(educacion.id)
       .pipe(first())
       .subscribe(x => this.formEdu.patchValue(x));
+    this.enCurso();
     this.eduId = educacion.id;
     this.urlLogo = educacion.logoEducacion;
     setTimeout(() => { this.enCurso() }, 10);

@@ -44,6 +44,9 @@
           <p *ngIf="fecha?.hasError('required')" class="text-danger">
             La fecha de creacion del proyecto es requerida.
           </p>
+          <p *ngIf="fecha?.errors?.['fechaValida']"  class="text-danger">
+            La fecha del proyecto no puede superar la actual.
+          </p>
         </div>
       </div>
       <div class="row mb-4">

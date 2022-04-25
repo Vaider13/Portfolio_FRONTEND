@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Provincia } from 'src/app/models/interfaces/provincia';
 import { PersonaDto } from 'src/app/models/interfaces/persona-dto';
 import { PersonaService } from 'src/app/service/persona.service';
@@ -43,7 +43,7 @@ export class EncabezadoComponent implements OnInit {
     this.formPerso = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
-      fecha_nacimiento: ['', [Validators.required]],
+      fecha_nacimiento: ['', [Validators.required, , this.validarFechaActual]],
       titulo: ['', [Validators.required]],
       telefono: ['', [Validators.required, Validators.pattern("^[0-9]*$"),
       Validators.maxLength(10), Validators.minLength(8)]],
@@ -60,6 +60,14 @@ export class EncabezadoComponent implements OnInit {
     this.getProvincias();
     this.getLocalidades(1);
     this.isLogged = this.tokenService.isLogged()
+  }
+
+
+  //Valida que la fecha no supere la fecha actual en el formulario.
+  validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const date = new Date(control.value);
+    const today = new Date();
+    return date < today ? null : { fechaValida: true };
   }
 
   openModal(content: any) {

@@ -44,18 +44,24 @@
       </div>
       <div class="md-form mb-4">
         <label>Fecha Inicio:</label>
-        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaInicio?.errors && fechaInicio?.touched,
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': (fechaInicio?.errors || formExp?.errors?.['fechasValidas'])  && fechaInicio?.touched,
       'is-valid':  !fechaInicio?.errors && fechaInicio?.value }" formControlName="fechaInicio"
           placeholder="Fecha de ingreso">
-        <div *ngIf="fechaInicio?.errors && fechaInicio?.touched">
+        <div *ngIf="(fechaInicio?.errors || formExp?.errors?.['fechasValidas']) && fechaInicio?.touched">
           <p *ngIf="fechaInicio?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
+          </p>
+          <p *ngIf="fechaInicio?.errors?.['fechaValida']"  class="text-danger">
+            La fecha de inicio no puede superar la actual.
+          </p>
+          <p *ngIf="formExp?.errors?.['fechasValidas']" class="text-danger">
+            La fecha inicial no puede ser mayor que la final.
           </p>
         </div>
       </div>
       <div class="md-form mb-4">
         <label> Fecha Final:</label>
-        <input class="form-control" type="date" [ngClass]="{'is-invalid': fechaFinal?.errors && fechaFinal?.touched,
+        <input class="form-control" type="date" [ngClass]="{'is-invalid': (fechaFinal?.errors || formExp?.errors?.['fechasValidas'])  && fechaFinal?.touched,
       'is-valid':  !fechaFinal?.errors && fechaFinal?.value }" formControlName="fechaFinal"
           placeholder="Fecha de egreso">
         <div class="form-check">
@@ -65,9 +71,15 @@
             Trabajando actualmente
           </label>
         </div>
-        <div *ngIf="fechaFinal?.errors && fechaFinal?.touched">
+        <div *ngIf="(fechaFinal?.errors || formExp?.errors?.['fechasValidas']) && fechaFinal?.touched">
           <p *ngIf="fechaFinal?.hasError('required')" class="text-danger">
             La fecha de inicio es requerido.
+          </p>
+          <p *ngIf="fechaFinal?.errors?.['fechaValida']"  class="text-danger">
+            La fecha de inicio no puede superar la actual.
+          </p>
+          <p *ngIf="formExp?.errors?.['fechasValidas']" class="text-danger">
+            La fecha inicial no puede ser mayor que la final.
           </p>
         </div>
       </div>
