@@ -15,4 +15,8 @@ export class ProvinciaService {
   public lista(): Observable<Provincia[]> {
     return this.httpClient.get<Provincia[]>(this.provinciaURL + `traer`);
   }
+
+  public getProvincia(provincia:string): Observable<Provincia> {
+    return this.httpClient.get<Provincia>(this.provinciaURL + `traer/${provincia}`);
+  }
 }

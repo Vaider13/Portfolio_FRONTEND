@@ -72,7 +72,6 @@ export class ProyectoComponent implements OnInit {
     } else {
       this.editarProyectoDb();
     }
-    this.modalService.dismissAll(); //Se descarta el modal
   }
 
   //Crear un proyecto en la base de datos.
@@ -123,7 +122,6 @@ export class ProyectoComponent implements OnInit {
 
   //Toma la entidad del componente "proyecto-item" y abre el modal para confirmar su eliminacion.
   deleteProyecto() {
-    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

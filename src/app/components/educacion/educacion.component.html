@@ -120,10 +120,10 @@
   </div>
   <div class="modal-footer">
     <button *ngIf="!isAdd" type="button" (click)="deleteEducacion()" class="btn btn-danger"
-      data-bs-dismiss="modal">Borrar</button>
-    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()">Cancelar</button>
-    <button type="button" (click)="onSubmit()" [disabled]="formEdu.invalid ||isUploading"
-      class="btn btn-primary">Guardar</button>
+      data-bs-dismiss="modal"><i class="fa-solid fa-trash-can"></i> Borrar</button>
+    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" (click)="onSubmit(); modal.dismiss()" [disabled]="formEdu.invalid ||isUploading"
+      class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
   </div>
 </ng-template>
 
@@ -138,7 +138,7 @@
     <span class="text-danger">Esta operacion no se puede deshacer.</span>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">Cancelar</button>
-    <button type="button" class="btn btn-danger" (click)="deleteEducacionDb()">Borrar</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteEducacionDb(); modal.dismiss()"><i class="fa-solid fa-trash-can"></i> Borrar</button>
   </div>
 </ng-template>

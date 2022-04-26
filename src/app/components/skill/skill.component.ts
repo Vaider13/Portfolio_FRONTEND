@@ -63,7 +63,6 @@ export class SkillComponent implements OnInit {
     } else {
       this.editarSkillDb();
     }
-    this.modalService.dismissAll(); //Se descarta el modal
   }
 
   //Crear una skill en la base de datos.
@@ -114,7 +113,6 @@ export class SkillComponent implements OnInit {
 
   //Toma la entidad del componente "skill-item" y abre el modal para confirmar su eliminacion.
   deleteSkill() {
-   this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

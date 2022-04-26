@@ -14,4 +14,8 @@ export class LocalidadService {
   public lista(provinciaId:number): Observable<Localidad[]> {
     return this.httpClient.get<Localidad[]>(this.localidadURL + `traer/${provinciaId}`);
   }
+
+  public save(localidad:Localidad): Observable<any> {
+    return this.httpClient.post<any>(this.localidadURL + `crear`, localidad);
+  }
 }

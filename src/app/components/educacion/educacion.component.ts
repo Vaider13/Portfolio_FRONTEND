@@ -86,7 +86,6 @@ export class EducacionComponent implements OnInit {
     } else {
       this.editarEducacionDb();
     }
-    this.modalService.dismissAll(); //Se descarta el modal
   }
 
   //Obtiene el grado de estudio para cargarlos en el formulario.
@@ -167,7 +166,6 @@ export class EducacionComponent implements OnInit {
 
   //Toma la entidad del componente "educacion-item" y abre el modal para confirmar su eliminacion.
   deleteEducacion() {
-    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

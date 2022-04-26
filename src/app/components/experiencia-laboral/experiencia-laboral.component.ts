@@ -89,7 +89,6 @@ export class ExperienciaLaboralComponent implements OnInit {
     } else {
       this.editarTrabajoDb();
     }
-    this.modalService.dismissAll(); //Se descarta el modal
   }
 
   //Crear un trabajo en la base de datos.
@@ -144,7 +143,6 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //Toma la entidad del componente "ExperienciaLaboral-item" y abre el modal para confirmar su eliminacion.
   deleteTrabajo(){
-    this.modalService.dismissAll();
     this.openModalDelete(this.borrar);
   }
 

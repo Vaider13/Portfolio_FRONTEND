@@ -22,15 +22,16 @@ export class EncabezadoComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
-  deleteImg:boolean = false;
+  deleteImg: boolean = false;
   personaDto: PersonaDto;
   editAvatar: boolean = false;
   editPerso: boolean = false;
   formPerso: FormGroup;
+  formLocalidad: FormGroup;
   localidades: Localidad[] = [];
   provincias: Provincia[] = [];
-  provinciaId: number;
   @ViewChild('persona') perso: ElementRef;
+  @ViewChild('local') crearLocalidad: ElementRef;
   isLogged: boolean = false;
 
   constructor(private personaService: PersonaService,
@@ -52,16 +53,30 @@ export class EncabezadoComponent implements OnInit {
       acerca_de: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
       urlAvatar: [''],
       urlBanner: [''],
-    })
+    }),
+      this.formLocalidad = this.formBuilder.group({
+        provincia: ['', [Validators.required]],
+        localidad: ['', [Validators.required]],
+      })
   }
 
   ngOnInit(): void {
     this.getPersona();
-    this.getProvincias();
-    this.getLocalidades(1);
     this.isLogged = this.tokenService.isLogged()
   }
 
+  seleccionarProvincia(provincia: string): void {
+    console.log(provincia);
+    this.provinciaService.getProvincia(provincia).subscribe(
+      data => {
+        console.log(data.id);
+        this.getLocalidades(data.id);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 
   //Valida que la fecha no supere la fecha actual en el formulario.
   validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -72,6 +87,10 @@ export class EncabezadoComponent implements OnInit {
 
   openModal(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'personaModal' })
+  }
+
+  openModalLocalidad(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'localidadModal' })
   }
 
   onSubmit() {
@@ -139,6 +158,8 @@ export class EncabezadoComponent implements OnInit {
   }
 
   editarPersona() {
+    this.getProvincias();
+    this.getLocalidades(this.personaDto.provinciaId);
     this.editPerso = true;
     this.openModal(this.perso);
     this.getEditPersona();
@@ -164,6 +185,28 @@ export class EncabezadoComponent implements OnInit {
     this.editPerso = false;
     this.openModal(this.perso);
     this.getEditPersona();
+  }
+
+  nuevaLocalidad() {
+    this.openModalLocalidad(this.crearLocalidad);
+    this.formLocalidad.reset();
+  }
+
+  guardarLocalidadDb() {
+    this.localidadService.save(this.formLocalidad.value)
+      .pipe(first())
+      .subscribe({
+        next: () => {
+          this.seleccionarProvincia(this.formLocalidad.get('provincia')?.value);
+          this.formPerso.patchValue({
+            provincia: this.formLocalidad.get('provincia')?.value,
+            localidad: this.formLocalidad.get('localidad')?.value
+          })
+        },
+        error: err => {
+          console.log(err);
+        }
+      });
   }
 
   editarAvatarDb() {
@@ -241,6 +284,10 @@ export class EncabezadoComponent implements OnInit {
 
   get provincia() {
     return this.formPerso.get("provincia");
+  }
+
+  get prov() {
+    return this.formLocalidad.get("provincia");
   }
 
   get localidad() {

@@ -103,9 +103,8 @@
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Provincia</label>
-        <select class="form-control" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
-          'is-valid':  !provincia?.errors && provincia?.value }" formControlName="provincia"
-          onchange="selectProvincia()">
+        <select class="form-control" (change)="seleccionarProvincia(provincia?.value)" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
+          'is-valid':  !provincia?.errors && provincia?.value }" formControlName="provincia">
           <option [ngValue]="null" disabled>Elija una provincia</option>
           <option *ngFor="let provincia of provincias" [ngValue]="provincia.provincia">
             {{provincia.provincia}}
@@ -121,6 +120,8 @@
             {{localidad.localidad}}
           </option>
         </select>
+        <br>
+        <button type="button" (click)="nuevaLocalidad()" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Agregar Localidad</button>
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Acerca de:</label>
@@ -153,8 +154,52 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger"><i class="fa-solid fa-ban"></i> Cancelar</button>
     <button type="button" (click)="onSubmit()" [disabled]="formPerso.invalid || isUploading"
-      class="btn btn-primary">Guardar</button>
+      class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
   </div>
 </ng-template>
+
+<!-- ADD LOCALIDAD MODAL -->
+<ng-template #local let-modal>
+  <div class="modal-header" id="localidadModal">
+    <h5 class="modal-title">Añadir Localidad:</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formLocalidad" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Provincia</label>
+        <select class="form-control" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
+          'is-valid':  !provincia?.errors && provincia?.value }" formControlName="provincia">
+          <option [ngValue]="null" disabled>Elija una provincia</option>
+          <option *ngFor="let provincia of provincias" [ngValue]="provincia.provincia">
+            {{provincia.provincia}}
+          </option>
+        </select>
+        <div *ngIf="formLocalidad.get('provincia')?.errors && formLocalidad.get('provincia')?.touched">
+          <p *ngIf="formLocalidad.get('provincia')?.hasError('required')" class="text-danger">
+            La provincia es requerida.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Nombre de la localidad</label>
+        <input class="form-control"type ="text" formControlName="localidad" placeholder="Ingrese el nombre de la localidad"[ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
+          'is-valid':  !localidad?.errors && localidad?.value }">
+          <div *ngIf="formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.touched">
+            <p *ngIf="formLocalidad.get('localidad')?.hasError('required')" class="text-danger">
+              El nombre de la localidad es requerido.
+            </p>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" (click)="guardarLocalidadDb(); modal.dismiss()" [disabled]="formLocalidad.invalid"
+      class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+  </div>
+</ng-template>
+
