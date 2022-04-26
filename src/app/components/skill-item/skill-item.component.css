@@ -3,7 +3,13 @@
   cursor: pointer;
 }
 
-.skill {
+.skill-Hard {
   display: inline-flex;
   justify-content: space-between;
 }
+
+.skill-Soft {
+  display: inline-flex;
+  justify-content: space-between;
+}
+

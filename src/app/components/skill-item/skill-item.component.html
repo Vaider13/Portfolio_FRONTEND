@@ -1,4 +1,4 @@
-<div class="skill">
+<div class="skill-Hard" *ngIf="skill.tipoSkill == 'Hard'">
   <circle-progress class="circle__progress"
                          [percent]="skill.nivelSkill"
                          [animation]="true"
@@ -7,6 +7,30 @@
                          [showInnerStroke]="true"
                          [outerStrokeColor]="'#0a78ff'"
                          [innerStrokeColor]="'#034494'"
+                         [titleFontSize]="'28'"
+                         [titleFontWeight]="'900'"
+                         [unitsFontSize]="'28'"
+                         [unitsFontWeight]="'900'"
+                         [subtitle]="skill.nombreSkill"
+                         [subtitleFontSize]="'13'"
+                         [subtitleColor]="'#000'"
+                         [lazy]="false"
+        ></circle-progress>
+  <div class="buttons">
+    <span *ngIf="isLogged" class="click" (click)="onEdit(skill)"><i class="fas fa-edit fa-xl"
+      id="edit"></i></span>
+  </div>
+</div>
+
+<div class="skill-Soft" *ngIf="skill.tipoSkill == 'Soft'">
+  <circle-progress class="circle__progress"
+                         [percent]="skill.nivelSkill"
+                         [animation]="true"
+                         [animationDuration]="300"
+                         [startFromZero]="true"
+                         [showInnerStroke]="true"
+                         [outerStrokeColor]="'#0f6317'"
+                         [innerStrokeColor]="'#00b511'"
                          [titleFontSize]="'28'"
                          [titleFontWeight]="'900'"
                          [unitsFontSize]="'28'"

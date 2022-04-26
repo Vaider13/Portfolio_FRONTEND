@@ -32,8 +32,8 @@ export class ProyectoComponent implements OnInit {
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Proyecto.
     this.formProyect = this.formBuilder.group({
-      nombre: ['', [Validators.required, this.validarFechaActual]],
-      fecha: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
+      fecha: ['', [Validators.required, this.validarFechaActual]],
       descripcion: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
       urlProyecto:  ['', [Validators.pattern(this.urlReg)]]
     })
