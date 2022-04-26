@@ -168,7 +168,7 @@
       (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body mx-3">
-    <form class="md-form mb-5" [formGroup]="formLocalidad" (ngSubmit)="onSubmit()">
+    <form class="md-form mb-5" [formGroup]="formLocalidad" (ngSubmit)="guardarLocalidadDb()">
       <div class="md-form mb-4">
         <label>Provincia</label>
         <select class="form-control" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,

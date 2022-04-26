@@ -4,6 +4,7 @@
     <h2 class="h3"> {{proyecto.fecha | date:'MMMM  yyyy'}}</h2>
     <p class="h3">  {{proyecto.descripcion}}
     <h2 class="h3"><a href="{{proyecto.urlProyecto}}">Link al {{proyecto.nombre}}</a></h2>
+    <app-proyecto-imagen class="imagenes" [proyecto]=proyecto></app-proyecto-imagen>
   </div>
   <div class="buttons">
     <span *ngIf="isLogged" class="click" (click)="onEdit(proyecto)"><i class="fas fa-edit fa-xl" id="edit"></i></span>

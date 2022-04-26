@@ -27,12 +27,11 @@
   cursor: pointer;
   user-select: none;
 }
-
-.custom-file-upload:active {
+.custom-file-delete:active {
   transform: scale(0.9);
 }
 
-.custom-file-delete:active {
+.custom-file-upload:active {
   transform: scale(0.9);
 }
 

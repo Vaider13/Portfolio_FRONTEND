@@ -1,0 +1,32 @@
+<div class="image-row">
+  <div class="image-column" *ngFor="let image of proyectosImg; let i = index">
+    <img src="{{image.imagenUrl}}" (click)="openModal();currentSlide(i+1)" class="hover-shadow cursor">
+  </div>
+</div>
+<div *ngIf="isLogged" class="inputImage">
+  <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
+  <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
+</div>
+<div *ngIf="isLogged" class="buttonUpload">
+  <label for="inputFile" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Agregar Imagen:</label>
+</div>
+
+<div id="imgModal" class="slide-modal">
+  <span class="close cursor" (click)="closeModal()">&times;</span>
+  <div class="slide-modal-content">
+    <div class="img-slides" *ngFor="let image of proyectosImg; let i = index">
+      <img src="{{image.imagenUrl}}">
+      <div *ngIf="isLogged" class="buttonDelete">
+        <label (click)="borrarImagen(image.id!); closeModal()" class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar
+          Imagen</label>
+      </div>
+    </div>
+    <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
+    <a class="next" (click)="plusSlides(1)">&#10095;</a>
+    <div class="image-row">
+      <div class="image-column" *ngFor="let image of proyectosImg; let i = index">
+        <img class="images" (click)="currentSlide(i+1)" src="{{image.imagenUrl}}">
+      </div>
+    </div>
+  </div>
+</div>
