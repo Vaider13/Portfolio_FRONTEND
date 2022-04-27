@@ -24,7 +24,7 @@ export class SkillItemComponent implements OnInit {
     this.isLogged = this.tokenService.isLogged()
   }
 
-  onEdit(skill: Skill) {
+  onEdit(skill: Skill): void  {
     this.OnEditSkill.emit(skill);
   }
 

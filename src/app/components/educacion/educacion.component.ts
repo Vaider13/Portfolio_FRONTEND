@@ -21,8 +21,7 @@ export class EducacionComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   educaciones: Educacion[] = [];
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
-  personaId: number = 1; //parseInt(localStorage.getItem('personaId')!);
-  @Input() educacion: Educacion;
+  personaId: number = 1;
   urlLogo: string;
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
   eduId: number;
@@ -80,7 +79,7 @@ export class EducacionComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit() {
+  onSubmit() : void {
     if (this.isAdd) {
       this.crearEducacion();
     } else {
@@ -89,7 +88,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //Obtiene el grado de estudio para cargarlos en el formulario.
-  getGrado() {
+  getGrado(): void {
     this.gradoService.lista().subscribe(
       data => {
         this.gradosEducacion = data;
@@ -101,7 +100,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //Obtiene el estado de estudio para cargarlos en el formulario.
-  getEstado() {
+  getEstado(): void {
     this.estadoService.lista().subscribe(
       data => {
         this.estadosEducacion = data;
@@ -113,7 +112,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //Crear un estudio en la base de datos.
-  crearEducacion() {
+  crearEducacion(): void {
     this.educacionService.save(this.formEdu.value, this.personaId)
       .pipe(first())
       .subscribe({
@@ -127,7 +126,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //Edita un estudio en la base de datos.
-  editarEducacionDb() {
+  editarEducacionDb(): void {
     this.educacionService.update(this.eduId, this.formEdu.value)
       .pipe(first())
       .subscribe({
@@ -142,7 +141,7 @@ export class EducacionComponent implements OnInit {
 
   //Toma la entidad "Educacion" que envia el componente "Educacion-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
-  editarEducacion(educacion: Educacion) {
+  editarEducacion(educacion: Educacion): void {
     this.isAdd = false;
     this.uploadImg = false;
     this.formEdu.reset();
@@ -157,7 +156,7 @@ export class EducacionComponent implements OnInit {
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
-  onAdd() {
+  onAdd(): void {
     this.isAdd = true;
     this.formEdu.reset();
     this.openModal(this.content);
@@ -165,12 +164,12 @@ export class EducacionComponent implements OnInit {
   }
 
   //Toma la entidad del componente "educacion-item" y abre el modal para confirmar su eliminacion.
-  deleteEducacion() {
+  deleteEducacion(): void {
     this.openModalDelete(this.borrar);
   }
 
   //Borra el estudio de la base de datos
-  deleteEducacionDb() {
+  deleteEducacionDb(): void {
     this.educacionService.delete(this.eduId)
       .subscribe(
         () => {
@@ -195,16 +194,19 @@ export class EducacionComponent implements OnInit {
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir un estudio.
-  openModal(content: any) {
+  openModal(content: any): void {
     this.modalService.open(content, { ariaLabelledBy: 'educacionModal' });
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del estudio.
-  openModalDelete(content: any) {
+  openModalDelete(content: any): void {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' });
   }
 
-  enCurso() {
+
+  //Si el estado del estudio es "en curso", se deshabilita el input de fecha final y se resetea su valor.
+  //En caso de no serlo, se rehabilita el input de fecha final.
+  enCurso(): void {
     if (this.formEdu.get("estadoEducacion")?.value === "En Curso") {
       this.formEdu.get("fechaFinal")?.disable();
       this.formEdu.get("fechaFinal")?.reset();
@@ -215,7 +217,7 @@ export class EducacionComponent implements OnInit {
 
   //convierte la imagen a base 64 y la sube al servidor firebase,
   //posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any) {
+  cargarImagen(event: any): void {
     let archivo = event.target.files;
     let nombre = "logoEducacion";
     let reader = new FileReader();
@@ -234,7 +236,8 @@ export class EducacionComponent implements OnInit {
     }
   }
 
-  borrarImagen() {
+  //Borra la URL almacenada de una imagen.
+  borrarImagen(): void {
     this.formEdu.patchValue({
       logoEducacion: ""
     });

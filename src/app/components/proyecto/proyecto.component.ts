@@ -24,6 +24,7 @@ export class ProyectoComponent implements OnInit {
   @ViewChild('proyecto') proyectModal: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
+  //ReGex que verifica si se ingreso una URL valida.
   urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
   constructor(private proyectoService: ProyectoService,
@@ -66,7 +67,7 @@ export class ProyectoComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit() {
+  onSubmit(): void  {
     if (this.isAdd) {
       this.crearProyecto();
     } else {
@@ -75,7 +76,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Crear un proyecto en la base de datos.
-  crearProyecto() {
+  crearProyecto(): void  {
     this.proyectoService.save(this.formProyect.value, this.personaId)
       .pipe(first())
       .subscribe({
@@ -89,7 +90,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Edita un proyecto en la base de datos.
-  editarProyectoDb() {
+  editarProyectoDb(): void  {
     this.proyectoService.update(this.proyectoId, this.formProyect.value)
       .pipe(first())
       .subscribe({
@@ -104,7 +105,7 @@ export class ProyectoComponent implements OnInit {
 
   //Toma la entidad "proyecto" que envia el componente "proyecto-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
-  editarProyecto(proyecto: Proyecto) {
+  editarProyecto(proyecto: Proyecto): void  {
     this.isAdd = false;
     this.openModal(this.proyectModal);
     this.proyectoService.getById(proyecto.id)
@@ -114,19 +115,19 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
-  onAdd() {
+  onAdd(): void {
     this.isAdd = true;
     this.formProyect.reset();
     this.openModal(this.proyectModal);
   }
 
   //Toma la entidad del componente "proyecto-item" y abre el modal para confirmar su eliminacion.
-  deleteProyecto() {
+  deleteProyecto(): void  {
     this.openModalDelete(this.borrar);
   }
 
   //Borra el proyecto de la base de datos
-  deleteProyectoDb() {
+  deleteProyectoDb(): void  {
     this.proyectoService.delete(this.proyectoId)
       .subscribe(
         () => {
@@ -139,12 +140,12 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir un proyecto.
-  openModal(content: any) {
+  openModal(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'proyectModal' })
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del proyecto.
-  openModalDelete(content: any) {
+  openModalDelete(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
   }
 

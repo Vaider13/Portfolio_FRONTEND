@@ -12,15 +12,17 @@ export class ProyectoImagenService {
 
   proyectoImgURL = 'http://localhost:8080/proyectoImagenes/'
 
+  //Se trae las URL de las imagenes pertenecientes a un proyecto por medio de su ID.
   public lista(id: number): Observable<ProyectoImagen[]> {
     return this.httpClient.get<ProyectoImagen[]>(this.proyectoImgURL + `traer/${id}`);
   }
-
-    public save(proyectoImg: ProyectoImagen, id: number): Observable<any> {
+  //Se guarda la URL de la imagen de un proyecto por medio de su ID.
+  public save(proyectoImg: ProyectoImagen, id: number): Observable<any> {
     return this.httpClient.post<any>(this.proyectoImgURL + `crear/${id}`, proyectoImg);
   }
 
-   public delete(id: number): Observable<any> {
+  //Se borra la URL de una imagen por medio de su ID.
+  public delete(id: number): Observable<any> {
     return this.httpClient.delete<any>(this.proyectoImgURL + `borrar/${id}`);
   }
 }

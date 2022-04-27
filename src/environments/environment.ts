@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: { //Configuracion del servidor firebase
+  //Configuracion del servidor firebase, usado para la carga de imagenes, proporcionada por el mismo.
+  firebaseConfig: {
     apiKey: "AIzaSyDf3CUrgVzQ87xoo0L9Y2PmSxdcFu4m0Ik",
     authDomain: "portfolio-5b415.firebaseapp.com",
     projectId: "portfolio-5b415",

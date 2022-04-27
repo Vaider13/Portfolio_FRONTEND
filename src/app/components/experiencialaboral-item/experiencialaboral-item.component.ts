@@ -21,7 +21,7 @@ export class ExperiencialaboralItemComponent implements OnInit {
     this.isLogged = this.tokenService.isLogged();
   }
 
-  onEdit(trabajo: ExperienciaLaboral) {
+  onEdit(trabajo: ExperienciaLaboral): void  {
     this.OnEditTrabajo.emit(trabajo);
   }
 

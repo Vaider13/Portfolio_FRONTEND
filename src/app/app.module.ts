@@ -9,8 +9,7 @@ import { EncabezadoComponent } from './components/encabezado/encabezado.componen
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { EducacionComponent } from './components/educacion/educacion.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ReactiveFormsModule }   from '@angular/forms';
 import { EducacionItemComponent } from './components/educacion-item/educacion-item.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -51,8 +50,6 @@ import { ProyectoImagenComponent } from './components/proyecto-imagen/proyecto-i
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    FontAwesomeModule,
     ReactiveFormsModule,
     NoopAnimationsModule,
     NgbModule,

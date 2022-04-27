@@ -1,10 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/service/auth.service';
 import { TokenService } from 'src/app/service/token.service';
-import { UsuarioService } from 'src/app/service/usuario.service';
+
 
 
 @Component({
@@ -27,50 +26,31 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
   ) {
+    //Creacion del formulario para loguearse en el Portfolio
     this.formLoggin = this.formBuilder.group({
       nombreUsuario: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
     })
   }
 
+  //Comprueba que no se este logueado.
   ngOnInit(): void {
     this.isLogged = this.tokenService.isLogged()
   }
 
-  openModal(){
+  //Abre el modal de logueo.
+  openModal(): void {
     this.modalService.open(this.login)
   }
 
-  closeModal() {
-    this.modalService.dismissAll();
-  }
-
-  get password() {
-    return this.formLoggin.get("password");
-  }
-
-  get nombreUsuario() {
-    return this.formLoggin.get("nombreUsuario");
-  }
-
-  public onSubmit() {
+  //Ingresado los datos, verifica que este todo correcto, obtiene el token, y recarga la pagina para que se cargarguen
+  //los apartados que requieren autenticacion, si indica que no hubo errores, si hubo un error se muestra al usuario el mismo.
+  public onSubmit(): void  {
     if (this.formLoggin.valid) {
       this.authService.login(this.formLoggin.value).subscribe(
         (data) => {
           this.isLoggedFail=false;
           this.tokenService.setToken(data.token);
-          /*this.userName = this.tokenService.getUserName();
-          this.userService.getByUserName(this.userName).subscribe(
-            data => {
-              localStorage.setItem("personaId", data.id.toString())
-            },
-            err => {
-              console.log(err);
-            }
-          );*/
-
-          //setTimeout(() => { this.router.navigate(['']) }, 1000);
-          this.closeModal();
           window.location.reload();
         },
         (err) => {
@@ -85,8 +65,19 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  //Se cierra la sesion, y posteriormente se
+  //refresca la pagina para que desaparezcan los apartados que requieren autenticacion.
   onLogOut(): void {
     this.tokenService.logOut();
     window.location.reload();
+  }
+
+  //Getters del formulario reactivo.
+  get password() {
+    return this.formLoggin.get("password");
+  }
+
+  get nombreUsuario() {
+    return this.formLoggin.get("nombreUsuario");
   }
 }

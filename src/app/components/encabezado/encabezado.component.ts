@@ -24,8 +24,8 @@ export class EncabezadoComponent implements OnInit {
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
   deleteImg: boolean = false;
   personaDto: PersonaDto;
-  editAvatar: boolean = false;
-  editPerso: boolean = false;
+  editAvatar: boolean = false; //Variable que determina si se va a editar la imagen del Avatar.
+  editPerso: boolean = false; //Variable que determina si se va a editar los datos de la persona.
   formPerso: FormGroup;
   formLocalidad: FormGroup;
   localidades: Localidad[] = [];
@@ -41,6 +41,7 @@ export class EncabezadoComponent implements OnInit {
     private provinciaService: ProvinciaService,
     private localidadService: LocalidadService,
     private formBuilder: FormBuilder,) {
+    //Creacion del formulario reactivo para modificar los datos de una persona.
     this.formPerso = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       apellido: ['', [Validators.required]],
@@ -54,17 +55,20 @@ export class EncabezadoComponent implements OnInit {
       urlAvatar: [''],
       urlBanner: [''],
     }),
+      //Creacion del formulario reactivo para agregar una nueva localidad.
       this.formLocalidad = this.formBuilder.group({
         provincia: ['', [Validators.required]],
         localidad: ['', [Validators.required]],
       })
   }
 
+  //Obtiene los datos de la persona para mostrarlos en el template
   ngOnInit(): void {
     this.getPersona();
     this.isLogged = this.tokenService.isLogged()
   }
 
+  //Cuando se selecciona una provincia carga los localidades pertenecientes a la misma.
   seleccionarProvincia(provincia: string): void {
     console.log(provincia);
     this.provinciaService.getProvincia(provincia).subscribe(
@@ -85,20 +89,22 @@ export class EncabezadoComponent implements OnInit {
     return date < today ? null : { fechaValida: true };
   }
 
-  openModal(content: any) {
+  //Abre el modal para modificar los datos de una persona.
+  openModal(content: any): void {
     this.modalService.open(content, { ariaLabelledBy: 'personaModal' })
   }
-
-  openModalLocalidad(content: any) {
+  //Abre el modal para agregar una nueva localidad.
+  openModalLocalidad(content: any): void {
     this.modalService.open(content, { ariaLabelledBy: 'localidadModal' })
   }
 
-  onSubmit() {
+  //Se guardan los cambios en la base de datos.
+  onSubmit(): void {
     this.editarPersonaDb();
     this.uploadImg = false;
-    this.modalService.dismissAll(); //Se descarta el modal
   }
 
+  //Calcula la edad de la persona en base a su fecha de nacimiento, para asi poder mostrarla en el template.
   getEdad(dateString: string) {
     var hoy = new Date();
     var nacimiento = new Date(dateString);
@@ -110,7 +116,8 @@ export class EncabezadoComponent implements OnInit {
     return edad;
   }
 
-  getPersona() {
+  //Se obtienen los datos de la persona.
+  getPersona(): void  {
     this.personaService.getPersonaByUsuarioId((this.personaId)).subscribe(
       data => {
         this.personaDto = data;
@@ -122,7 +129,8 @@ export class EncabezadoComponent implements OnInit {
     );
   }
 
-  getProvincias() {
+  //Se obtiene la lista de las provincias.
+  getProvincias(): void  {
     this.provinciaService.lista().subscribe(
       data => {
         this.provincias = data;
@@ -133,7 +141,8 @@ export class EncabezadoComponent implements OnInit {
     );
   }
 
-  getLocalidades(provinciaId: number) {
+  //Se obtienen las localidades de una provincia por medio del ID de la misma.
+  getLocalidades(provinciaId: number): void  {
     this.localidadService.lista(provinciaId).subscribe(
       data => {
         this.localidades = data;
@@ -144,7 +153,8 @@ export class EncabezadoComponent implements OnInit {
     );
   }
 
-  editarPersonaDb() {
+  //Guarda los cambios en la base de datos.
+  editarPersonaDb(): void  {
     this.personaService.update(this.personaId, this.formPerso.value)
       .pipe(first())
       .subscribe({
@@ -157,7 +167,10 @@ export class EncabezadoComponent implements OnInit {
       });
   }
 
-  editarPersona() {
+  //Cuando se hace click en editar los datos de una persona. Se obtienen las provincias y localidades de las mismas,
+  // para poder cargarlas en el formulario, se indica que se esta editando una persona, se abre el modal con el formulario,
+  //y se llama a la funcion para cargar los datos en el formulario para su posterior edicion.
+  editarPersona(): void  {
     this.getProvincias();
     this.getLocalidades(this.personaDto.provinciaId);
     this.editPerso = true;
@@ -165,7 +178,9 @@ export class EncabezadoComponent implements OnInit {
     this.getEditPersona();
   }
 
-  editarAvatar() {
+  //Si se va a editar el Avatar la variable cambia a true, se indica que no se va a borrar una imagen,
+  //ni a editar toda la persona, solo su avatar, se abre el modal y se cargan los datos en el mismo para su edicion.
+  editarAvatar(): void  {
     this.editAvatar = true;
     this.deleteImg = false;
     this.editPerso = false;
@@ -173,13 +188,16 @@ export class EncabezadoComponent implements OnInit {
     this.getEditPersona();
   }
 
-  getEditPersona() {
+  //Obtiene los datos de la persona y los carga en el formulario para su posterior edicion.
+  getEditPersona(): void  {
     this.personaService.getPersona(this.personaId)
       .pipe(first())
       .subscribe(x => this.formPerso.patchValue(x));
   }
 
-  editarBanner() {
+  //Si se va a editar el banner la variable "edit avatar" cambia a false, se indica que no se va a borrar una imagen,
+  //ni a editar toda la persona, solo su avatar.
+  editarBanner(): void  {
     this.editAvatar = false;
     this.deleteImg = false;
     this.editPerso = false;
@@ -187,12 +205,14 @@ export class EncabezadoComponent implements OnInit {
     this.getEditPersona();
   }
 
-  nuevaLocalidad() {
+  //Cuando se hace click en agregar nueva localidad abre el modal para agregar una localidad, y lo resetea.
+  nuevaLocalidad(): void  {
     this.openModalLocalidad(this.crearLocalidad);
     this.formLocalidad.reset();
   }
 
-  guardarLocalidadDb() {
+  //Guarda una nueva localidad en la base de datos.
+  guardarLocalidadDb(): void  {
     this.localidadService.save(this.formLocalidad.value)
       .pipe(first())
       .subscribe({
@@ -209,21 +229,9 @@ export class EncabezadoComponent implements OnInit {
       });
   }
 
-  editarAvatarDb() {
-    this.personaService.update(this.personaId, this.formPerso.value)
-      .pipe(first())
-      .subscribe({
-        next: () => {
-          this.getPersona();
-        },
-        error: err => {
-          console.log(err);
-        }
-      });
-    this.modalService.dismissAll();
-  }
-
-  cargarImagen(event: any) {
+  //convierte la imagen a base 64 y la sube al servidor firebase,
+  //posteriormente guarda la URL de la imagen en la base de datos.
+  cargarImagen(event: any): void  {
     let archivo = event.target.files;
     let nombre = "logoEducacion";
     let reader = new FileReader();
@@ -247,7 +255,8 @@ export class EncabezadoComponent implements OnInit {
     }
   }
 
-  borrarImagen() {
+  //Borra la URL almacenada de una imagen.
+  borrarImagen(): void  {
     this.deleteImg = true;
     if (this.editAvatar) {
       this.formPerso.patchValue({

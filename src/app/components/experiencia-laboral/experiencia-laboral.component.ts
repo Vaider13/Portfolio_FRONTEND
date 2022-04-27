@@ -18,7 +18,6 @@ export class ExperienciaLaboralComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   personaId: number = 1;
-  @Input() trabajo: ExperienciaLaboral;
   trabajoId: number;
   urlLogo: string;
   uploadImg:boolean = false; //Variable para mostrar la preview de la carga de una imagen
@@ -83,7 +82,7 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit() {
+  onSubmit(): void {
     if (this.isAdd) {
       this.crearTrabajo();
     } else {
@@ -92,7 +91,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Crear un trabajo en la base de datos.
-  crearTrabajo() {
+  crearTrabajo(): void  {
     this.trabajoService.save(this.formExp.value, this.personaId)
       .pipe(first())
       .subscribe({
@@ -106,7 +105,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Edita un trabajo en la base de datos.
-  editarTrabajoDb() {
+  editarTrabajoDb(): void  {
     this.trabajoService.update(this.trabajoId, this.formExp.value)
       .pipe(first())
       .subscribe({
@@ -121,7 +120,7 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //Toma la entidad "ExperienciaLaboral" que envia el componente "ExperienciaLaboral-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
-  editarTrabajo(trabajo: ExperienciaLaboral) {
+  editarTrabajo(trabajo: ExperienciaLaboral): void  {
     this.isAdd = false;
     this.uploadImg = false;
     this.openModal(this.content);
@@ -134,7 +133,7 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
-  onAdd() {
+  onAdd(): void  {
     this.isAdd = true;
     this.formExp.reset();
     this.trabajando();
@@ -142,12 +141,12 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Toma la entidad del componente "ExperienciaLaboral-item" y abre el modal para confirmar su eliminacion.
-  deleteTrabajo(){
+  deleteTrabajo(): void {
     this.openModalDelete(this.borrar);
   }
 
   //Borra el trabajo de la base de datos
-  deleteTrabajoDb() {
+  deleteTrabajoDb(): void  {
     this.trabajoService.delete(this.trabajoId)
       .subscribe(
         () => {
@@ -159,7 +158,9 @@ export class ExperienciaLaboralComponent implements OnInit {
         });
   }
 
-  trabajando() {
+  //Si se selecciona que actualmente se esta trabajando, desactiva el input de la fecha final y resetea el mismo.
+  //Caso contrario vuelve a habilitar el inpout de fecha final.
+  trabajando(): void  {
     if (this.formExp.get('enCurso')?.value === true) {
       this.formExp.get('fechaFinal')?.reset();
       this.formExp.get('fechaFinal')?.disable();
@@ -169,18 +170,18 @@ export class ExperienciaLaboralComponent implements OnInit {
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir un trabajo.
-  openModal(content: any) {
+  openModal(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'trabajoModal' })
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del trabajo.
-  openModalDelete(content: any) {
+  openModalDelete(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
   }
 
   //convierte la imagen a base 64 y la sube al servidor firebase,
   //y posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any) {
+  cargarImagen(event: any): void  {
     let archivo = event.target.files;
     let nombre = "logoEmpresa";
     let reader = new FileReader();
@@ -199,7 +200,8 @@ export class ExperienciaLaboralComponent implements OnInit {
     }
   }
 
-  borrarImagen() {
+  //Borra la URL almacenada de una imagen.
+  borrarImagen(): void  {
     this.formExp.patchValue({
       logoEducacion: ""
     });

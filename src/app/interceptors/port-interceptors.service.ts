@@ -10,6 +10,7 @@ export class ProdInterceptorService implements HttpInterceptor {
 
   constructor(private tokenService: TokenService) { }
 
+  //Intercepta todas las peticiones que se hacen entre el front-end y el back-end, y verifica que el token no sea nulo.
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let intReq = req;
     const token = this.tokenService.getToken();

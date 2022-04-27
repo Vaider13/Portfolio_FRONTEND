@@ -12,10 +12,12 @@ export class ProvinciaService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //Se obtienen todas las provincias.
   public lista(): Observable<Provincia[]> {
     return this.httpClient.get<Provincia[]>(this.provinciaURL + `traer`);
   }
 
+  //Se obtiene una provincia por medio de su nombre.
   public getProvincia(provincia:string): Observable<Provincia> {
     return this.httpClient.get<Provincia>(this.provinciaURL + `traer/${provincia}`);
   }

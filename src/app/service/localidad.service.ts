@@ -11,10 +11,12 @@ export class LocalidadService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //Trae todas las localidades pertenecientes a una provincia por medio de su ID.
   public lista(provinciaId:number): Observable<Localidad[]> {
     return this.httpClient.get<Localidad[]>(this.localidadURL + `traer/${provinciaId}`);
   }
 
+  //Guarda una nueva localidad perteneciente a una provincia, identificandola por su ID.
   public save(localidad:Localidad): Observable<any> {
     return this.httpClient.post<any>(this.localidadURL + `crear`, localidad);
   }

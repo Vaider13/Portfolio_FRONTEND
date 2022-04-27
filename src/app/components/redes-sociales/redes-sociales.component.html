@@ -67,6 +67,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-    <button type="button" (click)="onSubmit()" [disabled]="formRedes.invalid" class="btn btn-primary">Guardar</button>
+    <button type="button" (click)="onSubmit(); modal.dismiss()" [disabled]="formRedes.invalid" class="btn btn-primary">Guardar</button>
   </div>
 </ng-template>

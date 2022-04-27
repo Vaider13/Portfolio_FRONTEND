@@ -14,7 +14,8 @@ import { TokenService } from 'src/app/service/token.service';
 export class RedesSocialesComponent implements OnInit {
 
   redesSociales: RedSocial;
-  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  //ReGex que verifica si se ingreso una URL valida.
+  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
   personaId: number = 1;
   formRedes: FormGroup;
   @ViewChild('redes') redes: ElementRef;
@@ -24,6 +25,7 @@ export class RedesSocialesComponent implements OnInit {
     private tokenService: TokenService,
     private formBuilder: FormBuilder,
     private redSocialService: RedsocialService) {
+    //Creacion del formulario reactivo.
     this.formRedes = this.formBuilder.group({
       facebook: ['', [Validators.pattern(this.urlReg)]],
       twitter: ['', [Validators.pattern(this.urlReg)]],
@@ -32,12 +34,14 @@ export class RedesSocialesComponent implements OnInit {
     })
   }
 
+  //Se llama a la funcion para cargar la URL de las redes sociales.
   ngOnInit(): void {
     this.cargarRedes();
     this.isLogged = this.tokenService.isLogged()
   }
 
-  cargarRedes(){
+  //Se carga la URL de las redes sociales.
+  cargarRedes(): void  {
     this.redSocialService.getById(this.personaId).subscribe(
       data => {
         this.redesSociales = data;
@@ -48,23 +52,26 @@ export class RedesSocialesComponent implements OnInit {
     );
   }
 
-  editarRedes() {
+  //Se cargan los datos de las redes en el formulario para su posterior edicion.
+  editarRedes(): void  {
     this.openModal(this.redes);
     this.redSocialService.getById(this.personaId)
       .pipe(first())
       .subscribe(x => this.formRedes.patchValue(x));
   }
 
-  openModal(content: any) {
+  //Abre el modal para editar las redes.
+  openModal(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'educacionModal' })
   }
 
-  onSubmit() {
+  //Se llama a la funcion para guardar las redes.
+  onSubmit(): void  {
     this.editarRedesDb();
-    this.modalService.dismissAll();
   }
 
-  editarRedesDb() {
+  //Se guardan las URL de las redes en la base de datos.
+  editarRedesDb(): void  {
     this.redSocialService.update(this.personaId, this.formRedes.value)
       .pipe(first())
       .subscribe({
@@ -77,6 +84,7 @@ export class RedesSocialesComponent implements OnInit {
       });
   }
 
+  //getters del formulario.
   get instagram() {
     return this.formRedes.get("instagram");
   }

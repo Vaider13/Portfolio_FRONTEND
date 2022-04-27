@@ -21,7 +21,7 @@ export class EducacionItemComponent implements OnInit {
     this.isLogged = this.tokenService.isLogged()
   }
 
-  onEdit(educacion: Educacion) {
+  onEdit(educacion: Educacion): void {
     this.OnEditEducacion.emit(educacion);
   }
 

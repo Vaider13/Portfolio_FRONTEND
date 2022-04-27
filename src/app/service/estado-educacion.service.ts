@@ -11,6 +11,7 @@ export class EstadoEducacionService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //Trae la lista de todos los estados de educacion.
   public lista(): Observable<EstadoEducacion[]> {
     return this.httpClient.get<EstadoEducacion[]>(this.estadoURL + `traer`);
   }

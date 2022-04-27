@@ -13,10 +13,12 @@ export class AuthService {
 
   constructor( private httpClient: HttpClient) {}
 
+  //funcion para crear un nuevo usuario.
   public nuevo(nuevoUsuario:NuevoUsuario):Observable<any> {
     return this.httpClient.post<any>(this.authURL + "nuevo", nuevoUsuario);
   }
 
+  //Funcion para logueo de los usuarios.
   public login(loginUsuario:LoginUsuario):Observable<JwtDTO> {
     return this.httpClient.post<JwtDTO>(this.authURL + "login", loginUsuario);
   }

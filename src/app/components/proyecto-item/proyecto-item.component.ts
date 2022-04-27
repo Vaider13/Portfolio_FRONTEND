@@ -20,7 +20,7 @@ export class ProyectoItemComponent implements OnInit {
     this.isLogged = this.tokenService.isLogged()
   }
 
-  onEdit(proyecto: Proyecto) {
+  onEdit(proyecto: Proyecto): void  {
     this.OnEditProyecto.emit(proyecto);
   }
 

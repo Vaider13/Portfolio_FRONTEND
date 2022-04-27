@@ -9,7 +9,7 @@
 <ng-template #loginForm let-modal>
   <div class="modal-header text-center" id="LogginModal">
     <h4 class="modal-title w-100 font-weight-bold">Iniciar Sesión</h4>
-    <button type="button" class="btn-close" (click)="closeModal()"></button>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
   </div>
   <div class="modal-body mx-3">
     <form [formGroup]="formLoggin" (ngSubmit)="onSubmit()" id="login-form">
@@ -48,7 +48,7 @@
     <span *ngIf="isLoggedFail" class="text-danger"> Nombre de usuario o contraseña incorrectos</span>
   </div>
   <div class="modal-footer d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="formLoggin.invalid"
+    <button type="submit" class="btn btn-primary" (click)="onSubmit(); modal.dismiss()" [disabled]="formLoggin.invalid"
       aria-label="Close" mdbWavesEffect>Iniciar Sesión</button>
   </div>
 </ng-template>

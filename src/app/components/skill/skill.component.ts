@@ -17,7 +17,6 @@ export class SkillComponent implements OnInit {
   //Se toma la variable guardada localmente con el ID
   //asociada a la persona para cargar y manipular los datos
   personaId: number = 1;
-  @Input() skill: Skill;
   skillId: number;
   formSkill: FormGroup;
   isAdd: boolean = true; //Variable para determinar si el usuario va a crear o editar una skill.
@@ -38,7 +37,7 @@ export class SkillComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //Se carga la lista de skills para el formulario
+    //Se llama a la funcion para cargar la lista de skills.
     this.cargarSkills();
     this.isLogged = this.tokenService.isLogged()
   }
@@ -57,7 +56,7 @@ export class SkillComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit() {
+  onSubmit(): void {
     if (this.isAdd) {
       this.crearSkill();
     } else {
@@ -66,7 +65,7 @@ export class SkillComponent implements OnInit {
   }
 
   //Crear una skill en la base de datos.
-  crearSkill() {
+  crearSkill(): void  {
     this.skillService.save(this.formSkill.value, this.personaId)
       .pipe(first())
       .subscribe({
@@ -80,7 +79,7 @@ export class SkillComponent implements OnInit {
   }
 
   //Edita una skill en la base de datos.
-  editarSkillDb() {
+  editarSkillDb(): void  {
     this.skillService.update(this.skillId, this.formSkill.value)
       .pipe(first())
       .subscribe({
@@ -95,7 +94,7 @@ export class SkillComponent implements OnInit {
 
   //Toma la entidad "skill" que envia el componente "skill-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
-  editarSkill(skill: Skill) {
+  editarSkill(skill: Skill): void  {
     this.isAdd = false;
     this.openModal(this.skillModal);
     this.skillService.getById(skill.id)
@@ -105,19 +104,19 @@ export class SkillComponent implements OnInit {
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
-  onAdd() {
+  onAdd(): void  {
     this.isAdd = true;
     this.formSkill.reset();
     this.openModal(this.skillModal);
   }
 
   //Toma la entidad del componente "skill-item" y abre el modal para confirmar su eliminacion.
-  deleteSkill() {
+  deleteSkill(): void  {
     this.openModalDelete(this.borrar);
   }
 
   //Borra una skill de la base de datos
-  deleteSkillDb() {
+  deleteSkillDb(): void  {
     this.skillService.delete(this.skillId)
       .subscribe(
         () => {
@@ -130,12 +129,12 @@ export class SkillComponent implements OnInit {
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir una skill.
-  openModal(content: any) {
+  openModal(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'skillModal' })
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del proyecto.
-  openModalDelete(content: any) {
+  openModalDelete(content: any): void  {
     this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
   }
 

@@ -12,6 +12,7 @@ export class GradoEducacionService {
 
   constructor(private httpClient: HttpClient) { }
 
+  //Trae la lista de todos los grados de educacion.
   public lista(): Observable<GradoEducacion[]> {
     return this.httpClient.get<GradoEducacion[]>(this.gradoURL + `traer`);
   }
