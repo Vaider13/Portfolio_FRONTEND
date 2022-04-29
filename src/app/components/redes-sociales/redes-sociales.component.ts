@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { RedSocial } from 'src/app/models/interfaces/red-social';
 import { RedsocialService } from 'src/app/service/redsocial.service';
@@ -20,6 +20,13 @@ export class RedesSocialesComponent implements OnInit {
   formRedes: FormGroup;
   @ViewChild('redes') redes: ElementRef;
   isLogged: boolean = false;
+   //Configuraciones del modal.
+   options: NgbModalOptions = {
+    animation: true,
+    scrollable: true,
+    centered: true,
+    backdrop: 'static'
+  }
 
   constructor(private modalService: NgbModal,
     private tokenService: TokenService,
@@ -62,7 +69,7 @@ export class RedesSocialesComponent implements OnInit {
 
   //Abre el modal para editar las redes.
   openModal(content: any): void  {
-    this.modalService.open(content, { ariaLabelledBy: 'educacionModal' })
+    this.modalService.open(content, this.options)
   }
 
   //Se llama a la funcion para guardar las redes.

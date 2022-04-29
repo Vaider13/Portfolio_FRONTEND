@@ -1,10 +1,10 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Provincia } from 'src/app/models/interfaces/provincia';
 import { PersonaDto } from 'src/app/models/interfaces/persona-dto';
 import { PersonaService } from 'src/app/service/persona.service';
 import { Localidad } from 'src/app/models/interfaces/localidad';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { ProvinciaService } from 'src/app/service/provincia.service';
 import { LocalidadService } from 'src/app/service/localidad.service';
 import { first } from 'rxjs';
@@ -33,6 +33,13 @@ export class EncabezadoComponent implements OnInit {
   @ViewChild('persona') perso: ElementRef;
   @ViewChild('local') crearLocalidad: ElementRef;
   isLogged: boolean = false;
+  //Configuraciones del modal.
+  options: NgbModalOptions = {
+    animation: true,
+    scrollable:true,
+    centered: true,
+    backdrop: 'static'
+  }
 
   constructor(private personaService: PersonaService,
     private modalService: NgbModal,
@@ -91,11 +98,11 @@ export class EncabezadoComponent implements OnInit {
 
   //Abre el modal para modificar los datos de una persona.
   openModal(content: any): void {
-    this.modalService.open(content, { ariaLabelledBy: 'personaModal' })
+    this.modalService.open(content,this.options )
   }
   //Abre el modal para agregar una nueva localidad.
   openModalLocalidad(content: any): void {
-    this.modalService.open(content, { ariaLabelledBy: 'localidadModal' })
+    this.modalService.open(content, this.options)
   }
 
   //Se guardan los cambios en la base de datos.

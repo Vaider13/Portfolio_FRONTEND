@@ -7,9 +7,15 @@
   <div class="item" *ngFor="let proyecto of proyectos">
     <app-proyecto-item
     (OnEditProyecto)="editarProyecto(proyecto)"
-      [proyecto]=proyecto>
+    (OnUploadImgProyecto)="onUploadImagen(proyecto)"
+      [proyecto]=proyecto
+      [proyectosImg]=proyectosImg>
     </app-proyecto-item>
   </div>
+</div>
+
+<div *ngIf="isLogged" class="inputImage">
+  <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
 </div>
 
 <!-- MODAL FORM ADD/EDIT-->

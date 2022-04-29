@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { Skill } from 'src/app/models/interfaces/skill';
 import { SkillService } from 'src/app/service/skill.service';
@@ -23,6 +23,13 @@ export class SkillComponent implements OnInit {
   @ViewChild('skill') skillModal: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
+   //Configuraciones del modal.
+   options: NgbModalOptions = {
+    animation: true,
+    scrollable: true,
+    centered: true,
+    backdrop: 'static'
+  }
 
   constructor(private skillService: SkillService,
     private tokenService: TokenService,
@@ -130,12 +137,12 @@ export class SkillComponent implements OnInit {
 
   //Funcion que abre el Modal con el formulario para editar o añadir una skill.
   openModal(content: any): void  {
-    this.modalService.open(content, { ariaLabelledBy: 'skillModal' })
+    this.modalService.open(content, this.options)
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del proyecto.
   openModalDelete(content: any): void  {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-delete' })
+    this.modalService.open(content, this.options)
   }
 
   //Getters del formulario reactivo.

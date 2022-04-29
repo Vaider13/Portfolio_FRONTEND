@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/service/auth.service';
 import { TokenService } from 'src/app/service/token.service';
 
@@ -19,6 +19,12 @@ export class LoginComponent implements OnInit {
   userName: string;
   isLogged: boolean = false;
   isLoggedFail:boolean =false;
+  options: NgbModalOptions = {
+    animation: true,
+    scrollable: true,
+    centered: true,
+    backdrop: 'static'
+  }
 
   constructor(
     private tokenService: TokenService,
@@ -40,7 +46,7 @@ export class LoginComponent implements OnInit {
 
   //Abre el modal de logueo.
   openModal(): void {
-    this.modalService.open(this.login)
+    this.modalService.open(this.login, this.options)
   }
 
   //Ingresado los datos, verifica que este todo correcto, obtiene el token, y recarga la pagina para que se cargarguen

@@ -1,6 +1,6 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, } from '@angular/core';
+import { Component, ElementRef,  OnInit, ViewChild, } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
 import { Educacion } from 'src/app/models/interfaces/educacion';
 import { EstadoEducacion } from 'src/app/models/interfaces/estado-educacion';
@@ -32,6 +32,13 @@ export class EducacionComponent implements OnInit {
   @ViewChild('content') content: ElementRef;
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
+  //Configuraciones del modal.
+  options: NgbModalOptions = {
+    animation: true,
+    scrollable:true,
+    centered: true,
+    backdrop: 'static'
+  }
 
   constructor(private educacionService: EducacionService,
     private subImg: SubirImagenesService,
@@ -195,12 +202,12 @@ export class EducacionComponent implements OnInit {
 
   //Funcion que abre el Modal con el formulario para editar o añadir un estudio.
   openModal(content: any): void {
-    this.modalService.open(content, { ariaLabelledBy: 'educacionModal' });
+    this.modalService.open(content, this.options);
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del estudio.
   openModalDelete(content: any): void {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-delete' });
+    this.modalService.open(content, this.options);
   }
 
 

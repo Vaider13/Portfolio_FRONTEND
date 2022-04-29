@@ -12,5 +12,58 @@
 .click {
   cursor: pointer;
 }
+.imagenes{
+  display:inline-flex;
+
+}
+.imagenes img{
+  border: solid 1px rgb(0, 0, 0);
+  width: auto;
+  height: 150px;
+  border-image-slice: 50%;
+}
+
+.active,
+.images:hover {
+  opacity: 1;
+}
+img.hover-shadow {
+  transition: 0.3s;
+}
+.hover-shadow:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.imgModal{
+  display:flex;
+  justify-content:center;
+}
+.imgModal img{
+  width:80%;
+  max-width: 1280px;
+}
+
+.custom-file-upload:active {
+  transform: scale(0.9);
+}
+
+.buttonUpload{
+  padding-bottom: 5px;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  background-color: #0b5bd2;
+  color: #fff;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
 
 

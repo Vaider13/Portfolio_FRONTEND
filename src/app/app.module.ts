@@ -23,7 +23,6 @@ import { SkillItemComponent } from './components/skill-item/skill-item.component
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { RedesSocialesComponent } from './components/redes-sociales/redes-sociales.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ProyectoImagenComponent } from './components/proyecto-imagen/proyecto-imagen.component';
 
 
 @NgModule({
@@ -43,7 +42,6 @@ import { ProyectoImagenComponent } from './components/proyecto-imagen/proyecto-i
     SkillItemComponent,
     RedesSocialesComponent,
     FooterComponent,
-    ProyectoImagenComponent,
   ],
 
   imports: [

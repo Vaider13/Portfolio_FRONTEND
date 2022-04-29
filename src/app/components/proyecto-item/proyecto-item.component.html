@@ -1,12 +1,38 @@
 <div class="container-item">
   <div class="item">
     <h1 class="h1"> {{proyecto.nombre}}</h1>
-    <h2 class="h3"> {{proyecto.fecha | date:'MMMM  yyyy'}}</h2>
-    <p class="h3">  {{proyecto.descripcion}}
+    <h2 class="h3"> {{proyecto.fecha | date:'MMMM yyyy'}}</h2>
+    <p class="h3"> {{proyecto.descripcion}}
     <h2 class="h3"><a href="{{proyecto.urlProyecto}}">Link al {{proyecto.nombre}}</a></h2>
-    <app-proyecto-imagen class="imagenes" [proyecto]=proyecto></app-proyecto-imagen>
+    <div class="imagenes" *ngFor="let proyectoImg of proyectosImg">
+      <img *ngIf="proyectoImg.proyectoId === proyecto.id" src="{{proyectoImg.imagenUrl}}" (click)="showImagen(proyectoImg.imagenUrl, proyectoImg.id!)"
+        class="hover-shadow cursor">&nbsp;
+    </div>
+    <div *ngIf="isLogged" class="buttonUpload">
+      <label class="custom-file-upload" (click)="addImagen(proyecto)"><i class="fa-solid fa-cloud-arrow-up"></i> Agregar Imagen:</label>
+    </div>
   </div>
   <div class="buttons">
     <span *ngIf="isLogged" class="click" (click)="onEdit(proyecto)"><i class="fas fa-edit fa-xl" id="edit"></i></span>
   </div>
 </div>
+
+
+<ng-template #imagen let-modal>
+  <div class="modal-header">
+    <h3>{{proyecto.nombre}} imagen</h3>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="imgModal">
+      <img src="{{imgUrl}}">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button  *ngIf="isLogged" (click)="borrarImagen();modal.dismiss()" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i> Borrar
+      Imagen</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()"><i class="fa-solid fa-circle-xmark"></i>
+      Cerrar</button>
+  </div>
+</ng-template>
