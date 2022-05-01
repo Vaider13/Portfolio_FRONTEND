@@ -23,6 +23,8 @@ export class EncabezadoComponent implements OnInit {
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
   deleteImg: boolean = false;
+  deleteImgUrl: string = "";
+  cancelImgUrl: string = "";
   personaDto: PersonaDto;
   editAvatar: boolean = false; //Variable que determina si se va a editar la imagen del Avatar.
   editPerso: boolean = false; //Variable que determina si se va a editar los datos de la persona.
@@ -36,10 +38,11 @@ export class EncabezadoComponent implements OnInit {
   //Configuraciones del modal.
   options: NgbModalOptions = {
     animation: true,
-    scrollable:true,
+    scrollable: true,
     centered: true,
     backdrop: 'static'
   }
+
 
   constructor(private personaService: PersonaService,
     private modalService: NgbModal,
@@ -98,7 +101,7 @@ export class EncabezadoComponent implements OnInit {
 
   //Abre el modal para modificar los datos de una persona.
   openModal(content: any): void {
-    this.modalService.open(content,this.options )
+    this.modalService.open(content, this.options)
   }
   //Abre el modal para agregar una nueva localidad.
   openModalLocalidad(content: any): void {
@@ -107,16 +110,20 @@ export class EncabezadoComponent implements OnInit {
 
   //Se guardan los cambios en la base de datos.
   onSubmit(): void {
+    if (this.deleteImgUrl != "" && this.deleteImgUrl != undefined) {
+      this.subImg.borrarImagen(this.deleteImgUrl);
+      this.deleteImgUrl = "";
+    }
     this.editarPersonaDb();
     this.uploadImg = false;
   }
 
   //Calcula la edad de la persona en base a su fecha de nacimiento, para asi poder mostrarla en el template.
   getEdad(dateString: string) {
-    var hoy = new Date();
-    var nacimiento = new Date(dateString);
-    var edad = hoy.getFullYear() - nacimiento.getFullYear();
-    var m = hoy.getMonth() - nacimiento.getMonth();
+    let hoy = new Date();
+    let nacimiento = new Date(dateString);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    let m = hoy.getMonth() - nacimiento.getMonth();
     if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
       edad--;
     }
@@ -124,7 +131,7 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Se obtienen los datos de la persona.
-  getPersona(): void  {
+  getPersona(): void {
     this.personaService.getPersonaByUsuarioId((this.personaId)).subscribe(
       data => {
         this.personaDto = data;
@@ -137,7 +144,7 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Se obtiene la lista de las provincias.
-  getProvincias(): void  {
+  getProvincias(): void {
     this.provinciaService.lista().subscribe(
       data => {
         this.provincias = data;
@@ -149,7 +156,7 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Se obtienen las localidades de una provincia por medio del ID de la misma.
-  getLocalidades(provinciaId: number): void  {
+  getLocalidades(provinciaId: number): void {
     this.localidadService.lista(provinciaId).subscribe(
       data => {
         this.localidades = data;
@@ -161,7 +168,7 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Guarda los cambios en la base de datos.
-  editarPersonaDb(): void  {
+  editarPersonaDb(): void {
     this.personaService.update(this.personaId, this.formPerso.value)
       .pipe(first())
       .subscribe({
@@ -177,7 +184,7 @@ export class EncabezadoComponent implements OnInit {
   //Cuando se hace click en editar los datos de una persona. Se obtienen las provincias y localidades de las mismas,
   // para poder cargarlas en el formulario, se indica que se esta editando una persona, se abre el modal con el formulario,
   //y se llama a la funcion para cargar los datos en el formulario para su posterior edicion.
-  editarPersona(): void  {
+  editarPersona(): void {
     this.getProvincias();
     this.getLocalidades(this.personaDto.provinciaId);
     this.editPerso = true;
@@ -187,7 +194,7 @@ export class EncabezadoComponent implements OnInit {
 
   //Si se va a editar el Avatar la variable cambia a true, se indica que no se va a borrar una imagen,
   //ni a editar toda la persona, solo su avatar, se abre el modal y se cargan los datos en el mismo para su edicion.
-  editarAvatar(): void  {
+  editarAvatar(): void {
     this.editAvatar = true;
     this.deleteImg = false;
     this.editPerso = false;
@@ -196,7 +203,7 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Obtiene los datos de la persona y los carga en el formulario para su posterior edicion.
-  getEditPersona(): void  {
+  getEditPersona(): void {
     this.personaService.getPersona(this.personaId)
       .pipe(first())
       .subscribe(x => this.formPerso.patchValue(x));
@@ -204,7 +211,7 @@ export class EncabezadoComponent implements OnInit {
 
   //Si se va a editar el banner la variable "edit avatar" cambia a false, se indica que no se va a borrar una imagen,
   //ni a editar toda la persona, solo su avatar.
-  editarBanner(): void  {
+  editarBanner(): void {
     this.editAvatar = false;
     this.deleteImg = false;
     this.editPerso = false;
@@ -213,13 +220,13 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Cuando se hace click en agregar nueva localidad abre el modal para agregar una localidad, y lo resetea.
-  nuevaLocalidad(): void  {
+  nuevaLocalidad(): void {
     this.openModalLocalidad(this.crearLocalidad);
     this.formLocalidad.reset();
   }
 
   //Guarda una nueva localidad en la base de datos.
-  guardarLocalidadDb(): void  {
+  guardarLocalidadDb(): void {
     this.localidadService.save(this.formLocalidad.value)
       .pipe(first())
       .subscribe({
@@ -238,16 +245,22 @@ export class EncabezadoComponent implements OnInit {
 
   //convierte la imagen a base 64 y la sube al servidor firebase,
   //posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any): void  {
+  cargarImagenAvatar(event: any): void {
     let archivo = event.target.files;
-    let nombre = "logoEducacion";
+    let nombre = "";
     let reader = new FileReader();
+    if (this.editAvatar == true) {
+      nombre = "Avatar"
+    } else {
+      nombre = "Banner"
+    }
     reader.readAsDataURL(archivo[0]);
     reader.onloadend = () => {
       this.imagenes.push(reader.result);
       this.uploadImg = true;
       this.isUploading = true;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        this.cancelImgUrl = urlImagen!;
         if (this.editAvatar) {
           this.formPerso.patchValue({
             urlAvatar: urlImagen
@@ -263,17 +276,28 @@ export class EncabezadoComponent implements OnInit {
   }
 
   //Borra la URL almacenada de una imagen.
-  borrarImagen(): void  {
+  borrarImagen(): void {
     this.deleteImg = true;
     if (this.editAvatar) {
+      this.deleteImgUrl = this.personaDto.urlAvatar;
       this.formPerso.patchValue({
         urlAvatar: ""
       });
     } else {
+      this.deleteImgUrl = this.personaDto.urlBanner;
       this.formPerso.patchValue({
         urlBanner: ""
       });
     }
+  }
+
+  cancel():void {
+    if (this.cancelImgUrl != "") {
+      this.subImg.borrarImagen(this.cancelImgUrl);
+      this.cancelImgUrl = "";
+      this.uploadImg = false;
+    }
+    this.deleteImgUrl = "";
   }
 
   //Getters del formulario reactivo.

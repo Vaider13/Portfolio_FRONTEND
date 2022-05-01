@@ -18,6 +18,9 @@ export class ExperienciaLaboralComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   personaId: number = 1;
+  cancelImgUrl: string = "";
+  ImgUrl: string;
+  deleteImgUrl: string;
   trabajoId: number;
   urlLogo: string;
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
@@ -33,8 +36,6 @@ export class ExperienciaLaboralComponent implements OnInit {
     centered: true,
     backdrop: 'static'
   }
-
-
 
   constructor(private trabajoService: ExperiencialaboralService,
     private subImg: SubirImagenesService,
@@ -113,6 +114,10 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //Edita un trabajo en la base de datos.
   editarTrabajoDb(): void {
+    if (this.deleteImgUrl != "" && this.deleteImgUrl != undefined) {
+      this.subImg.borrarImagen(this.deleteImgUrl);
+      this.deleteImgUrl = "";
+    }
     this.trabajoService.update(this.trabajoId, this.formExp.value)
       .pipe(first())
       .subscribe({
@@ -135,6 +140,7 @@ export class ExperienciaLaboralComponent implements OnInit {
       .pipe(first())
       .subscribe(x => this.formExp.patchValue(x));
     this.trabajoId = trabajo.id;
+    this.ImgUrl = trabajo.logoEmpresa;
     this.urlLogo = trabajo.logoEmpresa;
     setTimeout(() => { this.trabajando() }, 25);
   }
@@ -154,6 +160,9 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //Borra el trabajo de la base de datos
   deleteTrabajoDb(): void {
+    if (this.ImgUrl != "" && this.ImgUrl != null) {
+      this.subImg.borrarImagen(this.ImgUrl);
+    }
     this.trabajoService.delete(this.trabajoId)
       .subscribe(
         () => {
@@ -188,7 +197,7 @@ export class ExperienciaLaboralComponent implements OnInit {
 
   //convierte la imagen a base 64 y la sube al servidor firebase,
   //y posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any): void {
+  cargarImagenLogoEmpresa(event: any): void {
     let archivo = event.target.files;
     let nombre = "logoEmpresa";
     let reader = new FileReader();
@@ -199,6 +208,7 @@ export class ExperienciaLaboralComponent implements OnInit {
       this.isUploading = true;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        this.cancelImgUrl = urlImagen!;
         this.formExp.patchValue({
           logoEmpresa: urlImagen
         });
@@ -213,6 +223,14 @@ export class ExperienciaLaboralComponent implements OnInit {
       logoEducacion: ""
     });
     this.urlLogo = "";
+  }
+
+  cancel():void {
+    if (this.cancelImgUrl != "") {
+      this.subImg.borrarImagen(this.cancelImgUrl);
+      this.cancelImgUrl = "";
+      this.uploadImg = false;
+    }
   }
 
   //Getters del formulario reactivo.

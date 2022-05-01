@@ -16,7 +16,7 @@
     <h5 *ngIf="isAdd" class="modal-title">Nuevo estudio</h5>
     <h5 *ngIf="!isAdd" class="modal-title">Editar estudio</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-      (click)="modal.dismiss()"></button>
+      (click)="modal.dismiss(); cancel()"></button>
   </div>
   <div class="modal-body mx-3">
     <form class="md-form mb-5" [formGroup]="formEdu" (ngSubmit)="onSubmit()">
@@ -107,13 +107,13 @@
         <label id="logoLabel">Logo de la institucion</label>
         <div class="logoImagen">
           <img *ngIf="uploadImg" src="{{imagenes[0]}}">
-          <img *ngIf="!isAdd && urlLogo != null" src="{{urlLogo}}">
-          <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagen($event)" id="inputFile">
+          <img *ngIf="!isAdd && urlLogo != null && !uploadImg" src="{{urlLogo}}">
+          <input type="file" accept=".png, .jpg,.jpeg" (change)="cargarImagenLogoInstitucion($event)" id="inputFileEducacion">
         </div>
         <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
         <div class="buttonUpload">
-          <label for="inputFile" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> {{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
-          <label *ngIf="!isAdd && urlLogo != ''" (click)="borrarImagen()" class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar Imagen</label>
+          <label for="inputFileEducacion" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> {{isAdd ? 'Subir Imagen': 'Cambiar Imagen'}}</label>&nbsp;
+          <label *ngIf="!isAdd && urlLogo != '' && cancelImgUrl == ''" (click)="borrarImagen()" class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar Imagen</label>
         </div>
       </div>
     </form>

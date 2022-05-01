@@ -29,9 +29,9 @@ export class ProyectoComponent implements OnInit {
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
   //ReGex que verifica si se ingreso una URL valida.
-  urlReg  = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
-   //Configuraciones del modal.
-   options: NgbModalOptions = {
+  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  //Configuraciones del modal.
+  options: NgbModalOptions = {
     animation: true,
     scrollable: true,
     centered: true,
@@ -50,7 +50,7 @@ export class ProyectoComponent implements OnInit {
       nombre: ['', [Validators.required]],
       fecha: ['', [Validators.required, this.validarFechaActual]],
       descripcion: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
-      urlProyecto:  ['', [Validators.pattern(this.urlReg)]]
+      urlProyecto: ['', [Validators.required, Validators.pattern(this.urlReg)]]
     })
   }
 
@@ -58,11 +58,11 @@ export class ProyectoComponent implements OnInit {
     //Se carga la lista de proyectos y de imagenes.
     this.cargarProyectos();
     this.isLogged = this.tokenService.isLogged();
-    this. cargarImagenes();
+    this.cargarImagenes();
   }
 
-   //Valida que la fecha no supere la fecha actual en el formulario.
-   validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  //Valida que la fecha no supere la fecha actual en el formulario.
+  validarFechaActual: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const date = new Date(control.value);
     const today = new Date();
     return date < today ? null : { fechaValida: true };
@@ -94,7 +94,7 @@ export class ProyectoComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit(): void  {
+  onSubmit(): void {
     if (this.isAdd) {
       this.crearProyecto();
     } else {
@@ -103,7 +103,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Crear un proyecto en la base de datos.
-  crearProyecto(): void  {
+  crearProyecto(): void {
     this.proyectoService.save(this.formProyect.value, this.personaId)
       .pipe(first())
       .subscribe({
@@ -117,7 +117,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Edita un proyecto en la base de datos.
-  editarProyectoDb(): void  {
+  editarProyectoDb(): void {
     this.proyectoService.update(this.proyectoId, this.formProyect.value)
       .pipe(first())
       .subscribe({
@@ -132,7 +132,7 @@ export class ProyectoComponent implements OnInit {
 
   //Toma la entidad "proyecto" que envia el componente "proyecto-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
-  editarProyecto(proyecto: Proyecto): void  {
+  editarProyecto(proyecto: Proyecto): void {
     this.isAdd = false;
     this.openModal(this.proyectModal);
     this.proyectoService.getById(proyecto.id)
@@ -149,12 +149,27 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Toma la entidad del componente "proyecto-item" y abre el modal para confirmar su eliminacion.
-  deleteProyecto(): void  {
+  deleteProyecto(): void {
     this.openModalDelete(this.borrar);
   }
 
+  //Borra las imagenes asociadas al proyecto.
+  DeleteImgById(): void {
+    this.proyectImageService.listaProyectoId(this.proyectoId).subscribe(
+      data => {
+        for (let i = 0; i < data.length; i++) {
+          this.subImg.borrarImagen(data[i].imagenUrl);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
   //Borra el proyecto de la base de datos
-  deleteProyectoDb(): void  {
+  deleteProyectoDb(): void {
+    this.DeleteImgById();
     this.proyectoService.delete(this.proyectoId)
       .subscribe(
         () => {
@@ -171,12 +186,12 @@ export class ProyectoComponent implements OnInit {
   //guarda el ID del proyecto para saber a que proyecto pertenece la imagen.
   onUploadImagen(proyecto: Proyecto): void {
     this.proyectoId = proyecto.id;
-    document.getElementById("inputFile")?.click();
+    document.getElementById("inputFileProyecto")?.click();
   }
 
-     //convierte la imagen a base 64 y la sube al servidor firebase,
+  //convierte la imagen a base 64 y la sube al servidor firebase,
   //y posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any): void  {
+  cargarImagenProyecto(event: any): void {
     let archivo = event.target.files;
     let nombre = "proyectoImagen";
     let reader = new FileReader();
@@ -193,7 +208,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Carga la URL de la imagen en la base de datos.
-  subirImagen(proyectoImagen: ProyectoImagen): void  {
+  subirImagen(proyectoImagen: ProyectoImagen): void {
     this.proyectImageService.save(proyectoImagen, this.proyectoId)
       .pipe(first())
       .subscribe({
@@ -207,12 +222,12 @@ export class ProyectoComponent implements OnInit {
   }
 
   //Funcion que abre el Modal con el formulario para editar o añadir un proyecto.
-  openModal(content: any): void  {
+  openModal(content: any): void {
     this.modalService.open(content, this.options)
   }
 
   //Funcion que abre el Modal para confirmar la eliminacion del proyecto.
-  openModalDelete(content: any): void  {
+  openModalDelete(content: any): void {
     this.modalService.open(content, this.options)
   }
 

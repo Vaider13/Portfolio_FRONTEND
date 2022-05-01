@@ -13,7 +13,7 @@ position: absolute;
 .acerca {
   margin-left:650px;
   margin-top: -175px;
-  width: 600px;
+  max-width: 600px;
   font-size: 20px;
 }
 
@@ -76,6 +76,10 @@ position: absolute;
   color: #fff;
 }
 
+.banner img{
+  max-width: 100%;
+}
+
 .editar{
   float: right;
   padding-left: 10px;
@@ -83,7 +87,7 @@ position: absolute;
   margin-bottom: 10px;
 }
 
-#inputFile {
+#inputFileAvatar {
   display: none;
 }
 

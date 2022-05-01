@@ -1,4 +1,4 @@
-import { Component, ElementRef,  OnInit, ViewChild, } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { first } from 'rxjs';
@@ -21,6 +21,9 @@ export class EducacionComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   educaciones: Educacion[] = [];
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
+  cancelImgUrl: string = "";
+  ImgUrl: string;
+  deleteImgUrl: string;
   personaId: number = 1;
   urlLogo: string;
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
@@ -35,10 +38,11 @@ export class EducacionComponent implements OnInit {
   //Configuraciones del modal.
   options: NgbModalOptions = {
     animation: true,
-    scrollable:true,
+    scrollable: true,
     centered: true,
     backdrop: 'static'
   }
+
 
   constructor(private educacionService: EducacionService,
     private subImg: SubirImagenesService,
@@ -56,7 +60,7 @@ export class EducacionComponent implements OnInit {
       gradoEducacion: ['', [Validators.required]],
       estadoEducacion: ['', [Validators.required]],
       logoEducacion: ['']
-    }, {validators:this.validarFechas});
+    }, { validators: this.validarFechas });
   }
 
   ngOnInit(): void {
@@ -86,7 +90,7 @@ export class EducacionComponent implements OnInit {
 
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
-  onSubmit() : void {
+  onSubmit(): void {
     if (this.isAdd) {
       this.crearEducacion();
     } else {
@@ -134,6 +138,10 @@ export class EducacionComponent implements OnInit {
 
   //Edita un estudio en la base de datos.
   editarEducacionDb(): void {
+    if (this.deleteImgUrl != "" && this.deleteImgUrl != undefined) {
+      this.subImg.borrarImagen(this.deleteImgUrl);
+      this.deleteImgUrl = "";
+    }
     this.educacionService.update(this.eduId, this.formEdu.value)
       .pipe(first())
       .subscribe({
@@ -158,6 +166,7 @@ export class EducacionComponent implements OnInit {
       .subscribe(x => this.formEdu.patchValue(x));
     this.enCurso();
     this.eduId = educacion.id;
+    this.ImgUrl = educacion.logoEducacion
     this.urlLogo = educacion.logoEducacion;
     setTimeout(() => { this.enCurso() }, 10);
   }
@@ -177,6 +186,9 @@ export class EducacionComponent implements OnInit {
 
   //Borra el estudio de la base de datos
   deleteEducacionDb(): void {
+    if (this.ImgUrl != "" && this.ImgUrl != null) {
+      this.subImg.borrarImagen(this.ImgUrl);
+    }
     this.educacionService.delete(this.eduId)
       .subscribe(
         () => {
@@ -224,7 +236,7 @@ export class EducacionComponent implements OnInit {
 
   //convierte la imagen a base 64 y la sube al servidor firebase,
   //posteriormente guarda la URL de la imagen en la base de datos.
-  cargarImagen(event: any): void {
+  cargarImagenLogoInstitucion(event: any): void {
     let archivo = event.target.files;
     let nombre = "logoEducacion";
     let reader = new FileReader();
@@ -235,6 +247,7 @@ export class EducacionComponent implements OnInit {
       this.isUploading = true;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
+        this.cancelImgUrl = urlImagen!;
         this.formEdu.patchValue({
           logoEducacion: urlImagen
         });
@@ -243,8 +256,17 @@ export class EducacionComponent implements OnInit {
     }
   }
 
+  cancel(): void{
+    if (this.cancelImgUrl != "") {
+      this.subImg.borrarImagen(this.cancelImgUrl);
+      this.cancelImgUrl = "";
+      this.uploadImg = false;
+    }
+  }
+
   //Borra la URL almacenada de una imagen.
   borrarImagen(): void {
+    this.deleteImgUrl = this.ImgUrl;
     this.formEdu.patchValue({
       logoEducacion: ""
     });
