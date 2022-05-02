@@ -1,0 +1,150 @@
+<div class="container">
+  <div class="add">
+    <h1 class="display-3">Nivel de idiomas</h1>
+    <button *ngIf="isLogged" class="btn btn-outline-success btn-lg" type="button" (click)="onAdd()">
+      <i class="fas fa-plus-circle"></i> Agregar</button>
+  </div>
+  <div class="item" *ngFor="let experienciaIdioma of experienciaIdiomas">
+    <app-idioma-item (OnEditIdioma)="editarExpIdioma(experienciaIdioma)" [experienciaIdioma]=experienciaIdioma>
+    </app-idioma-item>
+  </div>
+</div>
+
+<!-- MODAL FORM ADD/EDIT-->
+<ng-template #expIdioma let-modal>
+  <div class="modal-header" id="skillModal">
+    <h5 *ngIf="isAdd" class="modal-title">Nuevo Idioma</h5>
+    <h5 *ngIf="!isAdd" class="modal-title">Editar Idioma</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formExpIdioma" (ngSubmit)="onSubmit()">
+      <div class="md-form mb-4">
+        <label>Idioma:</label>
+        <select class="form-control" formControlName="nombreIdioma" [ngClass]="{'is-invalid': nombreIdioma?.errors && nombreIdioma?.touched,
+      'is-valid':  !nombreIdioma?.errors && nombreIdioma?.value }">
+          <option [ngValue]="null" disabled>Elija un idioma</option>
+          <option *ngFor="let idioma of idiomas" [ngValue]="idioma.nombreIdioma">
+            {{idioma.nombreIdioma}}
+          </option>
+        </select>
+        <div *ngIf="nombreIdioma?.errors && nombreIdioma?.touched">
+          <p *ngIf="nombreIdioma?.hasError('required')" class="text-danger">
+            Elija un idioma.
+          </p>
+        </div>
+        <br>
+        <button type="button" (click)="nuevaIdioma()" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i>
+          Agregar un idioma</button>
+      </div>
+      <div class="md-form mb-4">
+        <label>Nivel hablado:</label>
+        <select class="form-control" formControlName="oral" [ngClass]="{'is-invalid': oral?.errors && oral?.touched,
+        'is-valid':  !oral?.errors && oral?.value }">
+          <option [ngValue]="null" disabled>Elija un nivel</option>
+          <option>Basico</option>
+          <option>Intermedio</option>
+          <option>Avanzado</option>
+          <option>Nativo</option>
+        </select>
+        <div *ngIf="oral?.errors && oral?.touched">
+          <p *ngIf="oral?.hasError('required')" class="text-danger">
+            El nivel de experiencia oral es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Nivel de escritura:</label>
+        <select class="form-control" formControlName="escritura" [ngClass]="{'is-invalid': escritura?.errors && escritura?.touched,
+        'is-valid':  !escritura?.errors && escritura?.value }">
+          <option [ngValue]="null" disabled>Elija un nivel</option>
+          <option>Basico</option>
+          <option>Intermedio</option>
+          <option>Avanzado</option>
+          <option>Nativo</option>
+        </select>
+        <div *ngIf="escritura?.errors && escritura?.touched">
+          <p *ngIf="escritura?.hasError('required')" class="text-danger">
+            El nivel de escritura es requerido.
+          </p>
+        </div>
+      </div>
+      <div class="md-form mb-4">
+        <label>Nivel de lectura:</label>
+        <select class="form-control" formControlName="lectura" [ngClass]="{'is-invalid': lectura?.errors && lectura?.touched,
+        'is-valid':  !lectura?.errors && lectura?.value }">
+          <option [ngValue]="null" disabled>Elija un nivel</option>
+          <option>Basico</option>
+          <option>Intermedio</option>
+          <option>Avanzado</option>
+          <option>Nativo</option>
+        </select>
+        <div *ngIf="lectura?.errors && lectura?.touched">
+          <p *ngIf="lectura?.hasError('required')" class="text-danger">
+            El nivel de lectura es requerido.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button *ngIf="!isAdd" type="button" (click)="deleteExpIdioma()" class="btn btn-danger" data-bs-dismiss="modal"><i
+        class="fa-solid fa-trash"></i> Borrar</button>
+    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()"><i class="fa-solid fa-ban"></i>
+      Cancelar</button>
+    <button type="button" (click)="onSubmit();modal.dismiss()" [disabled]="formExpIdioma.invalid"
+      class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM DELETE-->
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-delete">Borrar idioma</h4>
+    <button type="button" class="btn-close" aria-describedby="modal-title" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p><strong>¿Esta seguro que quiere borrar esta idioma?</strong></p>
+    <span class="text-danger">Esta operacion no se puede deshacer.</span>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()"><i class="fa-solid fa-ban"></i>
+      Cancelar</button>
+    <button type="button" class="btn btn-danger" (click)="deleteExpIdiomaDb()"><i class="fa-solid fa-trash"></i>
+      Borrar</button>
+  </div>
+</ng-template>
+
+<!-- MODAL FORM ADD IDIOMA -->
+<ng-template #idioma let-modal>
+  <div class="modal-header" id="localidadModal">
+    <h5 class="modal-title">Agregar Idioma:</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body mx-3">
+    <form class="md-form mb-5" [formGroup]="formIdioma" (ngSubmit)="guardarIdiomaDb()">
+      <div class="md-form mb-4">
+        <label>Idioma</label>
+        <input class="form-control" type="text" formControlName="nombreIdioma"
+          placeholder="Ingrese el nombre del idioma a agregar" [ngClass]="{'is-invalid': formIdioma.get('nombreIdioma')?.errors && formIdioma.get('nombreIdioma')?.touched,
+          'is-valid':  !formIdioma.get('nombreIdioma')?.errors && formIdioma.get('nombreIdioma')?.value }">
+        <div *ngIf="formIdioma.get('nombreIdioma')?.errors && formIdioma.get('nombreIdioma')?.touched">
+          <p *ngIf="formIdioma.get('nombreIdioma')?.hasError('required')" class="text-danger">
+            El idioma es requerido.
+          </p>
+          <p *ngIf="formIdioma.get('nombreIdioma')?.errors?.['existe']"  class="text-danger">
+            Ese idioma ya existe.
+          </p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal"><i
+        class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" (click)="guardarIdiomaDb(); modal.dismiss()" [disabled]="formIdioma.invalid"
+      class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+  </div>
+</ng-template>

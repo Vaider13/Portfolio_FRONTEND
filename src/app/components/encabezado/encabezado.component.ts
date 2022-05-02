@@ -103,10 +103,6 @@ export class EncabezadoComponent implements OnInit {
   openModal(content: any): void {
     this.modalService.open(content, this.options)
   }
-  //Abre el modal para agregar una nueva localidad.
-  openModalLocalidad(content: any): void {
-    this.modalService.open(content, this.options)
-  }
 
   //Se guardan los cambios en la base de datos.
   onSubmit(): void {
@@ -221,7 +217,7 @@ export class EncabezadoComponent implements OnInit {
 
   //Cuando se hace click en agregar nueva localidad abre el modal para agregar una localidad, y lo resetea.
   nuevaLocalidad(): void {
-    this.openModalLocalidad(this.crearLocalidad);
+    this.openModal(this.crearLocalidad);
     this.formLocalidad.reset();
   }
 

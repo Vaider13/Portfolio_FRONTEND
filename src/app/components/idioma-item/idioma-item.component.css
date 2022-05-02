@@ -1,0 +1,24 @@
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 15px;
+}
+
+.tem h3{
+  font-size:32px;
+}
+
+.item li {
+  margin-left: 75px;
+  font-size:28px;
+  list-style:disc;
+}
+
+.item span {
+  vertical-align: middle;
+}
+
+.click {
+  cursor: pointer;
+}

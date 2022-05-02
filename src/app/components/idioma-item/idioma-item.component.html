@@ -1,0 +1,12 @@
+<div class="item">
+  <ul>
+    <h3>{{experienciaIdioma.nombreIdioma}}:</h3>
+    <li> Oral: {{experienciaIdioma.oral}}</li>
+    <li> Escritura: {{experienciaIdioma.escritura}}</li>
+    <li> Lectura: {{experienciaIdioma.lectura}}</li>
+  </ul>
+  <div class="buttons">
+    <span *ngIf="isLogged" class="click" (click)="onEdit(experienciaIdioma)"><i class="fas fa-edit fa-xl"
+      id="edit"></i></span>
+  </div>
+</div>
