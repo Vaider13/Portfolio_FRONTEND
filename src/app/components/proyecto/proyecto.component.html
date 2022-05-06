@@ -75,14 +75,26 @@
         <div class="md-form mb-4">
           <label> URL del proyecto:</label>
           <input class="form-control" type="text"
-          [ngClass]="{'is-invalid': formProyect.get('urlProyecto')?.hasError('pattern'),
-          'is-valid': !formProyect.get('urlProyecto')?.hasError('pattern') && formProyect.get('urlProyecto')?.value}"
+          [ngClass]="{'is-invalid': urlProyecto?.errors && urlProyecto?.touched,
+          'is-valid': !urlProyecto?.errors && urlProyecto?.value}"
           formControlName="urlProyecto" placeholder="URL del proyecto">
           <div *ngIf="urlProyecto?.errors && urlProyecto?.touched">
             <p *ngIf="urlProyecto?.hasError('required')" class="text-danger">
               La URL del proyecto es requerida.
             </p>
             <p *ngIf="formProyect.get('urlProyecto')?.hasError('pattern')" class="text-danger">
+              Ingrese una URL valida.
+            </p>
+          </div>
+        </div>
+        <div class="md-form mb-4">
+          <label> URL de GitHub (Opcional):</label>
+          <input class="form-control" type="text"
+          [ngClass]="{'is-invalid': formProyect.get('urlProyectoGitHub')?.hasError('pattern'),
+          'is-valid': !formProyect.get('urlProyectoGitHub')?.hasError('pattern') && formProyect.get('urlProyectoGitHub')?.value}"
+          formControlName="urlProyectoGitHub" placeholder="URL de GitHub">
+          <div *ngIf="urlProyectoGitHub?.errors && urlProyectoGitHub?.touched">
+            <p *ngIf="formProyect.get('urlProyectoGitHub')?.hasError('pattern')" class="text-danger">
               Ingrese una URL valida.
             </p>
           </div>

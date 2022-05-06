@@ -22,7 +22,6 @@ export class EncabezadoComponent implements OnInit {
   imagenes: any[] = []; //Variable de carga de las imagenes
   isUploading: boolean = false; //Variable que determina cuando la imgen se esta subiendo
   uploadImg: boolean = false; //Variable para mostrar la preview de la carga de una imagen
-  deleteImg: boolean = false;
   deleteImgUrl: string = "";
   cancelImgUrl: string = "";
   personaDto: PersonaDto;
@@ -42,7 +41,6 @@ export class EncabezadoComponent implements OnInit {
     centered: true,
     backdrop: 'static'
   }
-
 
   constructor(private personaService: PersonaService,
     private modalService: NgbModal,
@@ -106,12 +104,14 @@ export class EncabezadoComponent implements OnInit {
 
   //Se guardan los cambios en la base de datos.
   onSubmit(): void {
+    this.cancelImgUrl = "";
     if (this.deleteImgUrl != "" && this.deleteImgUrl != undefined) {
       this.subImg.borrarImagen(this.deleteImgUrl);
       this.deleteImgUrl = "";
     }
     this.editarPersonaDb();
     this.uploadImg = false;
+    this.imagenes = [];
   }
 
   //Calcula la edad de la persona en base a su fecha de nacimiento, para asi poder mostrarla en el template.
@@ -192,7 +192,6 @@ export class EncabezadoComponent implements OnInit {
   //ni a editar toda la persona, solo su avatar, se abre el modal y se cargan los datos en el mismo para su edicion.
   editarAvatar(): void {
     this.editAvatar = true;
-    this.deleteImg = false;
     this.editPerso = false;
     this.openModal(this.perso);
     this.getEditPersona();
@@ -209,7 +208,6 @@ export class EncabezadoComponent implements OnInit {
   //ni a editar toda la persona, solo su avatar.
   editarBanner(): void {
     this.editAvatar = false;
-    this.deleteImg = false;
     this.editPerso = false;
     this.openModal(this.perso);
     this.getEditPersona();
@@ -258,10 +256,12 @@ export class EncabezadoComponent implements OnInit {
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
         this.cancelImgUrl = urlImagen!;
         if (this.editAvatar) {
+          this.deleteImgUrl = this.personaDto.urlAvatar;
           this.formPerso.patchValue({
             urlAvatar: urlImagen
           });
         } else {
+          this.deleteImgUrl = this.personaDto.urlBanner;
           this.formPerso.patchValue({
             urlBanner: urlImagen
           });
@@ -273,7 +273,6 @@ export class EncabezadoComponent implements OnInit {
 
   //Borra la URL almacenada de una imagen.
   borrarImagen(): void {
-    this.deleteImg = true;
     if (this.editAvatar) {
       this.deleteImgUrl = this.personaDto.urlAvatar;
       this.formPerso.patchValue({
@@ -287,8 +286,8 @@ export class EncabezadoComponent implements OnInit {
     }
   }
 
-  cancel():void {
-    if (this.cancelImgUrl != "") {
+  cancel(): void {
+    if (this.cancelImgUrl != "" && this.cancelImgUrl != undefined) {
       this.subImg.borrarImagen(this.cancelImgUrl);
       this.cancelImgUrl = "";
       this.uploadImg = false;

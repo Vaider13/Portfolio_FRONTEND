@@ -8,7 +8,7 @@ import { RedSocial } from '../models/interfaces/red-social';
 })
 export class RedsocialService {
 
-  redesURL = 'http://localhost:8080/redes/'
+  redesURL = 'https://guarded-beach-45939.herokuapp.com/redes/'
 
   constructor(private httpClient: HttpClient) { }
 

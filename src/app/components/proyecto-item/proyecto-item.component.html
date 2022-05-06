@@ -1,15 +1,16 @@
 <div class="container-item">
   <div class="item">
     <h1 class="h1"> {{proyecto.nombre}}</h1>
-    <h2 class="h3"> {{proyecto.fecha | date:'MMMM yyyy'}}</h2>
-    <p class="h3"> {{proyecto.descripcion}}
-    <h2 class="h3"><a href="{{proyecto.urlProyecto}}">Link al {{proyecto.nombre}}</a></h2>
+    <p class="h4"> {{proyecto.fecha | date:'MMMM yyyy'}}</p>
+    <p class="h4"> {{proyecto.descripcion}}
+    <h3 class="h3">Link al proyecto: <a target="_blank" href="{{proyecto.urlProyecto}}">{{proyecto.nombre}}</a></h3>
+    <h3 *ngIf="proyecto.urlProyectoGitHub != '' && proyecto.urlProyectoGitHub != null" class="h3">Link a: <a target="_blank" href="{{proyecto.urlProyectoGitHub}}">GitHub</a></h3>
     <div class="imagenes" *ngFor="let proyectoImg of proyectosImg">
       <img *ngIf="proyectoImg.proyectoId === proyecto.id" src="{{proyectoImg.imagenUrl}}" (click)="showImagen(proyectoImg.imagenUrl, proyectoImg.id!)"
         class="hover-shadow cursor">&nbsp;
     </div>
     <div *ngIf="isLogged" class="buttonUpload">
-      <label class="custom-file-upload" (click)="addImagen(proyecto)"><i class="fa-solid fa-cloud-arrow-up"></i> Agregar Imagen:</label>
+      <label class="custom-file-upload" (click)="addImagen(proyecto)"><i class="fa-solid fa-cloud-arrow-up"></i> Agregar Imagen</label>
     </div>
   </div>
   <div class="buttons">

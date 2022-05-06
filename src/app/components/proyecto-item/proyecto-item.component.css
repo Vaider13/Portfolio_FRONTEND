@@ -47,23 +47,10 @@ img.hover-shadow {
   max-width: 1280px;
 }
 
-.custom-file-upload:active {
-  transform: scale(0.9);
-}
-
 .buttonUpload{
   padding-bottom: 5px;
 }
 
-.custom-file-upload {
-  border: 1px solid #ccc;
-  background-color: #0b5bd2;
-  color: #fff;
-  display: inline-block;
-  padding: 6px 12px;
-  cursor: pointer;
-  user-select: none;
-}
 
 
 

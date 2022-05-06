@@ -4,4 +4,5 @@ export interface Proyecto {
   fecha:string;
   descripcion:string;
   urlProyecto:string;
+  urlProyectoGitHub:string;
 }

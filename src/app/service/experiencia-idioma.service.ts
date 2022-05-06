@@ -8,7 +8,7 @@ import { ExperienciaIdioma } from '../models/interfaces/experiencia-idioma';
 })
 export class ExperienciaIdiomaService {
 
-  idiomaURL = 'http://localhost:8080/experienciaidioma/'
+  idiomaURL = 'https://guarded-beach-45939.herokuapp.com/experienciaidioma/'
 
   constructor(private httpClient: HttpClient) { }
 

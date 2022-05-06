@@ -7,7 +7,7 @@ import { Localidad } from '../models/interfaces/localidad';
   providedIn: 'root'
 })
 export class LocalidadService {
-  localidadURL = 'http://localhost:8080/localidad/'
+  localidadURL = 'https://guarded-beach-45939.herokuapp.com/localidad/'
 
   constructor(private httpClient: HttpClient) { }
 

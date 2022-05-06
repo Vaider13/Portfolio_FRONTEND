@@ -5,11 +5,17 @@
 
 .skill-Hard {
   display: inline-flex;
-  justify-content: space-between;
+  margin-left: 75px;
 }
 
 .skill-Soft {
   display: inline-flex;
-  justify-content: space-between;
+  margin-left: 75px;
+}
+
+.buttons{
+  position: absolute;
+  margin-left: 115px;
+  margin-top: 150px;
 }
 

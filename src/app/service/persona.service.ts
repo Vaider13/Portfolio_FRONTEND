@@ -10,7 +10,7 @@ export class PersonaService {
 
   constructor( private httpClient: HttpClient) { }
 
-  personaURL = 'http://localhost:8080/persona/';
+  personaURL = 'https://guarded-beach-45939.herokuapp.com/persona/';
 
   //Se obtiene una persona por medio de su ID.
   public getPersona(personaId:number): Observable<PersonaDto> {

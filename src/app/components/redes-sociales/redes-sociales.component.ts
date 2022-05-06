@@ -15,7 +15,7 @@ export class RedesSocialesComponent implements OnInit {
 
   redesSociales: RedSocial;
   //ReGex que verifica si se ingreso una URL valida.
-  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  urlReg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
   personaId: number = 1;
   formRedes: FormGroup;
   @ViewChild('redes') redes: ElementRef;

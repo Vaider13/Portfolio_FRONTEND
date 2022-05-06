@@ -37,6 +37,7 @@ export class ExperienciaLaboralComponent implements OnInit {
     backdrop: 'static'
   }
 
+
   constructor(private trabajoService: ExperiencialaboralService,
     private subImg: SubirImagenesService,
     private tokenService: TokenService,
@@ -91,11 +92,14 @@ export class ExperienciaLaboralComponent implements OnInit {
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
   onSubmit(): void {
+    this.cancelImgUrl = "";
     if (this.isAdd) {
+      this.uploadImg = false;
       this.crearTrabajo();
     } else {
       this.editarTrabajoDb();
     }
+    this.imagenes = [];
   }
 
   //Crear un trabajo en la base de datos.
@@ -206,6 +210,7 @@ export class ExperienciaLaboralComponent implements OnInit {
       this.imagenes.push(reader.result);
       this.uploadImg = true;
       this.isUploading = true;
+      this.deleteImgUrl = this.urlLogo;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
         this.cancelImgUrl = urlImagen!;

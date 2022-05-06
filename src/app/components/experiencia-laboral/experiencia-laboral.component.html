@@ -116,7 +116,7 @@
   </div>
   <div class="modal-footer">
     <button *ngIf="!isAdd" type="button" (click)="deleteTrabajo()" class="btn btn-danger"><i class="fa-solid fa-trash"></i> Borrar</button>
-    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss()"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button *ngIf="isAdd" type="button" class="btn btn-danger" (click)="modal.dismiss(); cancel()"><i class="fa-solid fa-ban"></i> Cancelar</button>
     <button type="button" (click)="onSubmit(); modal.dismiss()" [disabled]="formExp.invalid || isUploading"
       class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
   </div>

@@ -43,14 +43,14 @@ export class IdiomaComponent implements OnInit {
     private formBuilder: FormBuilder) {
     //Creacion del formulario reactivo para el componente Idioma.
     this.formExpIdioma = this.formBuilder.group({
-      nombreIdioma: ['', [Validators.required]],
+      nombreIdioma: ['', [Validators.required, this.validaSiElIdiomaYaFueAgregado]],
       oral: ['', [Validators.required]],
       escritura: ['', [Validators.required]],
       lectura: ['', [Validators.required]]
     }),
     //Creacion del formulario reactivo para agregar un nuevo Idioma a la lista de idiomas.
       this.formIdioma = this.formBuilder.group({
-        nombreIdioma: ['', [Validators.required, , this.validarSiElIdiomaExiste]]
+        nombreIdioma: ['', [Validators.required, this.validarSiElIdiomaExiste]]
       })
   }
 
@@ -65,6 +65,18 @@ export class IdiomaComponent implements OnInit {
     }
     return !exist ? null : { existe: true };
   }
+
+    //valida si el idioma que la persona va a agregar no lo haya agregado anteriormente.
+    validaSiElIdiomaYaFueAgregado: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+      const idioma = control.value;
+      let exist:boolean = false;
+      for(let i = 0; i < this.experienciaIdiomas.length; i++) {
+        if(this.experienciaIdiomas[i].nombreIdioma == idioma) {
+          exist = true;
+        }
+      }
+      return !exist ? null : { existe: true };
+    }
 
   ngOnInit(): void {
     //Se llama a la funcion para cargar la lista de idiomas y las experiencia en idiomas.
@@ -167,7 +179,6 @@ export class IdiomaComponent implements OnInit {
       .pipe(first())
       .subscribe(x => this.formExpIdioma.patchValue(x));
     this.experienciaIdiomaId = experienciaIdioma.id;
-    alert(this.experienciaIdiomaId);
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.

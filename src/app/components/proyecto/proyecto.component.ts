@@ -29,7 +29,7 @@ export class ProyectoComponent implements OnInit {
   @ViewChild('delete') borrar: ElementRef;
   isLogged: boolean = false;
   //ReGex que verifica si se ingreso una URL valida.
-  urlReg = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
+  urlReg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
   //Configuraciones del modal.
   options: NgbModalOptions = {
     animation: true,
@@ -50,7 +50,8 @@ export class ProyectoComponent implements OnInit {
       nombre: ['', [Validators.required]],
       fecha: ['', [Validators.required, this.validarFechaActual]],
       descripcion: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(180)]],
-      urlProyecto: ['', [Validators.required, Validators.pattern(this.urlReg)]]
+      urlProyecto: ['', [Validators.required, Validators.pattern(this.urlReg)]],
+      urlProyectoGitHub: ['', [Validators.pattern(this.urlReg)]]
     })
   }
 
@@ -193,7 +194,7 @@ export class ProyectoComponent implements OnInit {
   //y posteriormente guarda la URL de la imagen en la base de datos.
   cargarImagenProyecto(event: any): void {
     let archivo = event.target.files;
-    let nombre = "proyectoImagen";
+    let nombre = "proyecto";
     let reader = new FileReader();
     reader.readAsDataURL(archivo[0]);
     reader.onloadend = () => {
@@ -246,6 +247,10 @@ export class ProyectoComponent implements OnInit {
 
   get urlProyecto() {
     return this.formProyect.get("urlProyecto");
+  }
+
+  get urlProyectoGitHub() {
+    return this.formProyect.get("urlProyectoGitHub");
   }
 
 }

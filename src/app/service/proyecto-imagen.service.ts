@@ -10,7 +10,7 @@ export class ProyectoImagenService {
 
   constructor(private httpClient: HttpClient) { }
 
-  proyectoImgURL = 'http://localhost:8080/proyectoImagenes/'
+  proyectoImgURL = 'https://guarded-beach-45939.herokuapp.com/proyectoImagenes/'
 
   //Se trae las URL de todas las imagenes de los proyectos.
   public lista(): Observable<ProyectoImagen[]> {

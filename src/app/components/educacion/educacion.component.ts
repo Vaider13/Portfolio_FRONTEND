@@ -91,11 +91,14 @@ export class EducacionComponent implements OnInit {
   //Cuando se acepta el formulario si "isAdd"
   //es verdadero se llama a la funcion crear, y si es falso se llama a la funcion editar.
   onSubmit(): void {
+    this.cancelImgUrl = "";
     if (this.isAdd) {
+      this.uploadImg = false;
       this.crearEducacion();
     } else {
       this.editarEducacionDb();
     }
+    this.imagenes = [];
   }
 
   //Obtiene el grado de estudio para cargarlos en el formulario.
@@ -245,6 +248,7 @@ export class EducacionComponent implements OnInit {
       this.imagenes.push(reader.result);
       this.uploadImg = true;
       this.isUploading = true;
+      this.deleteImgUrl = this.urlLogo;
       this.urlLogo = null!;
       this.subImg.subirImagen(nombre + "_" + Date.now(), reader.result).then(urlImagen => {
         this.cancelImgUrl = urlImagen!;
@@ -257,7 +261,7 @@ export class EducacionComponent implements OnInit {
   }
 
   cancel(): void{
-    if (this.cancelImgUrl != "") {
+    if (this.cancelImgUrl != "" && this.cancelImgUrl != undefined) {
       this.subImg.borrarImagen(this.cancelImgUrl);
       this.cancelImgUrl = "";
       this.uploadImg = false;

@@ -8,7 +8,7 @@ import { GradoEducacion } from '../models/interfaces/grado-educacion';
 })
 export class GradoEducacionService {
 
-  gradoURL = 'http://localhost:8080/grado/'
+  gradoURL = 'https://guarded-beach-45939.herokuapp.com/grado/'
 
   constructor(private httpClient: HttpClient) { }
 
