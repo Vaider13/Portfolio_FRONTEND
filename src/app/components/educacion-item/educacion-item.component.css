@@ -21,12 +21,28 @@
 }
 
 img{
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
 }
 
 .edu{
   margin-left:30px;
+}
+
+.edu h1 {
+  font-size: 38px;
+}
+
+.edu h2 {
+  font-size: 28px;
+}
+
+.edu .fecha {
+  font-size: 24px;
+}
+
+.edu .estado{
+  font-size: 28px;
 }
 
 

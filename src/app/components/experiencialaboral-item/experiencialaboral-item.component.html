@@ -7,10 +7,10 @@
       src="../../../assets/blank.jpg">
     </div>
     <div class="exp">
-      <h1 class="h1"> {{trabajo.puesto}}</h1>
-      <h2 class="h3"> {{trabajo.nombreEmpresa}}</h2>
-      <p class="h3">{{trabajo.descripcion}}</p>
-      <p class="h4">{{trabajo.fechaInicio | date:'MMMM  yyyy'}} -
+      <h1> {{trabajo.puesto}}</h1>
+      <h2> {{trabajo.nombreEmpresa}}</h2>
+      <p class="descripcion">{{trabajo.descripcion}}</p>
+      <p class="fecha">{{trabajo.fechaInicio | date:'MMMM  yyyy'}} -
          {{trabajo.fechaFinal | date:'MMMM  yyyy'}}<span *ngIf="trabajo.enCurso">Actualmente trabajando</span>
     </div>
   </div>

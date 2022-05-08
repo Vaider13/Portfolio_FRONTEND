@@ -13,16 +13,32 @@
   cursor: pointer;
 }
 
-.item{
-  display : flex;
+.item {
+  display: flex;
   align-items: center;
 }
 
-img{
-  height: 150px;
-  width: 150px;
+img {
+  height: 100px;
+  width: 100px;
 }
 
-.exp{
-  margin-left:30px;
+.exp {
+  margin-left: 30px;
+}
+
+.exp h1 {
+  font-size: 38px;
+}
+
+.exp h2 {
+  font-size: 32px;
+}
+
+.exp .fecha {
+  font-size: 24px;
+}
+
+.exp .descripcion{
+  font-size: 28px;
 }

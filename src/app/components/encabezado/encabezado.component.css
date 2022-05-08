@@ -10,9 +10,7 @@
 position: absolute;
 }
 
-.acerca {
-  margin-left:650px;
-  margin-top: -175px;
+.usuario p {
   max-width: 600px;
   font-size: 20px;
 }
@@ -53,14 +51,14 @@ position: absolute;
 .avatar h2 {
   margin-left: 15px;
   vertical-align: middle;
-  font-size: 3em;
+  font-size: 3vw;
 }
 
 .avatar img {
   border: solid 5px white;
   margin-top: -110px;
-  width: 200px;
-  height: 200px;
+  max-width: 200px;
+  max-height: 200px;
   border-radius: 50%;
   margin-left: 50px;
 }

@@ -7,11 +7,11 @@
       src="../../../assets/blank.jpg">
     </div>
     <div class="edu">
-      <h1 class="h1">{{educacion.titulo}}</h1>
-      <h2 class="h2"> {{educacion.nombreInstitucion}}</h2>
-      <p class="h3"> {{educacion.gradoEducacion}}<span *ngIf="educacion.estadoEducacion != 'En Curso'"> -
+      <h1>{{educacion.titulo}}</h1>
+      <h2> {{educacion.nombreInstitucion}}</h2>
+      <p class = "estado"> {{educacion.gradoEducacion}}<span *ngIf="educacion.estadoEducacion != 'En Curso'"> -
         {{educacion.estadoEducacion}} </span> </p>
-      <p class="h4"> {{educacion.fechaInicio | date:'MMMM yyyy'}} -
+      <p class="fecha"> {{educacion.fechaInicio | date:'MMMM yyyy'}} -
         {{educacion.fechaFinal | date:'MMMM yyyy'}} <span *ngIf="educacion.estadoEducacion == 'En Curso'">{{educacion.estadoEducacion}} </span> </p>
     </div>
   </div>

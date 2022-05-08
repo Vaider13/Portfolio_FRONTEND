@@ -1,21 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
-.container{
-  padding-top:10px;
+.container-xxl {
+  padding-top: 10px;
   border-radius: 15px;
   margin: 0 auto;
-  border:solid 2px;
-  border-color: #008295;
+  margin-bottom: 15px;
+  background-color: #fff;
 }
 
-.container-item{
-  padding-top:10px;
+.container-item {
+  padding-top: 10px;
   padding-left: 15px;
   margin: 0 auto;
   margin: 5px;
 }
 
-#edit{
-  color:#4570ff;
+#edit {
+  color: #4570ff;
 }
 
 .custom-file-upload {
@@ -28,11 +28,11 @@
   user-select: none;
 }
 
-.uploadImage{
-  display:flex;
-  justify-content:center;
-  color:rgb(18, 90, 18);
-  size:16px;
+.uploadImage {
+  display: flex;
+  justify-content: center;
+  color: rgb(18, 90, 18);
+  size: 16px;
 }
 
 .custom-file-delete {
@@ -52,4 +52,3 @@
 .custom-file-delete:active {
   transform: scale(0.9);
 }
-

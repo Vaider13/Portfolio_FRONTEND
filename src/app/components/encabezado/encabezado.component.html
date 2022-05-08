@@ -1,17 +1,20 @@
-<header class="container">
+<header class="container-xxl">
   <div class="usuario">
     <div class="banner">
       <div class="redes">
         <app-redes-sociales></app-redes-sociales>
       </div>
-      <img *ngIf="personaDto?.urlBanner == '' || personaDto?.urlBanner == null" src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg"
+      <img *ngIf="personaDto?.urlBanner == '' || personaDto?.urlBanner == null"
+        src="../../../assets/vecteezybanner-backgroundbk0421_generated.jpg" class="img-fluid" alt="Responsive image">
+      <img *ngIf="personaDto?.urlBanner != '' && personaDto?.urlBanner != undefined" [src]="personaDto.urlBanner"
         class="img-fluid" alt="Responsive image">
-      <img *ngIf="personaDto?.urlBanner != '' && personaDto?.urlBanner != undefined" [src]="personaDto.urlBanner" class="img-fluid" alt="Responsive image">
       <span *ngIf="isLogged" class="click" (click)="editarBanner()"><i class="fas fa-edit fa-xl"></i></span>
     </div>
     <div class="avatar">
-      <img *ngIf="personaDto?.urlAvatar != '' && personaDto?.urlAvatar != undefined"  class="img-responsive" [src]="personaDto.urlAvatar">
-      <img *ngIf="personaDto?.urlAvatar == '' || personaDto?.urlAvatar == null" class="img-responsive" src="../../../assets/avatar.png">
+      <img *ngIf="personaDto?.urlAvatar != '' && personaDto?.urlAvatar != undefined" class="img-responsive"
+        [src]="personaDto.urlAvatar">
+      <img *ngIf="personaDto?.urlAvatar == '' || personaDto?.urlAvatar == null" class="img-responsive"
+        src="../../../assets/avatar.png">
       <span *ngIf="isLogged" class="click" (click)="editarAvatar()"><i class="fas fa-edit fa-xl"></i></span>
       <h2>{{personaDto?.titulo}}</h2>
     </div>
@@ -20,12 +23,13 @@
       <h3>{{edad}} Años</h3>
       <h4>{{personaDto?.localidad}}</h4>
       <h5>Email: {{personaDto?.email}}</h5>
-      <div class="acerca">
-        <p>{{personaDto?.acerca_de}}</p>
+      <div class="editar">
+        <span *ngIf="isLogged" class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl"
+            id="edit"></i></span>
       </div>
     </div>
-    <div class="editar">
-      <span *ngIf="isLogged" class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl" id="edit"></i></span>
+    <div class="position-relative">
+      <p class="position-absolute bottom-0 end-0">{{personaDto?.acerca_de}}</p>
     </div>
   </div>
 </header>
@@ -71,7 +75,7 @@
           <p *ngIf="fecha_nacimiento?.hasError('required')" class="text-danger">
             La fecha de nacimiento es requerida.
           </p>
-          <p *ngIf="fecha_nacimiento?.errors?.['fechaValida']"  class="text-danger">
+          <p *ngIf="fecha_nacimiento?.errors?.['fechaValida']" class="text-danger">
             La fecha de nacimiento no puede superar la actual.
           </p>
         </div>
@@ -121,7 +125,8 @@
           </option>
         </select>
         <br>
-        <button type="button" (click)="nuevaLocalidad()" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i> Agregar Localidad</button>
+        <button type="button" (click)="nuevaLocalidad()" class="btn btn-primary"><i class="fa-solid fa-circle-plus"></i>
+          Agregar Localidad</button>
       </div>
       <div class="md-form mb-4" *ngIf="editPerso">
         <label>Acerca de:</label>
@@ -146,15 +151,18 @@
         </div>
         <label *ngIf="isUploading" class="uploadImage"> Subiendo Imagen</label>
         <div class="buttonUpload">
-          <label for="inputFileAvatar" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Cambiar Imagen</label> &nbsp;
-          <label *ngIf="personaDto.urlAvatar != '' && cancelImgUrl == '' && deleteImgUrl == ''" (click)="borrarImagen()" class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar
+          <label for="inputFileAvatar" class="custom-file-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Cambiar
+            Imagen</label> &nbsp;
+          <label *ngIf="personaDto.urlAvatar != '' && cancelImgUrl == '' && deleteImgUrl == ''" (click)="borrarImagen()"
+            class="custom-file-delete"><i class="fa-solid fa-trash-can"></i> Borrar
             Imagen</label>
         </div>
       </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss(); cancel()" class="btn btn-danger"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" (click)="modal.dismiss(); cancel()" class="btn btn-danger"><i class="fa-solid fa-ban"></i>
+      Cancelar</button>
     <button type="button" (click)="onSubmit(); modal.dismiss() " [disabled]="formPerso.invalid || isUploading"
       class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
   </div>
@@ -186,20 +194,21 @@
       </div>
       <div class="md-form mb-4">
         <label>Nombre de la localidad</label>
-        <input class="form-control"type ="text" formControlName="localidad" placeholder="Ingrese el nombre de la localidad"[ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
+        <input class="form-control" type="text" formControlName="localidad"
+          placeholder="Ingrese el nombre de la localidad" [ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
           'is-valid':  !localidad?.errors && localidad?.value }">
-          <div *ngIf="formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.touched">
-            <p *ngIf="formLocalidad.get('localidad')?.hasError('required')" class="text-danger">
-              El nombre de la localidad es requerido.
-            </p>
-          </div>
+        <div *ngIf="formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.touched">
+          <p *ngIf="formLocalidad.get('localidad')?.hasError('required')" class="text-danger">
+            El nombre de la localidad es requerido.
+          </p>
         </div>
+      </div>
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa-solid fa-ban"></i> Cancelar</button>
+    <button type="button" (click)="modal.dismiss()" class="btn btn-danger" data-bs-dismiss="modal"><i
+        class="fa-solid fa-ban"></i> Cancelar</button>
     <button type="button" (click)="guardarLocalidadDb(); modal.dismiss()" [disabled]="formLocalidad.invalid"
       class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
   </div>
 </ng-template>
-
