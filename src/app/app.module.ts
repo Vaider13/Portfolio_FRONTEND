@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { interceptorProvider } from './interceptors/port-interceptors.service';
@@ -64,7 +64,7 @@ import { IdiomaItemComponent } from './components/idioma-item/idioma-item.compon
       animationDuration: 300,
     })
   ],
-  providers: [interceptorProvider, { provide: LOCALE_ID, useValue: 'es-AR' } ],
+  providers: [interceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

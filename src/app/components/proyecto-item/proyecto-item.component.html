@@ -1,7 +1,7 @@
 <div class="container-item">
   <div class="item">
     <h1 class="h1"> {{proyecto.nombre}}</h1>
-    <p class="h4"> {{proyecto.fecha | date:'MMMM yyyy'}}</p>
+    <p class="h4"> {{proyecto.fecha | date:'d/M/y'}}</p>
     <p class="h4"> {{proyecto.descripcion}}
     <h3 class="h3">Link al proyecto: <a target="_blank" href="{{proyecto.urlProyecto}}">{{proyecto.nombre}}</a></h3>
     <h3 *ngIf="proyecto.urlProyectoGitHub != '' && proyecto.urlProyectoGitHub != null" class="h3">Link a: <a target="_blank" href="{{proyecto.urlProyectoGitHub}}">GitHub</a></h3>

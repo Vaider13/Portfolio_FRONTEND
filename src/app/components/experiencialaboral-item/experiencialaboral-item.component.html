@@ -10,8 +10,8 @@
       <h1> {{trabajo.puesto}}</h1>
       <h2> {{trabajo.nombreEmpresa}}</h2>
       <p class="descripcion">{{trabajo.descripcion}}</p>
-      <p class="fecha">{{trabajo.fechaInicio | date:'MMMM  yyyy'}} -
-         {{trabajo.fechaFinal | date:'MMMM  yyyy'}}<span *ngIf="trabajo.enCurso">Actualmente trabajando</span>
+      <p class="fecha">{{trabajo.fechaInicio | date:'d/M/y'}} -
+         {{trabajo.fechaFinal | date:'d/M/y'}}<span *ngIf="trabajo.enCurso">Actualmente trabajando</span>
     </div>
   </div>
   <div class="buttons">

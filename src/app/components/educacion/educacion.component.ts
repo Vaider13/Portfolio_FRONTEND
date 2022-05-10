@@ -43,7 +43,7 @@ export class EducacionComponent implements OnInit {
     backdrop: 'static'
   }
 
-  constructor(private educacionService: EducacionService,
+constructor(private educacionService: EducacionService,
     private subImg: SubirImagenesService,
     private modalService: NgbModal,
     private tokenService: TokenService,

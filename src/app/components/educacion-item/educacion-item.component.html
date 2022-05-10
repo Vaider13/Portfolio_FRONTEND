@@ -11,8 +11,8 @@
       <h2> {{educacion.nombreInstitucion}}</h2>
       <p class = "estado"> {{educacion.gradoEducacion}}<span *ngIf="educacion.estadoEducacion != 'En Curso'"> -
         {{educacion.estadoEducacion}} </span> </p>
-      <p class="fecha"> {{educacion.fechaInicio | date:'MMMM yyyy'}} -
-        {{educacion.fechaFinal | date:'MMMM yyyy'}} <span *ngIf="educacion.estadoEducacion == 'En Curso'">{{educacion.estadoEducacion}} </span> </p>
+      <p class="fecha"> {{educacion.fechaInicio | date:'d/M/y'}} -
+        {{educacion.fechaFinal | date:'d/M/y'}} <span *ngIf="educacion.estadoEducacion == 'En Curso'">{{educacion.estadoEducacion}} </span> </p>
     </div>
   </div>
   <div class="buttons">
