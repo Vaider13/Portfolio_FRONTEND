@@ -26,7 +26,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { IdiomaComponent } from './components/idioma/idioma.component';
 import { IdiomaItemComponent } from './components/idioma-item/idioma-item.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

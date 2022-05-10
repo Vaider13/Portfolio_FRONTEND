@@ -1,6 +1,6 @@
 
 
-.encabezado {
+.bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,4 +24,13 @@
 
 .login{
   margin-right: 15px;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+  .header_logo h1{
+    font-size:1em;
+  }
 }

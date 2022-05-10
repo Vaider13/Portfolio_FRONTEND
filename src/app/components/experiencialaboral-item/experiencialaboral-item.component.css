@@ -19,8 +19,8 @@
 }
 
 img {
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
 }
 
 .exp {
@@ -41,4 +41,13 @@ img {
 
 .exp .descripcion{
   font-size: 28px;
+}
+
+@media only screen and (max-width: 600px) {
+  img {
+    display: none;
+  }
+  .exp {
+    margin-left: 0px;
+  }
 }

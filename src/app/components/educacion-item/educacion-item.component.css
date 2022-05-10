@@ -21,8 +21,8 @@
 }
 
 img{
-  height: 100px;
-  width: 100px;
+  height: 150px;
+  width: 150px;
 }
 
 .edu{
@@ -45,6 +45,15 @@ img{
   font-size: 28px;
 }
 
+@media only screen and (max-width: 600px) {
+  img {
+    display: none;
+  }
+
+  .edu{
+    margin-left:0px;
+  }
+}
 
 
 

@@ -43,7 +43,6 @@ export class EducacionComponent implements OnInit {
     backdrop: 'static'
   }
 
-
   constructor(private educacionService: EducacionService,
     private subImg: SubirImagenesService,
     private modalService: NgbModal,
@@ -163,7 +162,6 @@ export class EducacionComponent implements OnInit {
     this.isAdd = false;
     this.uploadImg = false;
     this.formEdu.reset();
-    this.openModal(this.content);
     this.educacionService.getById(educacion.id)
       .pipe(first())
       .subscribe(x => this.formEdu.patchValue(x));
@@ -171,7 +169,7 @@ export class EducacionComponent implements OnInit {
     this.eduId = educacion.id;
     this.ImgUrl = educacion.logoEducacion
     this.urlLogo = educacion.logoEducacion;
-    setTimeout(() => { this.enCurso() }, 10);
+    setTimeout(() => { this.enCurso();this.openModal(this.content) }, 300);
   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.

@@ -23,13 +23,13 @@
       <h3>{{edad}} Años</h3>
       <h4>{{personaDto?.localidad}}</h4>
       <h5>Email: {{personaDto?.email}}</h5>
+      <div class="acerca">
+        <p>{{personaDto?.acerca_de}}</p>
+      </div>
       <div class="editar">
-        <span *ngIf="isLogged" class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl"
+        <span class="editar" *ngIf="isLogged" class="click" (click)="editarPersona()"><i class="fas fa-edit fa-xl"
             id="edit"></i></span>
       </div>
-    </div>
-    <div class="position-relative">
-      <p class="position-absolute bottom-0 end-0">{{personaDto?.acerca_de}}</p>
     </div>
   </div>
 </header>

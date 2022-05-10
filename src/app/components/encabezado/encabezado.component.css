@@ -1,57 +1,54 @@
-.container {
-  display: flex;
-}
-
-.usuario {
-  display: block;
-}
-
 .redes {
-position: absolute;
+  position: absolute;
 }
 
-.usuario p {
+.acerca {
+  margin-left: 600px;
+  margin-top: -125px;
   max-width: 600px;
   font-size: 20px;
+}
+
+.editar{
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .avatar {
   display: flex;
 }
-.avatar span{
-  position:absolute;
-  margin-left:190px;
+.avatar span {
+  position: absolute;
+  margin-left: 190px;
   margin-top: 30px;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 .nombre {
-  display:grid;
+  display: grid;
   justify-content: space-between;
 }
 .nombre h1 {
   margin-left: 15px;
   font-size: 3em;
 }
-.nombre h3{
+.nombre h3 {
   padding-left: 90px;
   font-size: 24px;
 }
 
-.nombre h4{
+.nombre h4 {
   padding-left: 5px;
   font-size: 20px;
 }
 
-.nombre h5{
+.nombre h5 {
   padding-left: 25px;
   font-size: 20px;
 }
 
-
 .avatar h2 {
   margin-left: 15px;
-  vertical-align: middle;
-  font-size: 3vw;
+  font-size: 3em;
 }
 
 .avatar img {
@@ -67,23 +64,16 @@ position: absolute;
   cursor: pointer;
 }
 
-.banner span{
+.banner span {
   position: absolute;
   padding-top: 5px;
   margin-left: -40px;
   color: #fff;
 }
 
-.banner img{
+.banner img {
   max-width: 100%;
   border-radius: 15px;
-}
-
-.editar{
-  float: right;
-  padding-left: 10px;
-  padding-top: -15px;
-  margin-bottom: 10px;
 }
 
 #inputFileAvatar {
@@ -91,25 +81,52 @@ position: absolute;
 }
 
 .logoImagen {
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.logoImagen img{
+.logoImagen img {
   width: 200px;
 }
 
-#logoLabel{
-  display:flex;
-  justify-content:center;
+#logoLabel {
+  display: flex;
+  justify-content: center;
 }
 
-.buttonUpload{
-  display:flex;
-  justify-content:center;
+.buttonUpload {
+  display: flex;
+  justify-content: center;
 }
 
 
 
+@media only screen and (max-width: 600px) {
+  .avatar img {
+    border: solid 5px white;
+    margin-top: -110px;
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 50%;
+    margin-left: 50px;
+  }
+
+  .acerca {
+    margin-left: 0px;
+    margin-top: 0px;
+    max-width: 600px;
+    font-size: 20px;
+  }
+
+  .avatar h2 {
+    margin-left: 15px;
+    font-size: 22px;
+  }
+
+  .nombre h1 {
+    margin-left: 15px;
+    font-size: 2em;
+  }
+}
