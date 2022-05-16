@@ -22,7 +22,7 @@
       <h1>{{personaDto?.nombre + " " + personaDto?.apellido}}</h1>
       <h3>{{edad}} Años</h3>
       <h4>{{personaDto?.localidad}}</h4>
-      <h5>Email: {{personaDto?.email}}</h5>
+      <h5>{{personaDto?.email}}</h5>
       <div class="acerca">
         <p>{{personaDto?.acerca_de}}</p>
       </div>
@@ -179,8 +179,8 @@
     <form class="md-form mb-5" [formGroup]="formLocalidad" (ngSubmit)="guardarLocalidadDb()">
       <div class="md-form mb-4">
         <label>Provincia</label>
-        <select class="form-control" [ngClass]="{'is-invalid': provincia?.errors && provincia?.touched,
-          'is-valid':  !provincia?.errors && provincia?.value }" formControlName="provincia">
+        <select class="form-control" [ngClass]="{'is-invalid': formLocalidad.get('provincia')?.errors && formLocalidad.get('provincia')?.touched,
+        'is-valid': !formLocalidad.get('provincia')?.errors && formLocalidad.get('provincia')?.value }" formControlName="provincia">
           <option [ngValue]="null" disabled>Elija una provincia</option>
           <option *ngFor="let provincia of provincias" [ngValue]="provincia.provincia">
             {{provincia.provincia}}
@@ -195,11 +195,14 @@
       <div class="md-form mb-4">
         <label>Nombre de la localidad</label>
         <input class="form-control" type="text" formControlName="localidad"
-          placeholder="Ingrese el nombre de la localidad" [ngClass]="{'is-invalid': localidad?.errors && localidad?.touched,
-          'is-valid':  !localidad?.errors && localidad?.value }">
+          placeholder="Ingrese el nombre de la localidad" [ngClass]="{'is-invalid': formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.touched,
+          'is-valid': !formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.value }">
         <div *ngIf="formLocalidad.get('localidad')?.errors && formLocalidad.get('localidad')?.touched">
           <p *ngIf="formLocalidad.get('localidad')?.hasError('required')" class="text-danger">
             El nombre de la localidad es requerido.
+          </p>
+          <p *ngIf="formLocalidad.get('localidad')?.errors?.['existe']"  class="text-danger">
+            Esa localidad ya existe.
           </p>
         </div>
       </div>

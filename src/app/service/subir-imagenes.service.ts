@@ -31,6 +31,7 @@ export class SubirImagenesService {
     }
   }
 
+  //funcion que borra una imagen del servidor
   async borrarImagen(imgUrl:string) {
     const storage = getStorage();
     // Crea una referencia para borrar la imagen

@@ -28,21 +28,25 @@
   justify-content: space-between;
 }
 .nombre h1 {
-  margin-left: 15px;
+  max-width: 350px;
+  text-align: center;
   font-size: 3em;
 }
 .nombre h3 {
-  padding-left: 90px;
+  max-width: 350px;
+  text-align: center;
   font-size: 24px;
 }
 
 .nombre h4 {
-  padding-left: 5px;
+  max-width: 350px;
+  text-align: center;
   font-size: 20px;
 }
 
 .nombre h5 {
-  padding-left: 25px;
+  max-width: 350px;
+  text-align: center;
   font-size: 20px;
 }
 

@@ -66,7 +66,7 @@ export class EncabezadoComponent implements OnInit {
       //Creacion del formulario reactivo para agregar una nueva localidad.
       this.formLocalidad = this.formBuilder.group({
         provincia: ['', [Validators.required]],
-        localidad: ['', [Validators.required]],
+        localidad: ['', [Validators.required, this.validarSiLaLocalidadExiste]],
       })
   }
 
@@ -76,12 +76,22 @@ export class EncabezadoComponent implements OnInit {
     this.isLogged = this.tokenService.isLogged()
   }
 
+  //valida si la localidadng a agregar existe o no en la base de datos.
+  validarSiLaLocalidadExiste: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const localidad = control.value.toUpperCase();
+    let exist:boolean = false;
+    for(let i = 0; i < this.localidades.length; i++) {
+      if(this.localidades[i].localidad.toUpperCase() == localidad) {
+        exist = true;
+      }
+    }
+    return !exist ? null : { existe: true };
+  }
+
   //Cuando se selecciona una provincia carga los localidades pertenecientes a la misma.
   seleccionarProvincia(provincia: string): void {
-    console.log(provincia);
     this.provinciaService.getProvincia(provincia).subscribe(
       data => {
-        console.log(data.id);
         this.getLocalidades(data.id);
       },
       err => {
@@ -161,6 +171,7 @@ export class EncabezadoComponent implements OnInit {
         console.log(err);
       }
     );
+    this.formPerso.controls['localidad'].reset();
   }
 
   //Guarda los cambios en la base de datos.

@@ -71,7 +71,7 @@ export class IdiomaComponent implements OnInit {
       const idioma = control.value;
       let exist:boolean = false;
       for(let i = 0; i < this.experienciaIdiomas.length; i++) {
-        if(this.experienciaIdiomas[i].nombreIdioma == idioma) {
+        if(this.experienciaIdiomas[i].nombreIdioma == idioma && this.isAdd == true) {
           exist = true;
         }
       }
@@ -119,7 +119,7 @@ export class IdiomaComponent implements OnInit {
     }
   }
 
-  //Crear una nueva ex`periencia en idiomas en la base de datos.
+  //Crear una nueva experiencia en idiomas en la base de datos.
   crearExpIdioma(): void {
     this.exoerienciaIdiomaService.save(this.formExpIdioma.value, this.personaId)
       .pipe(first())
@@ -170,7 +170,7 @@ export class IdiomaComponent implements OnInit {
       });
   }
 
-  //Toma la entidad "skill" que envia el componente "skill-item"
+  //Toma la entidad "Experiencia Idioma" que envia el componente "idioma-item"
   //Abre el Modal con el formulario, carga la entidad en el mismo para ser editada y guarda su ID.
   editarExpIdioma(experienciaIdioma: ExperienciaIdioma): void {
     this.isAdd = false;
@@ -179,7 +179,7 @@ export class IdiomaComponent implements OnInit {
       .pipe(first())
       .subscribe(x => this.formExpIdioma.patchValue(x));
     this.experienciaIdiomaId = experienciaIdioma.id;
-  }
+   }
 
   //Cuando se aprieta el boton de Agregar, resetea el formulario y carga el Modal del mismo.
   onAdd(): void {
@@ -188,12 +188,12 @@ export class IdiomaComponent implements OnInit {
     this.openModal(this.expIdioma);
   }
 
-  //Toma la entidad del componente "skill-item" y abre el modal para confirmar su eliminacion.
+  //Toma la entidad del componente "idioma-item" y abre el modal para confirmar su eliminacion.
   deleteExpIdioma(): void {
     this.openModalDelete(this.borrar);
   }
 
-  //Borra una skill de la base de datos
+  //Borra un idioma de la base de datos
   deleteExpIdiomaDb(): void {
     this.exoerienciaIdiomaService.delete(this.experienciaIdiomaId)
       .subscribe(
@@ -206,12 +206,12 @@ export class IdiomaComponent implements OnInit {
         });
   }
 
-  //Funcion que abre el Modal con el formulario para editar o añadir una skill.
+  //Funcion que abre el Modal con el formulario para editar o añadir un idioma.
   openModal(content: any): void {
     this.modalService.open(content, this.options)
   }
 
-  //Funcion que abre el Modal para confirmar la eliminacion del proyecto.
+  //Funcion que abre el Modal para confirmar la eliminacion del idioma.
   openModalDelete(content: any): void {
     this.modalService.open(content, this.options)
   }
@@ -232,7 +232,5 @@ export class IdiomaComponent implements OnInit {
   get lectura() {
     return this.formExpIdioma.get("lectura");
   }
-
-
 
 }

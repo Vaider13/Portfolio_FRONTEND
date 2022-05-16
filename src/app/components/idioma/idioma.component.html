@@ -20,7 +20,7 @@
   </div>
   <div class="modal-body mx-3">
     <form class="md-form mb-5" [formGroup]="formExpIdioma" (ngSubmit)="onSubmit()">
-      <div class="md-form mb-4">
+      <div *ngIf="isAdd" class="md-form mb-4">
         <label>Idioma:</label>
         <select class="form-control" formControlName="nombreIdioma" [ngClass]="{'is-invalid': nombreIdioma?.errors && nombreIdioma?.touched,
       'is-valid':  !nombreIdioma?.errors && nombreIdioma?.value }">
