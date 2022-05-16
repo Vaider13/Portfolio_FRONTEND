@@ -78,7 +78,10 @@ export class EncabezadoComponent implements OnInit {
 
   //valida si la localidadng a agregar existe o no en la base de datos.
   validarSiLaLocalidadExiste: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const localidad = control.value.toUpperCase();
+    let localidad = "";
+    if (control.value != null) {
+      localidad = control.value.toUpperCase();
+    }
     let exist:boolean = false;
     for(let i = 0; i < this.localidades.length; i++) {
       if(this.localidades[i].localidad.toUpperCase() == localidad) {
@@ -226,8 +229,11 @@ export class EncabezadoComponent implements OnInit {
 
   //Cuando se hace click en agregar nueva localidad abre el modal para agregar una localidad, y lo resetea.
   nuevaLocalidad(): void {
-    this.openModal(this.crearLocalidad);
     this.formLocalidad.reset();
+    this.formLocalidad.patchValue({
+      provincia: this.formPerso.get('provincia')?.value
+    })
+    this.openModal(this.crearLocalidad);
   }
 
   //Guarda una nueva localidad en la base de datos.

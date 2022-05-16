@@ -56,7 +56,10 @@ export class IdiomaComponent implements OnInit {
 
   //valida si el idioma a agregar existe o no en la base de datos.
   validarSiElIdiomaExiste: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const idioma = control.value.toUpperCase();
+    let idioma = "";
+    if (control.value != null) {
+      idioma = control.value.toUpperCase();
+    }
     let exist:boolean = false;
     for(let i = 0; i < this.idiomas.length; i++) {
       if(this.idiomas[i].nombreIdioma.toUpperCase() == idioma) {
